@@ -1,0 +1,10 @@
+{
+  "runs": 40,
+  "environment": "local_python_runtime_container_reference",
+  "audio_duration_s": 4.0,
+  "processing_p50_ms": 14.034974499963937,
+  "processing_p95_ms": 15.702008750122332,
+  "processing_mean_ms": 14.111139150003282,
+  "realtime_factor_mean": 0.0035277847875008206,
+  "note": "Esta medición es del entorno local de desarrollo; el perfil Android debe ejecutarse en el Honor X8c."
+}
