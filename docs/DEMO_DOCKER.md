@@ -69,13 +69,14 @@ La UI comprobará `metadata/UrbanSound8K.csv`, `audio/fold1` y `audio/fold10` an
 1. `docker compose up --build` antes de la exposición.
 2. Abrir `http://localhost:8080`.
 3. Verificar el indicador **Servicio operativo**.
-4. Abrir **Atenuación** y ejecutar la baseline.
+4. Abrir **Atenuación** y ejecutar primero ALLOW.
 5. Mostrar los tres valores medidos producidos por ese run, no valores escritos a mano.
-6. Reproducir `mixture.wav` y `output_selective.wav` desde la UI.
-7. Mostrar waveform y espectrograma generados a partir del mismo run.
-8. Mostrar `Evidencias`: Run ID, política, SHA-256 y artefactos.
-9. Si UrbanSound8K ya está montado y validado, abrir **Benchmark M2** y ejecutar/mostrar el resultado real.
-10. En **Edge readiness**, mostrar que streaming/TFLite/Honor X8c siguen pendientes si aún no fueron medidos.
+6. Cambiar el escenario a BLOCK y demostrar la precedencia de protección (`target_is_protected`).
+7. Reproducir `mixture.wav` y `output_selective.wav` desde la UI.
+8. Mostrar waveform y espectrograma generados a partir del mismo run.
+9. Abrir **Evidencias** y pulsar **Verificar** para comprobar JSON/SQLite/manifiesto/SHA-256.
+10. Si UrbanSound8K ya está montado y validado, abrir **Benchmark M2** y ejecutar/mostrar el resultado real.
+11. En **Edge readiness**, mostrar que streaming/TFLite/Honor X8c siguen pendientes si aún no fueron medidos.
 
 ## Persistencia
 
