@@ -53,7 +53,11 @@ class ContractV12Tests(unittest.TestCase):
         policy = resolve_policy("siren_synthetic", ["speech_like_synthetic"], 12.0)
         _, _, _, _, _, _, _, metrics = apply_selective_attenuation(p, t, b, policy)
         metrics["wall_time_ms"] = 1.0
-        artifacts = [{"artifact":"dummy.wav","kind":"audio","path":"dummy.wav","sha256":"abc123"}]
+        artifacts = [
+            {"artifact":"protected.wav","kind":"audio","path":"protected.wav","sha256":"a"*64},
+            {"artifact":"target.wav","kind":"audio","path":"target.wav","sha256":"b"*64},
+            {"artifact":"background.wav","kind":"audio","path":"background.wav","sha256":"c"*64},
+        ]
         policy_dict = {
             "target_label": policy.target_label,
             "protected_set": list(policy.protected_set),
@@ -73,8 +77,21 @@ class ContractV12Tests(unittest.TestCase):
             summary = store.summary("TEST-RUN-001")
             self.assertEqual(summary["status"], "completed")
             self.assertEqual(summary["policy"]["decision"], "ALLOW")
-            self.assertEqual(summary["artifact_count"], 1)
+            self.assertEqual(summary["artifact_count"], 3)
+            self.assertEqual(summary["asset_count"], 3)
             self.assertIn("A_target_db", summary["metrics"])
+            snap = store.audit_snapshot("TEST-RUN-001")
+            self.assertEqual(snap["experiment"]["config"], {"test": True})
+            self.assertEqual(
+                {x["role"] for x in snap["assets"]},
+                {"protected", "target", "background"},
+            )
+            self.assertTrue(
+                all(len(x["checksum"]) == 64 for x in snap["assets"])
+            )
+            self.assertTrue(
+                all(x["asset_id"].endswith(x["checksum"][:16]) for x in snap["assets"])
+            )
 
 if __name__ == "__main__":
     unittest.main()
