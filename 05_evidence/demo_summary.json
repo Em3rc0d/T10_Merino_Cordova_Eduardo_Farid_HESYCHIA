@@ -1,0 +1,28 @@
+{
+  "run_id": "PI8-DEMO-RUN-001",
+  "scope": "incremento_funcional_local_reproducible",
+  "warning": "No clinical claim. Synthetic/stem-controlled demo only.",
+  "metrics": {
+    "A_target_db": 11.99400520324707,
+    "A_protected_db": 0.007270456291735172,
+    "SI_SDRi_protected_db": 11.517762184143066,
+    "mask_mean": 0.04693412408232689,
+    "mask_max": 0.9999637007713318,
+    "duration_s": 4.0,
+    "sr": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "target_label": "siren_synthetic",
+    "protected_label": "speech_like_synthetic",
+    "baseline_type": "oracle_IRM_stem_demo",
+    "wall_time_ms": 21.877664000157893
+  },
+  "artifacts": [
+    {"artifact":"protected.wav","path":"protected.wav","sha256":"ef417f7c83fa20b321da1bb38017a0f53ec6207f9c1a00767ecb33c5e5040a9a"},
+    {"artifact":"target.wav","path":"target.wav","sha256":"70e3f62c99944f1c6c668c4ff589b8530c58fd170c5920eb5dccd1c8ba16423a"},
+    {"artifact":"background.wav","path":"background.wav","sha256":"4fd677d02ad5ca88f5b4365dcd0a292bf599430eddb0b78a11c811cb4e3ad3d2"},
+    {"artifact":"mixture.wav","path":"mixture.wav","sha256":"ec2ec2d3e08511c0b2939885d45a00c7e810125445ab53ecff0d7d201ead1e59"},
+    {"artifact":"output_selective.wav","path":"output_selective.wav","sha256":"31e092e1525cbd5230da4c2be3aba23e3a1ed032b4c29cb336c670de7de71284"},
+    {"artifact":"mask_irm.npy","path":"mask_irm.npy","sha256":"8139a73ce71c606f1e2823ebfb5759a1f1a7900a13bfca2a7ae745739fd092d2"}
+  ]
+}
