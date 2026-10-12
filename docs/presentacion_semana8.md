@@ -104,7 +104,7 @@ La matriz diferencia explícitamente evidencia ya construida de contratos todav�
 ## 11. Plan de validación
 Semántica: UrbanSound8K + Macro-F1 ≥ 0.85.  
 Acústica: A_target ≥ 6 dB, A_protected ≤ 1 dB, SI-SDRi > 0.  
-Compute: laptop p95/hop ≤ 10 ms, E2E p95 ≤ 60 ms, TFLite p95 ≤ 20 ms.
+Compute: laptop p95/hop ≤ 10 ms, E2E p95 ≤ 60 ms, TFLite p95 ≤ 20 ms.\n\nCalidad Grupo B: pruebas funcionales + ISO/IEC 25010. SUS/TAM se deja como aplicabilidad por confirmar con el asesor; no se declara validación de usuarios inexistente.
 
 Cronograma:
 - S9: UrbanSound8K real + congelar RNF-03.
