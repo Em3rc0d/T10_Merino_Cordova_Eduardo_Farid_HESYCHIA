@@ -1,0 +1,26 @@
+PI8-DEMO-RUN-001
+scope=incremento_funcional_local_reproducible
+warning=No clinical claim. Synthetic/stem-controlled demo only.
+
+A_target_db=11.99400520324707
+A_protected_db=0.007270456291735172
+SI_SDRi_protected_db=11.517762184143066
+mask_mean=0.04693412408232689
+mask_max=0.9999637007713318
+duration_s=4.0
+sr=16000
+n_fft=512
+hop=160
+target_label=siren_synthetic
+protected_label=speech_like_synthetic
+baseline_type=oracle_IRM_stem_demo
+wall_time_ms=21.877664000157893
+
+latency_runs=40
+environment=local_python_runtime_container_reference
+processing_p50_ms=14.034974499963937
+processing_p95_ms=15.702008750122332
+processing_mean_ms=14.111139150003282
+realtime_factor_mean=0.0035277847875008206
+
+NOTE: local development environment only. Honor X8c profile pending.
