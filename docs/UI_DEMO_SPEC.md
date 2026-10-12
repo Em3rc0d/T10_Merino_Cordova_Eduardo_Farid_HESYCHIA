@@ -55,11 +55,14 @@ flowchart LR
 Entrada configurable:
 - seed;
 - cap_dB;
-- alpha.
+- alpha;
+- escenario de política: ALLOW o BLOCK.
 
-Entradas congeladas en esta baseline:
-- target = `siren_synthetic`;
-- protected = `speech_like_synthetic`.
+Entradas acústicas congeladas en esta baseline:
+- target generado = `siren_synthetic`;
+- stem protegido generado = `speech_like_synthetic`.
+
+El escenario BLOCK añade `siren_synthetic` al conjunto semántico protegido. La regla M3b fuerza `g=1`; no cambia el generador ni inventa una nueva clase de audio.
 
 Salida visible solo tras el run:
 - A_target;
@@ -69,7 +72,8 @@ Salida visible solo tras el run:
 - audio mezcla/salida;
 - waveform real;
 - espectrograma real;
-- artefactos y checksums.
+- artefactos y checksums;
+- verificación cruzada de integridad entre manifiesto, archivos, JSON, SQLite y hashes reales de los WAV de entrada.
 
 ## Benchmark M2
 
@@ -99,3 +103,17 @@ docker compose up --build
 URL:
 
 `http://localhost:8080`
+
+## Integridad de evidencia
+
+La vista **Evidencias** incluye una acción de verificación por Run ID. La comprobación vuelve a calcular SHA-256 de los artefactos y exige coherencia exacta entre:
+
+- `artifacts_manifest.csv`;
+- archivos físicos;
+- `demo_summary.json`;
+- métricas y política en SQLite;
+- configuración del experimento;
+- `RUN_ASSET` / `AUDIO_ASSET`;
+- hashes reales de `protected.wav`, `target.wav` y `background.wav`.
+
+Los antiguos identificadores genéricos `generated-*-v1` ya no se usan como sustituto de un checksum real.
