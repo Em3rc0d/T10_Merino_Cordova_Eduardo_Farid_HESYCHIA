@@ -34,7 +34,7 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | RF-11 TFLite/paridad | PENDING / ON PLAN | S9–S10 |
 | RNF-03 Macro-F1 ≥0.85 | MEASURED / NOT MET BY BASELINE | SVM RBF test fold 10 Macro-F1=0.7257; el umbral 0.85 se conserva; siguiente candidato debe seleccionarse sin usar fold 10 para tuning |
 | RNF-04 selectividad acústica | COMPLIANT-BASELINE | baseline supera criterios en run sintético; no se extrapola al modelo final |
-| RNF-05 latencia final | PARTIAL / ON PLAN | CI/local mide procesamiento de clip; no se confunde con p95/hop, E2E o Android |
+| RNF-05 latencia final | PARTIAL / TARGET-DEVICE-S8-MEASURED | Acer Nitro 5 whole-clip: p50=19.976 ms, p95=26.205 ms, mean=20.725 ms; aún no equivale a p95/hop ni E2E |
 | RNF-06 recursos Android | UNMEASURED / ON PLAN | Honor X8c no perfilado aún |
 | RNF-07 estabilidad 10 min | PENDING / ON PLAN | aún no ejecutada |
 | RNF-08 ética | COMPLIANT | datasets públicos/licenciados + síntesis; sin audio TEA primario |
