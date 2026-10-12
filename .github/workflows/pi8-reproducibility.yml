@@ -52,6 +52,9 @@ jobs:
           python src/latency_benchmark.py --out outputs/latency --runs 40
           python src/validate_artifacts.py --run-dir outputs/demo_run
 
+      - name: Validate Docker Compose
+        run: docker compose config
+
       - name: Build Docker demo image
         run: docker build -t hesychia-demo:ci .
 
