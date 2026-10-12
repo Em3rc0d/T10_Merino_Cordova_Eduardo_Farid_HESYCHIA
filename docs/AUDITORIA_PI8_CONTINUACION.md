@@ -69,7 +69,7 @@ Cada run puede verificarse desde la UI. El validator detecta modificaciones en a
 
 ### M2
 
-El software de benchmark está implementado y probado con fixture. El benchmark científico real permanece bloqueado hasta disponer de UrbanSound8K oficial completo.
+El software de benchmark está implementado y probado con fixture. UrbanSound8K oficial ya fue descargado y su estructura/checksum fueron verificados. Antes del benchmark real se detectó un supuesto leakage por `fsID`; la auditoría mostró que la distribución oficial reutiliza 5 `fsID` entre folds para clases distintas. El guard fue corregido para bloquear leakage de la misma ocurrencia etiquetada sin remezclar los folds oficiales. El benchmark real sigue pendiente de ejecución.
 
 ## Decisión metodológica M2
 
@@ -83,7 +83,7 @@ Es un **holdout basado en folds oficiales**, no validación cruzada de diez fold
 
 ## Elementos todavía pendientes
 
-1. UrbanSound8K completo y evidencia real de M2.
+1. ejecutar UrbanSound8K completo con el guard de ocurrencia corregido y congelar evidencia real de M2.
 2. M4 aprendido target-conditioned.
 3. integración con mezclas reales / LibriSpeech.
 4. streaming por bloques en laptop.
