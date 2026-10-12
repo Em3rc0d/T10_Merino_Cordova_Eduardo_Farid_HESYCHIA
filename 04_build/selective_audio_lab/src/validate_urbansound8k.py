@@ -14,12 +14,15 @@ def main():
         verify_audio=True,
     )
     print(json.dumps({
-        "valid": True,
+        "valid": bool(report.official_shape_ok and report.source_fold_consistency_ok),
         "rows": report.rows,
         "folds": list(report.folds),
         "classes": list(report.classes),
         "missing_audio": report.missing_audio,
         "official_shape_ok": report.official_shape_ok,
+        "source_fold_consistency_ok": report.source_fold_consistency_ok,
+        "cross_fold_fsid_count": report.cross_fold_fsid_count,
+        "cross_fold_fsid_sample": list(report.cross_fold_fsid_sample),
     }, indent=2, ensure_ascii=False))
 
 if __name__ == "__main__":
