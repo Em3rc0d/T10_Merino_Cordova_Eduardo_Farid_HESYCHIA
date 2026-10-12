@@ -27,7 +27,7 @@ Mostrar la consola web funcional empaquetada con Docker. No hay métricas cient�
 No usar porcentajes estimados. Mostrar estados categóricos verificables: IMPLEMENTADO, BASELINE, PARCIAL y EVIDENCIA REAL PENDIENTE. Funciona la consola Docker, baseline PI8+, M3b, M6 y M2 real. UrbanSound8K completo ya fue ejecutado: SVM RBF fue seleccionado y obtuvo Macro-F1=0.7257 en test. RNF-03=0.85 no fue cumplido por esta baseline. Pendiente siguiente candidato, M4 aprendido, streaming, TFLite y Honor X8c. Mostrar QR del repo.
 
 ## 9. S8 Demostración — 2 min
-Ejecutar o mostrar desde la UI: ALLOW → métricas/audio/figuras → Evidencias → Verificar integridad. Reportar A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB solo para el run ALLOW de referencia. Si el tiempo permite, ejecutar BLOCK y mostrar target_is_protected / g=1; sus métricas de atenuación no se comparan contra el criterio ALLOW. Aclarar que en la Acer Nitro 5 se midieron 40 runs del clip completo: p50=19.976 ms, p95=26.205 ms y media=20.725 ms. El alcance es `whole_clip_processing_only`, no p95/hop, E2E ni Android. La IRM es oracle baseline, no CNN final.
+Ejecutar o mostrar desde la UI: ALLOW → métricas/audio/figuras → Evidencias → Verificar integridad. Reportar A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB solo para el run ALLOW de referencia. Si el tiempo permite, ejecutar BLOCK y mostrar target_is_protected / g=1; sus métricas de atenuación no se comparan contra el criterio ALLOW. Aclarar que en la Acer Nitro 5 se ejecutaron 2 lotes de 40 runs, 80 muestras en total: pooled p50=20.024 ms, pooled p95=34.607 ms y media=22.688 ms; el p95 por lote varió 26.205–41.508 ms. Se reporta la campaña completa, no el mejor lote. El alcance es `whole_clip_processing_only`, no p95/hop, E2E ni Android. La IRM es oracle baseline, no CNN final.
 
 ## 10. Trazabilidad — 0.5 min
 Recorrer un ejemplo: OE2 → RF-04/06/07 → M3b/M4 → A4/A5/A6 → policy + mask + WAV. Indicar que TFLite aparece como pendiente, no como evidencia falsa.
@@ -36,7 +36,7 @@ Recorrer un ejemplo: OE2 → RF-04/06/07 → M3b/M4 → A4/A5/A6 → policy + ma
 Semántica: UrbanSound8K; baseline real Macro-F1=0.7257 frente a RNF-03=0.85, por lo que no cumple. Explicar que el umbral no se cambia y que el siguiente candidato ya estaba previsto en PI7. Acústica: A_target, A_protected, SI-SDRi. Compute: p95/hop, E2E, TFLite, RAM y tamaño. Como Grupo B, incluir pruebas funcionales e ISO/IEC 25010; SUS/TAM queda como aplicabilidad por confirmar con el asesor. Cronograma S9–S15 hasta cierre. Si un umbral no se alcanza, se reporta; no se mueve post hoc.
 
 ## 12. Riesgos y próximos pasos — 0.5 min
-Riesgos: sobreclaim, latencia ambigua y no alcanzar umbrales. Mitigaciones: SOURCE_OF_TRUTH, mediciones separadas y criterios congelados. Observaciones ya levantadas: M2/M4 separados, M3a/M3b, Android acotado, API jobs, trazabilidad de datos, UI honesta y no claims clínicos. Siguiente gate: UrbanSound8K real.
+Riesgos: sobreclaim, latencia ambigua y no alcanzar umbrales. Mitigaciones: SOURCE_OF_TRUTH, mediciones separadas y criterios congelados. Observaciones ya levantadas: M2/M4 separados, M3a/M3b, Android acotado, API jobs, trazabilidad de datos, UI honesta y no claims clínicos. Siguiente gate: candidato aprendido preespecificado, sin tuning sobre fold 10, y luego streaming/RNF-05 final.
 
 ## Reglas de defensa
 - Decir “incremento funcional reproducible”, no “sistema final terminado”.
