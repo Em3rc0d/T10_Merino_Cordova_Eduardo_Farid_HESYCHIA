@@ -9,6 +9,7 @@ services:
     environment:
       HESYCHIA_OUTPUT_ROOT: /workspace/04_build/selective_audio_lab/outputs/web
       URBANSOUND8K_ROOT: /data/UrbanSound8K
+      HESYCHIA_DEVICE_LABEL: ${HESYCHIA_DEVICE_LABEL:-unlabeled_host}
     volumes:
       - type: bind
         source: ./04_build/selective_audio_lab/outputs
