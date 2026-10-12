@@ -86,7 +86,7 @@ UrbanSound8K fue descargado desde la distribución oficial y el archivo comprimi
 
 ## 10. Resultados que sí puedo afirmar
 
-Además, la medición local S8 en la Acer Nitro 5 se ejecutó con 40 runs y seed 42. El procesamiento del clip completo obtuvo p50=19.976 ms, p95=26.205 ms y media=20.725 ms. El alcance es `whole_clip_processing_only`: no equivale a p95/hop, E2E ni Android.
+Además, la medición local S8 en la Acer Nitro 5 se repitió en dos lotes de 40 runs, 80 muestras en total. La campaña agregada obtuvo p50=20.024 ms, p95=34.607 ms y media=22.688 ms; el p95 por lote varió entre 26.205 y 41.508 ms. Se reporta la campaña completa para evitar cherry-picking. El alcance es `whole_clip_processing_only`: no equivale a p95/hop, E2E ni Android.
 
 Puedo afirmar que:
 
