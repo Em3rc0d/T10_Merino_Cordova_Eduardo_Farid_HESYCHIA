@@ -19,11 +19,11 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | M5 orquestador | COMPLIANT | runtime documentado como orquestador |
 | Edge-first sin nube obligatoria | COMPLIANT | build local y CI sin API de inferencia externa |
 | No afirmaciones clínicas | COMPLIANT | manifest y documentación lo excluyen |
-| Evidencia reproducible | COMPLIANT | Run ID, JSON, CSV, SQLite, checksums, validator, tests y CI |
+| Evidencia reproducible | COMPLIANT | Run ID, JSON, CSV, SQLite, hashes reales de inputs, manifiesto, validator de integridad cruzada, tests y CI |
 | Demo reproducible Docker | COMPLIANT-S8 | imagen construida en CI, health smoke test OK, UI sin métricas científicas hard-codeadas |
 | Dependencias congeladas | COMPLIANT | requirements-lock + CI usando lockfile |
 | RF-01/02 DSP | PARTIAL / ON PLAN | demo sintética implementa 16 kHz/STFT; integración completa con datasets reales pendiente |
-| RF-03 / M2 benchmark | IMPLEMENTED-SOFTWARE / REAL-EVIDENCE-PENDING | Validador UrbanSound8K + folds 1–8/9/10 + no-leakage + SVM/RF + métricas y artefactos; falta ejecutar distribución oficial completa |
+| RF-03 / M2 benchmark | IMPLEMENTED-SOFTWARE / REAL-EVIDENCE-PENDING | Validador UrbanSound8K + holdout 1–8/9/10 + no-leakage + SVM/RF + métricas + provenance manifest; falta ejecutar distribución oficial completa |
 | RF-04 política | COMPLIANT | M3b ejecutable con ALLOW/BLOCK, precedencia protected y persistencia POLICY_DECISION |
 | RF-05 mezclas | COMPLIANT-BASELINE | stems sintéticos controlados + manifiesto/checksums |
 | RF-06 M4 máscara aprendida | PENDING / ON PLAN | PI8 usa IRM oracle explícitamente; estimador aprendido S9 |
