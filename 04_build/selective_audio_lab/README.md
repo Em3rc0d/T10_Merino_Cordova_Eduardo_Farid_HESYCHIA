@@ -82,3 +82,26 @@ En ese caso la decisión es `BLOCK` y la ganancia se mantiene unitaria. Esto dem
 ## Resultado CI
 
 El workflow de reproducibilidad ejecuta instalación desde lockfile, tests contractuales, demo, benchmark, validación de artefactos y subida de evidencia. El incremento modular M3b + M6 fue verificado exitosamente en GitHub Actions.
+
+
+### Windows PowerShell
+
+En PowerShell no se usa `\` como continuador de línea. Puede ejecutar los comandos en una sola línea o usar el backtick `\``.
+
+```powershell
+python --version
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+
+$DATASET = "C:\RUTA\UrbanSound8K"
+
+Test-Path "$DATASET\metadata\UrbanSound8K.csv"
+Test-Path "$DATASET\audio\fold1"
+
+.\.venv\Scripts\python.exe src\validate_urbansound8k.py --dataset-root "$DATASET"
+
+.\.venv\Scripts\python.exe src\semantic_benchmark.py --dataset-root "$DATASET" --out "outputs\m2_urbansound8k" --seed 42
+```
+
+Los dos comandos `Test-Path` deben devolver `True` antes de ejecutar el benchmark real.
