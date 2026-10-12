@@ -133,7 +133,7 @@ El entorno verificado en CI usa **Python 3.11.17**. `requirements.txt` fija las 
 
 ## Alcance Edge
 
-- **Laptop Acer Nitro 5:** entrenamiento, benchmark, mezclas, atenuación controlada y streaming E2E.
+- **Laptop Acer Nitro 5:** entorno objetivo para entrenamiento, benchmark, mezclas, atenuación controlada y, en la fase final, streaming E2E. **En PI8+ el streaming por bloques todavía está pendiente.**
 - **Honor X8c:** perfilado TFLite con tensores exportados.
 - No se promete todavía streaming completo de audio en Android.
 - El perfil físico del Honor X8c debe ejecutarse en el dispositivo; ningún valor Android se considera medido hasta esa ejecución.
