@@ -31,7 +31,7 @@ Protocolo: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
 1. Existe un incremento funcional local reproducible.
 2. La demo genera stems sintéticos, mezcla, máscara IRM baseline, audio procesado y métricas.
 3. En el run de referencia se observaron A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB.
-4. La medición S8 en la Acer Nitro 5, 40 runs, obtuvo p50=19.976 ms, p95=26.205 ms y media=20.725 ms para `whole_clip_processing_only`; no equivale a p95/hop ni E2E.
+4. La campaña S8 en la Acer Nitro 5 agregó 2 lotes/80 muestras: pooled p50=20.024 ms, pooled p95=34.607 ms y media=22.688 ms; el p95 por lote varió 26.205–41.508 ms. Scope `whole_clip_processing_only`; no equivale a p95/hop ni E2E.
 5. Existe trazabilidad mediante JSON/CSV/SQLite/manifiesto/checksum y un validador de **integridad cruzada** que exige coherencia entre filesystem, Run ID, política, métricas, configuración, artefactos SQLite y SHA-256 reales de los WAV de entrada.
 6. M3b ya ejecuta la regla de precedencia protected: si target ∈ protected_set, la decisión es BLOCK y g=1.
 
