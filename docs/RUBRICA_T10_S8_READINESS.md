@@ -10,7 +10,7 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 |---|---|---|---|
 | Dataset de audio y clases de estímulos | CUMPLE S8 | UrbanSound8K oficial validado: 8,732 clips, 10 folds, 10 clases, 0 faltantes, integridad de ocurrencias OK | evidencia real congelada |
 | Modelo base de clasificación/separación procesando audio | CUMPLE S8 | M2 real: SVM/RF sobre UrbanSound8K; SVM seleccionado; test Macro-F1=0.7257. M4 IRM oracle procesa mezcla y genera salida/audio/métricas | RNF-03 no cumplido por baseline; continuar candidato aprendido previsto |
-| Latencia medida en dispositivo objetivo | CUMPLE EVIDENCIA S8 ACOTADA | Acer Nitro 5, 40 runs: p50=19.976 ms, p95=26.205 ms, media=20.725 ms; scope `whole_clip_processing_only` | congelar ZIP de evidencia; RNF-05 final sigue pendiente |
+| Latencia medida en dispositivo objetivo | CUMPLE EVIDENCIA S8 ACOTADA | Acer Nitro 5, 2 lotes/80 muestras: pooled p50=20.024 ms, pooled p95=34.607 ms, media=22.688 ms; p95 por lote 26.205–41.508 ms; scope `whole_clip_processing_only` | campaña ZIP congelada; RNF-05 final sigue pendiente |
 
 ## Requisitos comunes de Grupo B
 
@@ -50,7 +50,7 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 ## Gates previos al parcial
 
 1. Congelar/custodiar los artefactos locales del run M2 real.
-2. Congelar la evidencia de latencia Acer Nitro 5 en ZIP.
+2. Conservar la campaña agregada de latencia Acer Nitro 5 y sus dos lotes; no cherry-pickear un único p95.
 3. Grabar video de respaldo usando exactamente la misma imagen Docker.
 4. Actualizar la PPT con M2 real y latencia Acer real, sin confundir whole-clip con p95/hop/E2E.
 5. No usar fold 10 para elegir cambios del siguiente candidato.
