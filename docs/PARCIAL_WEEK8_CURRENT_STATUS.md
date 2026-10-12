@@ -21,26 +21,18 @@ El repositorio ya contiene un incremento funcional Edge-local reproducible. No s
 - M4 baseline IRM oracle: funcional como línea base controlada;
 - M6 evidencia: funcional con JSON, CSV, SQLite, checksums y validador;
 - M2 benchmark semántico: **evidencia real medida** sobre UrbanSound8K oficial; SVM seleccionado en validación; test Macro-F1=0.7257; RNF-03=0.85 **no cumplido por la baseline**;
-- latencia S8 en Acer Nitro 5: **medida** con 40 runs, p50=19.976 ms, p95=26.205 ms, media=20.725 ms (`whole_clip_processing_only`); RNF-05 final sigue pendiente;
+- latencia S8 en Acer Nitro 5: **medida y agregada** en 2 lotes/80 muestras; pooled p50=20.024 ms, pooled p95=34.607 ms, media=22.688 ms; p95 por lote=26.205–41.508 ms (`whole_clip_processing_only`); RNF-05 final sigue pendiente;
 - TFLite/Honor X8c: pendiente;
 - streaming real por bloques: pendiente;
 - claims clínicos: prohibidos.
 
 ## Evidencia ya verificada
 
-La última verificación CI pasada incluyó:
-
-1. instalación desde `requirements-lock.txt`;
-2. seis tests automáticos;
-3. ejecución de PI8 demo;
-4. benchmark local del clip completo;
-5. validación de artefactos mediante SHA-256;
-6. persistencia y validación de SQLite;
-7. generación de artifact de evidencia.
+La verificación CI del incremento cubre instalación desde `requirements-lock.txt`, tests contractuales, demo PI8, validación de artefactos/SQLite, JavaScript, Docker Compose, build de imagen y health smoke test. Para el conteo exacto usar siempre el workflow verde más reciente; no conservar cifras históricas obsoletas.
 
 ## Estado local del tesista
 
-El equipo local ya tiene dependencias instaladas, pero se detectó que el `.venv` usado inicialmente quedó en Python 3.14.2. Como el contrato CI usa Python 3.11.x y el equipo también tiene Python 3.11.9 disponible, el entorno local debe recrearse con `py -3.11` antes de ejecutar la evidencia científica real.
+El entorno local científico ya fue corregido y ejecutado con **Python 3.11.9**. UrbanSound8K y la campaña de latencia se obtuvieron con el entorno validado; no volver a usar el alias global de Windows como sustituto del `.venv`.
 
 UrbanSound8K ya fue descargado, validado y ejecutado. La evidencia real observada fue:
 
