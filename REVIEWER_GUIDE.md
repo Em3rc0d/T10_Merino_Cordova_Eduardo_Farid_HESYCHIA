@@ -13,7 +13,7 @@ Este repositorio está organizado para que la revisión del parcial pueda seguir
 ### Evidencia por semana
 - **S5 / Requisitos:** `docs/informe_consolidado_S5_S8.md#2-requisitos-consolidados`
 - **S6 / Arquitectura:** `03_architecture/` y sección 3 del informe.
-- **S7 / Diseño detallado:** `01_design/`, `03_architecture/schema_v11.sql` y sección 4 del informe.
+- **S7 / Diseño detallado:** `01_design/`, `03_architecture/schema_v12.sql` y sección 4 del informe.
 - **S8 / Construcción:** `04_build/selective_audio_lab/`.
 - **Evidencia:** `05_evidence/`.
 - **Exposición:** `docs/presentacion_semana8.md` y `docs/guion_exposicion.md`.
@@ -24,7 +24,8 @@ Este repositorio está organizado para que la revisión del parcial pueda seguir
 2. La demo genera stems sintéticos, mezcla, máscara IRM baseline, audio procesado y métricas.
 3. En el run de referencia se observaron A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB.
 4. El benchmark local del clip completo tuvo p50≈14.03 ms y p95≈15.70 ms en el entorno de desarrollo.
-5. Existe trazabilidad mediante JSON/CSV/manifiesto/checksum.
+5. Existe trazabilidad mediante JSON/CSV/SQLite/manifiesto/checksum y un validador que cruza filesystem, Run ID y base de evidencias.
+6. M3b ya ejecuta la regla de precedencia protected: si target ∈ protected_set, la decisión es BLOCK y g=1.
 
 ## Afirmaciones que NO hace el proyecto
 
@@ -52,10 +53,11 @@ Este repositorio está organizado para que la revisión del parcial pueda seguir
 
 ```bash
 cd 04_build/selective_audio_lab
-pip install -r requirements.txt
-python test_demo.py
+pip install -r requirements-lock.txt
+python -m unittest discover -p "test*.py"
 python src/run_demo.py --out outputs/demo_run
-python src/latency_benchmark.py --out outputs/latency
+python src/latency_benchmark.py --out outputs/latency --runs 40
+python src/validate_artifacts.py --run-dir outputs/demo_run
 ```
 
-Los tests contractuales verifican finitud, rango de máscara, reproducibilidad y criterios acústicos de la baseline PI8.
+Los tests contractuales verifican finitud, rango de máscara/ganancia, reproducibilidad, criterios acústicos, precedencia de política y round-trip de evidencia SQLite.
