@@ -86,8 +86,8 @@ Mostrar una **tabla categórica de estado**, no porcentajes estimados.
 | M5 | PARCIAL |
 | M6 | IMPLEMENTADO |
 
-Funciona: consola web Docker, baseline PI8+, M3b, M6, M2 software/fixture y CI.  
-Falta: M2 real, M4 aprendido, streaming, TFLite y Honor X8c.
+Funciona: consola web Docker, baseline PI8+, M3b, M6 y **M2 real sobre UrbanSound8K**. SVM RBF fue seleccionado; test Macro-F1=0.7257.  
+Falta: cumplir RNF-03 con el siguiente candidato, M4 aprendido, streaming, TFLite y Honor X8c.
 
 Repositorio mediante QR/enlace.
 
@@ -110,7 +110,9 @@ OE → Requisito → Componente → Diseño → Evidencia construida.
 La matriz diferencia explícitamente evidencia ya construida de contratos todavía pendientes, por ejemplo TFLite.
 
 ## 11. Plan de validación
-Semántica: UrbanSound8K + Macro-F1 ≥ 0.85.  
+
+Validación M2 real: SVM RBF fue seleccionado en fold 9 (Macro-F1=0.7146) y evaluado en fold 10 (Macro-F1=0.7257). El umbral 0.85 se conserva; el resultado se presenta como baseline insuficiente, no como fracaso oculto.
+Semántica: UrbanSound8K. Baseline real SVM: Macro-F1=0.7257; objetivo RNF-03 ≥0.85 → **NO CUMPLE baseline**.  
 Acústica: A_target ≥ 6 dB, A_protected ≤ 1 dB, SI-SDRi > 0.  
 Compute: laptop p95/hop ≤ 10 ms, E2E p95 ≤ 60 ms, TFLite p95 ≤ 20 ms.
 
