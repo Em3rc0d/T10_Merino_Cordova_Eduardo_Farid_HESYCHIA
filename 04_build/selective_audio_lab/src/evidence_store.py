@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Iterable
 
 def schema_path() -> Path:
-    return Path(__file__).resolve().parents[3] / "03_architecture" / "schema_v11.sql"
+    return Path(__file__).resolve().parents[3] / "03_architecture" / "schema_v12.sql"
 
 class EvidenceStore:
     def __init__(self, db_path: str | Path):
@@ -64,7 +64,7 @@ class EvidenceStore:
                 """INSERT OR IGNORE INTO model_version
                 (id,task,format,version,checksum,status)
                 VALUES(?,?,?,?,?,?)""",
-                ("BASELINE-IRM-ORACLE", "mask", "sklearn", "1.0", "oracle-no-model", "frozen"),
+                ("BASELINE-IRM-ORACLE", "mask", "baseline", "1.0", "oracle-no-model", "frozen"),
             )
             con.execute(
                 """INSERT OR IGNORE INTO experiment
@@ -73,9 +73,16 @@ class EvidenceStore:
                 ("EXP-PI8-DEMO", "attenuation", json.dumps(config, sort_keys=True)),
             )
             con.execute(
-                """INSERT OR REPLACE INTO run
+                """INSERT INTO run
                 (id,experiment_id,model_version_id,device,seed,status,started_at,ended_at)
-                VALUES(?,?,?,?,?,'completed',datetime('now'),datetime('now'))""",
+                VALUES(?,?,?,?,?,'completed',datetime('now'),datetime('now'))
+                ON CONFLICT(id) DO UPDATE SET
+                  experiment_id=excluded.experiment_id,
+                  model_version_id=excluded.model_version_id,
+                  device=excluded.device,
+                  seed=excluded.seed,
+                  status='completed',
+                  ended_at=datetime('now')""",
                 (
                     run_id,
                     "EXP-PI8-DEMO",
