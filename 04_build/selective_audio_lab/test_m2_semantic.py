@@ -68,7 +68,7 @@ class SemanticBenchmarkTests(unittest.TestCase):
             self.assertEqual(report.rows, 20)
             self.assertEqual(report.folds, tuple(range(1, 11)))
             self.assertEqual(report.missing_audio, 0)
-            self.assertTrue(report.source_fold_consistency_ok)
+            self.assertTrue(report.occurrence_fold_consistency_ok)
             self.assertEqual(report.cross_fold_fsid_count, 0)
 
             out = Path(td) / "out"
@@ -95,7 +95,7 @@ class SemanticBenchmarkTests(unittest.TestCase):
             self.assertIn("fixed holdout protocol", summary["protocol_note"])
             self.assertGreaterEqual(summary["test"]["macro_f1"], 0.5)
 
-    def test_cross_fold_fsid_is_reported_and_blocked(self):
+    def test_cross_fold_fsid_across_classes_is_diagnostic_not_blocking(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td) / "UrbanSound8K"
             self.make_fixture(root)
@@ -123,12 +123,56 @@ class SemanticBenchmarkTests(unittest.TestCase):
             report = validate_contract(
                 root, require_official_shape=False, verify_audio=True
             )
-            self.assertFalse(report.source_fold_consistency_ok)
+            self.assertTrue(report.occurrence_fold_consistency_ok)
             self.assertGreater(report.cross_fold_fsid_count, 0)
+            self.assertTrue(report.cross_fold_fsid_cross_class_only)
 
             df = load_metadata(root)
             train, val, test = split_metadata(df)
-            with self.assertRaisesRegex(ValueError, "source-fold inconsistency"):
+            assert_no_leakage(train, val, test)
+
+    def test_same_labeled_occurrence_across_folds_is_blocked(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "UrbanSound8K"
+            self.make_fixture(root)
+            metadata = root / "metadata" / "UrbanSound8K.csv"
+            rows = list(csv.DictReader(metadata.open(encoding="utf-8")))
+
+            # Force the same (fsID,classID,occurrenceID) into fold 10 while
+            # keeping a distinct sliceID.
+            source = rows[0]
+            victim = rows[-2]
+            old_name = victim["slice_file_name"]
+            victim["fsID"] = source["fsID"]
+            victim["classID"] = source["classID"]
+            victim["class"] = source["class"]
+            victim["slice_file_name"] = (
+                f"{source['fsID']}-{source['classID']}-0-99.wav"
+            )
+            old_path = root / "audio" / "fold10" / old_name
+            new_path = root / "audio" / "fold10" / victim["slice_file_name"]
+            old_path.rename(new_path)
+
+            with metadata.open("w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(
+                    f,
+                    fieldnames=[
+                        "slice_file_name","fsID","start","end",
+                        "salience","fold","classID","class"
+                    ],
+                )
+                writer.writeheader()
+                writer.writerows(rows)
+
+            report = validate_contract(
+                root, require_official_shape=False, verify_audio=True
+            )
+            self.assertFalse(report.occurrence_fold_consistency_ok)
+            self.assertGreater(report.cross_fold_occurrence_count, 0)
+
+            df = load_metadata(root)
+            train, val, test = split_metadata(df)
+            with self.assertRaisesRegex(ValueError, "labeled-occurrence leakage"):
                 assert_no_leakage(train, val, test)
 
 if __name__ == "__main__":
