@@ -148,3 +148,23 @@ La estructura de la exposición sigue las 12 diapositivas definidas por el aseso
 
 ---
 **HESYCHIA / T10 — 2026-II**
+
+
+## Demo web reproducible con Docker
+
+La demo PI8+ dispone de una consola web conectada al pipeline real y empaquetada con Docker. La UI no contiene métricas hard-codeadas: los resultados de atenuación aparecen después de ejecutar un run; M2 muestra resultados solo después de ejecutar UrbanSound8K completo; streaming/TFLite permanecen bloqueados mientras estén pendientes.
+
+```powershell
+docker compose up --build
+```
+
+Abrir `http://localhost:8080`.
+
+Para UrbanSound8K en Windows:
+
+```powershell
+$env:URBANSOUND8K_HOST_PATH="C:\Users\eduar\Desktop\Farid\UrbanSound8K"
+docker compose up --build
+```
+
+Guía completa: `docs/DEMO_DOCKER.md`.
