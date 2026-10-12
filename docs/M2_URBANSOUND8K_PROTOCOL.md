@@ -147,3 +147,22 @@ El pipeline M2 se prueba automáticamente con un fixture de audio que conserva e
 
 **Ese fixture es una prueba de software, no evidencia experimental de UrbanSound8K.**  
 La evidencia científica de M2 solo se considera producida cuando se ejecuta el mismo pipeline sobre la distribución completa oficial.
+
+
+## Comparabilidad metodológica
+
+La tesis congela un **holdout por folds oficiales**: 1–8 para entrenamiento, 9 para selección/validación y 10 para test final. Este protocolo evita fuga entre los conjuntos definidos para esta investigación y permite reservar un test que no participa en la selección.
+
+No debe describirse como **validación cruzada de 10 folds**. Por tanto, un Macro-F1 obtenido aquí **no es directamente comparable** con publicaciones que promedian desempeño mediante otro protocolo de evaluación, aun cuando usen el mismo dataset. Cualquier comparación externa debe declarar explícitamente la diferencia de protocolo.
+
+## Trazabilidad adicional del benchmark
+
+Cada ejecución genera además:
+
+- SHA-256 de `metadata/UrbanSound8K.csv`;
+- conteo de clips por fold y por split;
+- SHA-256 del modelo seleccionado;
+- `benchmark_manifest.json` con hashes de los CSV/modelo generados;
+- versión de Python/NumPy/Pandas observada en el run.
+
+Esto identifica la evidencia producida sin convertir el fixture CI en evidencia científica del dataset real.
