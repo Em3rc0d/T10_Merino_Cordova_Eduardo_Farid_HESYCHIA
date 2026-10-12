@@ -112,8 +112,15 @@ def run_demo(
         raise ValueError(
             "The current controlled generator only supports target_label='siren_synthetic'."
         )
-    if not 0.0 <= alpha <= 1.0:
-        raise ValueError("alpha must be between 0 and 1")
+    if not isinstance(seed, int) or isinstance(seed, bool) or not 0 <= seed <= 2**32 - 1:
+        raise ValueError("seed must be an integer within [0, 2^32-1]")
+    if not np.isfinite(cap_db) or not 0.0 <= cap_db <= 120.0:
+        raise ValueError("cap_db must be finite and within [0, 120]")
+    if not np.isfinite(alpha) or not 0.0 <= alpha <= 1.0:
+        raise ValueError("alpha must be finite and between 0 and 1")
+    protected = tuple(str(x).strip() for x in protected if str(x).strip())
+    if not protected:
+        raise ValueError("protected set must not be empty")
 
     policy = resolve_policy(target_label, protected, cap_db)
     protected_audio, target, background = synthesize(seed)
