@@ -772,9 +772,9 @@ Prioriza diagramas y tablas sobre párrafos. Mantén el texto oral fuera de la d
 La presentación debe ser defendible ante un jurado técnico: cada claim debe corresponder a evidencia real o estar explícitamente marcado como objetivo/pending.
 
 
-## 17. LATENCIA EN DISPOSITIVO OBJETIVO — SLOT PENDIENTE DE EJECUCIÓN
+## 17. LATENCIA EN DISPOSITIVO OBJETIVO — EVIDENCIA MEDIDA
 
-La rúbrica específica de T10 exige latencia medida en el dispositivo objetivo. El mecanismo ya está implementado en la consola Docker, pero **no insertar un número de la Acer Nitro 5 hasta que el tesista ejecute el job localmente**.
+La rúbrica específica de T10 exige latencia medida en el dispositivo objetivo. La medición local ya fue ejecutada en la **Acer Nitro 5** mediante la consola Docker.
 
 Procedimiento:
 1. definir `HESYCHIA_DEVICE_LABEL=Acer Nitro 5`;
@@ -785,11 +785,15 @@ Procedimiento:
 
 Etiqueta obligatoria del dato: `whole_clip_processing_only`.
 
-En la PPT, mientras no exista ese archivo local, mostrar:
+Resultado real para la PPT:
+- p50 whole-clip = **19.976 ms**;
+- p95 whole-clip = **26.205 ms**;
+- media whole-clip = **20.725 ms**;
+- runs = **40**;
+- seed = **42**;
+- scope = **`whole_clip_processing_only`**.
 
-**Acer Nitro 5 · latencia de clip completo: PENDIENTE DE EJECUCIÓN LOCAL**
-
-No reemplazarlo por la latencia de GitHub Actions. No compararlo directamente con el RNF `p95/hop ≤ 10 ms`.
+No comparar 26.205 ms directamente con el RNF `p95/hop ≤ 10 ms`; son unidades de trabajo distintas. No declarar RNF-05 final como cumplido.
 
 ## 18. REGLA VISUAL FINAL DE DATOS
 
