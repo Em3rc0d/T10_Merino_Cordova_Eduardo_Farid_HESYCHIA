@@ -16,6 +16,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from run_demo import run_demo
+from latency_benchmark import run_latency_benchmark
 from semantic_benchmark import run_benchmark
 from urbansound8k import validate_contract
 from validate_artifacts import validate_run
@@ -138,6 +139,16 @@ def _as_bool(payload: dict, key: str, default: bool = False) -> bool:
     value = payload.get(key, default)
     if not isinstance(value, bool):
         raise ValueError(f"{key} must be boolean")
+    return value
+
+
+def _as_label(payload: dict, key: str, default: str = "") -> str:
+    value = payload.get(key, default)
+    if not isinstance(value, str):
+        raise ValueError(f"{key} must be a string")
+    value = value.strip()
+    if len(value) > 80:
+        raise ValueError(f"{key} must contain at most 80 characters")
     return value
 
 
@@ -444,6 +455,32 @@ class AppHandler(BaseHTTPRequestHandler):
                 return summary, f"/api/runs/{run_id}"
 
             job = self.jobs.start("attenuate", worker)
+            self._send_json(job, HTTPStatus.ACCEPTED)
+            return
+
+        if path == "/api/jobs/latency":
+            try:
+                runs = _as_int(payload, "runs", 40, low=5, high=200)
+                seed = _as_int(payload, "seed", 42, low=0, high=2**32 - 1)
+                device_label = _as_label(payload, "device_label", "")
+            except ValueError as exc:
+                self._send_json(
+                    {"error": "invalid_parameters", "message": str(exc)},
+                    HTTPStatus.BAD_REQUEST,
+                )
+                return
+
+            def worker(job_id):
+                out = LAB_ROOT / "outputs" / "latency" / job_id
+                summary = run_latency_benchmark(
+                    out,
+                    runs=runs,
+                    seed=seed,
+                    device_label=device_label or None,
+                )
+                return summary, str(out.relative_to(LAB_ROOT))
+
+            job = self.jobs.start("latency", worker)
             self._send_json(job, HTTPStatus.ACCEPTED)
             return
 
