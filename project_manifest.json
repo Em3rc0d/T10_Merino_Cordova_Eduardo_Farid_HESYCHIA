@@ -1,0 +1,45 @@
+{
+  "project": "HESYCHIA",
+  "thesis_id": "T10",
+  "owner": "Merino Córdova, Eduardo Farid",
+  "course": "Proyecto de Tesis II",
+  "group": "B",
+  "advisor": "Daniel Alfonso Quinto Pazce",
+  "title_institutional": "Diseño de un sistema inteligente de cancelación selectiva de ruido mediante aprendizaje profundo para la atenuación de estímulos acústicos asociados a la hiperacusia en personas con TEA",
+  "artifact": "Prototipo técnico Edge AI de procesamiento y atenuación selectiva de audio",
+  "stage": "Semana 8 / Examen Parcial",
+  "architecture": "Pipes and Filters Edge-local",
+  "modules": [
+    "M1 ingest/representation",
+    "M2 semantic recognition",
+    "M3a controlled mixtures offline",
+    "M3b target/protected policy",
+    "M4 T-F mask + reconstruction",
+    "M5 runtime/profiling",
+    "M6 evidence/metrics"
+  ],
+  "build": {
+    "status": "incremento funcional reproducible",
+    "baseline": "oracle IRM from known stems",
+    "synthetic_demo": true,
+    "final_learned_mask": false,
+    "android_profile_measured": false
+  },
+  "observed_reference_run": {
+    "run_id": "PI8-DEMO-RUN-001",
+    "A_target_db": 11.99400520324707,
+    "A_protected_db": 0.007270456291735172,
+    "SI_SDRi_protected_db": 11.517762184143066,
+    "local_processing_p50_ms": 14.034974499963937,
+    "local_processing_p95_ms": 15.702008750122332,
+    "note": "Local development environment, 4 s clip; not Android and not final E2E."
+  },
+  "non_claims": [
+    "clinical efficacy",
+    "medical device",
+    "physical ANC",
+    "complete Android streaming",
+    "Honor X8c measurement before physical profiling"
+  ],
+  "next_gate": "Train learned target-conditioned M4, integrate it, export TFLite, run parity and physical Android profile."
+}
