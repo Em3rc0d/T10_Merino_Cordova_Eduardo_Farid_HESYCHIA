@@ -87,14 +87,14 @@ El repositorio ya contiene un pipeline funcional para **UrbanSound8K**:
 
 - valida metadata, clases, folds y presencia de audio;
 - congela folds 1–8 para train, 9 para validación y 10 para test;
-- verifica ausencia de fuga por `fsID`;
+- bloquea leakage de la misma ocurrencia etiquetada `(fsID,classID,occurrenceID)` entre particiones y conserva como diagnóstico los `fsID` oficiales reutilizados entre clases;
 - extrae MFCC + log-Mel;
 - entrena baselines SVM RBF y Random Forest;
 - selecciona candidato solo con validación;
 - evalúa test una vez;
 - genera Macro-F1, Macro-Recall, Macro-Precision, Accuracy, matriz de confusión, predicciones y modelo serializado.
 
-El CI verifica el pipeline con un fixture controlado. **La evidencia científica real de M2 sigue pendiente de ejecutar la distribución completa oficial de UrbanSound8K**; no se sustituye por el fixture.
+El CI verifica el pipeline con un fixture controlado y la distribución oficial completa ya fue ejecutada localmente. La baseline SVM RBF obtuvo Macro-F1=0.7257 en fold 10; RNF-03=0.85 no fue cumplido por esta baseline.
 
 Ver: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
 
@@ -174,4 +174,4 @@ Guía completa: `docs/DEMO_DOCKER.md`.
 
 UrbanSound8K oficial completo fue validado y ejecutado con el protocolo 1–8/9/10. La baseline clásica seleccionó SVM RBF en fold 9 y obtuvo en fold 10 Macro-F1 **0.7257**, Macro-Recall **0.7170**, Macro-Precision **0.7426** y Accuracy **0.7145**. RNF-03 (`Macro-F1 >= 0.85`) **no fue cumplido por esta baseline**. El umbral se mantiene. Ver `docs/M2_REAL_RESULT_2026-10-12.md`.
 
-La Acer Nitro 5 también fue medida para S8 con 40 runs de procesamiento del clip completo: p50 **19.976 ms**, p95 **26.205 ms**, media **20.725 ms**, scope `whole_clip_processing_only`. Esto no equivale a p95/hop ni E2E final. Ver `docs/LATENCY_ACER_NITRO5_RESULT_2026-10-12.md`.
+La Acer Nitro 5 fue medida en **2 lotes / 80 muestras**. La campaña agregada obtuvo pooled p50 **20.024 ms**, pooled p95 **34.607 ms** y media **22.688 ms**; el p95 por lote varió entre **26.205 y 41.508 ms**. Scope `whole_clip_processing_only`: no equivale a p95/hop ni E2E final. Ver `docs/LATENCY_CAMPAIGN_ACER_NITRO5_2026-10-12.md`.
