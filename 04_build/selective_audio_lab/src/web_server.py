@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import mimetypes
+import math
 import os
 import threading
 import traceback
@@ -17,6 +18,7 @@ from urllib.parse import unquote, urlparse
 from run_demo import run_demo
 from semantic_benchmark import run_benchmark
 from urbansound8k import validate_contract
+from validate_artifacts import validate_run
 
 LAB_ROOT = Path(__file__).resolve().parents[1]
 WEB_ROOT = LAB_ROOT / "web"
@@ -97,6 +99,46 @@ def _safe_child(root: Path, *parts: str) -> Path:
 
 def _load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _as_int(payload: dict, key: str, default: int, *, low: int, high: int) -> int:
+    value = payload.get(key, default)
+    if isinstance(value, bool):
+        raise ValueError(f"{key} must be an integer")
+    try:
+        value = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{key} must be an integer") from exc
+    if not low <= value <= high:
+        raise ValueError(f"{key} must be within [{low}, {high}]")
+    return value
+
+
+def _as_float(
+    payload: dict,
+    key: str,
+    default: float,
+    *,
+    low: float,
+    high: float,
+) -> float:
+    value = payload.get(key, default)
+    if isinstance(value, bool):
+        raise ValueError(f"{key} must be numeric")
+    try:
+        value = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{key} must be numeric") from exc
+    if not math.isfinite(value) or not low <= value <= high:
+        raise ValueError(f"{key} must be finite and within [{low}, {high}]")
+    return value
+
+
+def _as_bool(payload: dict, key: str, default: bool = False) -> bool:
+    value = payload.get(key, default)
+    if not isinstance(value, bool):
+        raise ValueError(f"{key} must be boolean")
+    return value
 
 
 def list_demo_runs(output_root: Path) -> list[dict]:
@@ -260,10 +302,15 @@ class AppHandler(BaseHTTPRequestHandler):
 
     def _json_body(self) -> dict:
         length = int(self.headers.get("Content-Length", "0") or 0)
+        if length < 0 or length > 65536:
+            raise ValueError("request body too large")
         if length == 0:
             return {}
         raw = self.rfile.read(length)
-        return json.loads(raw.decode("utf-8"))
+        payload = json.loads(raw.decode("utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError("JSON body must be an object")
+        return payload
 
     def _send_json(self, payload, status=HTTPStatus.OK):
         body = json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8")
@@ -311,6 +358,21 @@ class AppHandler(BaseHTTPRequestHandler):
         if path == "/api/runs":
             self._send_json({"runs": list_demo_runs(self.output_root)})
             return
+        if path.startswith("/api/runs/") and path.endswith("/integrity"):
+            run_id = unquote(
+                path.removeprefix("/api/runs/").removesuffix("/integrity").rstrip("/")
+            )
+            try:
+                run_dir = _safe_child(self.output_root, run_id)
+                self._send_json(validate_run(run_dir, run_id))
+            except FileNotFoundError:
+                self._send_json({"error": "run_not_found"}, HTTPStatus.NOT_FOUND)
+            except (ValueError, RuntimeError) as exc:
+                self._send_json(
+                    {"error": "integrity_check_failed", "message": str(exc)},
+                    HTTPStatus.CONFLICT,
+                )
+            return
         if path.startswith("/api/runs/"):
             run_id = unquote(path.removeprefix("/api/runs/"))
             try:
@@ -353,12 +415,13 @@ class AppHandler(BaseHTTPRequestHandler):
 
         if path == "/api/jobs/attenuate":
             try:
-                seed = int(payload.get("seed", 42))
-                cap_db = float(payload.get("cap_db", 12.0))
-                alpha = float(payload.get("alpha", 1.0))
-            except (TypeError, ValueError):
+                seed = _as_int(payload, "seed", 42, low=0, high=2**32 - 1)
+                cap_db = _as_float(payload, "cap_db", 12.0, low=0.0, high=120.0)
+                alpha = _as_float(payload, "alpha", 1.0, low=0.0, high=1.0)
+                protect_target = _as_bool(payload, "protect_target", False)
+            except ValueError as exc:
                 self._send_json(
-                    {"error": "invalid_parameters"},
+                    {"error": "invalid_parameters", "message": str(exc)},
                     HTTPStatus.BAD_REQUEST,
                 )
                 return
@@ -366,11 +429,14 @@ class AppHandler(BaseHTTPRequestHandler):
             def worker(job_id):
                 run_id = job_id.replace("ATTENUATE-", "RUN-")
                 out = self.output_root / run_id
+                protected = ["speech_like_synthetic"]
+                if protect_target:
+                    protected.append("siren_synthetic")
                 summary = run_demo(
                     out,
                     seed=seed,
                     target_label="siren_synthetic",
-                    protected=["speech_like_synthetic"],
+                    protected=protected,
                     cap_db=cap_db,
                     alpha=alpha,
                     run_id=run_id,
@@ -382,7 +448,7 @@ class AppHandler(BaseHTTPRequestHandler):
             return
 
         if path == "/api/dataset/validate":
-            if not self.dataset_root.exists():
+            if not (self.dataset_root / "metadata" / "UrbanSound8K.csv").exists():
                 self._send_json(
                     {
                         "error": "dataset_not_mounted",
@@ -416,7 +482,14 @@ class AppHandler(BaseHTTPRequestHandler):
                     HTTPStatus.CONFLICT,
                 )
                 return
-            seed = int(payload.get("seed", 42))
+            try:
+                seed = _as_int(payload, "seed", 42, low=0, high=2**32 - 1)
+            except ValueError as exc:
+                self._send_json(
+                    {"error": "invalid_parameters", "message": str(exc)},
+                    HTTPStatus.BAD_REQUEST,
+                )
+                return
 
             def worker(job_id):
                 out = LAB_ROOT / "outputs" / "m2_urbansound8k" / job_id
