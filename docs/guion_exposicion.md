@@ -21,13 +21,13 @@ Explicar tres decisiones con alternativa descartada: Edge-first vs cloud obligat
 Mostrar modelo de datos y secuencia. RUN_ASSET resuelve N:M; POLICY_DECISION persiste ALLOW/BLOCK. Secuencia: config → M5 → M1 → M3b → M4 → M6. Si target está protegido, g=1.
 
 ## 7. S7 Diseño detallado 2 — 1 min
-Mostrar UI y API. No hay métricas ficticias en los mockups. Los jobs largos responden 202 + jobId y se consultan con GET /jobs/{id}. Android ejecutará TFLite localmente y produce profile.json.
+Mostrar la consola web funcional empaquetada con Docker. No hay métricas científicas hard-codeadas: aparecen después de un run. Los jobs funcionales responden 202 + jobId y se consultan por estado; la evidencia puede verificarse contra JSON/SQLite/manifiesto/SHA-256. Las rutas de streaming/TFLite aún responden 501.
 
 ## 8. S8 Construcción — 1 min
-Los porcentajes son avance técnico por checklist, no porcentaje de éxito científico. Funciona baseline PI8+, M3b, M6, M2 software y CI. Pendiente M2 real, M4 aprendido, streaming, TFLite y Honor X8c. Mostrar QR del repo.
+No usar porcentajes estimados. Mostrar estados categóricos verificables: IMPLEMENTADO, BASELINE, PARCIAL y EVIDENCIA REAL PENDIENTE. Funciona la consola Docker, baseline PI8+, M3b, M6, M2 software y CI. Pendiente M2 real, M4 aprendido, streaming, TFLite y Honor X8c. Mostrar QR del repo.
 
 ## 9. S8 Demostración — 2 min
-Ejecutar o mostrar: tests → run_demo.py → demo_summary.json → evidence.sqlite → validate_artifacts.py → CI. Reportar A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB. Aclarar que p50/p95 mostrados corresponden al clip completo de 4 s, no p95/hop, E2E ni Android. La IRM es oracle baseline, no CNN final.
+Ejecutar o mostrar desde la UI: ALLOW → métricas/audio/figuras → Evidencias → Verificar integridad. Reportar A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB solo para el run ALLOW de referencia. Si el tiempo permite, ejecutar BLOCK y mostrar target_is_protected / g=1; sus métricas de atenuación no se comparan contra el criterio ALLOW. Aclarar que p50/p95 de clip corresponden al procesamiento completo de 4 s, no p95/hop, E2E ni Android. La IRM es oracle baseline, no CNN final.
 
 ## 10. Trazabilidad — 0.5 min
 Recorrer un ejemplo: OE2 → RF-04/06/07 → M3b/M4 → A4/A5/A6 → policy + mask + WAV. Indicar que TFLite aparece como pendiente, no como evidencia falsa.
