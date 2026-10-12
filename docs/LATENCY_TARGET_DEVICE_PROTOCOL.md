@@ -62,3 +62,17 @@ Registrar en la entrega:
 ## Criterio de presentación
 
 No comparar el p95 de clip completo con el umbral `p95/hop ≤ 10 ms`, porque las unidades de trabajo son diferentes. El dato S8 sirve para demostrar ejecución y medición en el dispositivo objetivo; RNF-05 se evalúa posteriormente con streaming por bloques y E2E real.
+
+## Resultado ejecutado — 2026-10-12
+
+La medición se ejecutó desde la consola Docker en la **Acer Nitro 5**, con 40 runs y seed 42:
+
+| Métrica | Valor |
+|---|---:|
+| p50 · clip completo | **19.976 ms** |
+| p95 · clip completo | **26.205 ms** |
+| media · clip completo | **20.725 ms** |
+
+Alcance: `whole_clip_processing_only`.
+
+Este dato ya puede usarse como evidencia S8 de medición en el dispositivo objetivo. **RNF-05 final sigue pendiente**, porque aún faltan p95/hop, E2E de captura/salida y streaming real.
