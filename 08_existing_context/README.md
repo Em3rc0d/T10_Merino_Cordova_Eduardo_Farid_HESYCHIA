@@ -10,3 +10,8 @@ Matriz de requisitos y especificaciones: 9 RF y 9 RNF originales, escenarios EP-
 **Dictamen:** aprobado con observaciones (15.2/20). Correcciones integradas antes de PI8: A5-train/A5-infer, fórmula de ganancia, streaming, métricas acústicas, modelo de datos, folds oficiales, criterios cuantificados y prototipos sin resultados ficticios.
 
 La versión consolidada relevante para construcción está reflejada en `docs/informe_consolidado_S5_S8.md` y en las decisiones de `01_design/`.
+
+
+## Superseded UI
+
+`PI7_T10_Prototipo_UI.html` se conserva únicamente como evidencia histórica de diseño PI7. La demo autoritativa y funcional de PI8+ es `04_build/selective_audio_lab/web/index.html`, conectada al backend de runs y empaquetada con Docker. No usar el HTML PI7 como demo del parcial.
