@@ -86,6 +86,8 @@ UrbanSound8K fue descargado desde la distribución oficial y el archivo comprimi
 
 ## 10. Resultados que sí puedo afirmar
 
+Además, la medición local S8 en la Acer Nitro 5 se ejecutó con 40 runs y seed 42. El procesamiento del clip completo obtuvo p50=19.976 ms, p95=26.205 ms y media=20.725 ms. El alcance es `whole_clip_processing_only`: no equivale a p95/hop, E2E ni Android.
+
 Puedo afirmar que:
 
 - el incremento PI8 es reproducible;
@@ -101,7 +103,7 @@ Puedo afirmar que:
 
 Los siguientes gates no pueden omitirse:
 
-1. desarrollar el siguiente candidato M2/M4 sin tuning sobre fold 10 y manteniendo congelada la baseline;
+1. desarrollar el siguiente candidato M2/M4 sin tuning sobre fold 10 y manteniendo congeladas la baseline M2 y la evidencia de latencia Acer;
 2. entrenar M4 aprendido;
 3. integrar datasets reales en la evaluación de atenuación;
 4. implementar streaming por bloques;
