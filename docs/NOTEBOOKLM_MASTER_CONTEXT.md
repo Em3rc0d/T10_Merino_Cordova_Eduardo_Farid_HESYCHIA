@@ -250,7 +250,7 @@ Android no depende de esta API para inferencia: TFLite local y profile.json como
 
 ## 6. M2 — benchmark UrbanSound8K
 
-Estado: software implementado y probado con fixture; **distribución oficial ya descargada y validada estructuralmente; resultado científico real pendiente** hasta ejecutar el benchmark completo.
+Estado: **benchmark real ejecutado sobre UrbanSound8K oficial completo**. La baseline clásica seleccionó SVM RBF y obtuvo Macro-F1=0.7257 en fold 10; RNF-03=0.85 **NO CUMPLE** para esta baseline.
 
 Contrato:
 - 8,732 clips.
@@ -801,3 +801,37 @@ No reemplazarlo por la latencia de GitHub Actions. No compararlo directamente co
 - Placeholder PENDIENTE → cuando el experimento aún no se ejecutó.
 
 No fabricar barras de progreso, porcentajes de construcción ni valores Android/M2/latencia Acer.
+
+## 19. M2 REAL — VISUALES PERMITIDOS PARA LA PPT
+
+### Tabla de selección en validación
+
+| Modelo | Macro-F1 | Macro-Recall | Macro-Precision | Accuracy |
+|---|---:|---:|---:|---:|
+| SVM RBF | 0.7146 | 0.7227 | 0.7163 | 0.6912 |
+| Random Forest | 0.6795 | 0.6813 | 0.7065 | 0.6691 |
+
+### Gráfico real permitido para M2
+
+Usar únicamente estos datos medidos para comparar Macro-F1 de validación:
+
+```mermaid
+xychart-beta
+    title "Macro-F1 de validación · UrbanSound8K fold 9"
+    x-axis ["SVM RBF","Random Forest"]
+    y-axis "Macro-F1" 0 --> 1
+    bar [0.7146,0.6795]
+```
+
+### KPI real de test
+
+- SVM RBF seleccionado.
+- Macro-F1 test fold 10 = **0.7257**.
+- RNF-03 objetivo = **0.85**.
+- Estado: **NO CUMPLE BASELINE**.
+
+No dibujar la matriz de confusión a partir de memoria ni inferencia. Para la slide, usar `confusion_matrix_test_fold10.csv` generado por el run local.
+
+### Regla posterior al test
+
+El fold 10 ya fue observado con esta baseline. Las decisiones del siguiente candidato no deben seleccionarse usando ese resultado. Documentar la configuración antes de volver a evaluar test.
