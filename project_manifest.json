@@ -23,7 +23,26 @@
     "baseline": "oracle IRM from known stems",
     "synthetic_demo": true,
     "final_learned_mask": false,
-    "android_profile_measured": false
+    "android_profile_measured": false,
+    "web_console": {
+      "status": "implemented_and_ci_tested",
+      "packaging": "Docker Compose",
+      "ui": "HTML/CSS/JavaScript + Python HTTP server",
+      "evidence_driven": true,
+      "supports": [
+        "ALLOW baseline",
+        "BLOCK policy demo",
+        "run history",
+        "integrity verification",
+        "UrbanSound8K benchmark when mounted"
+      ],
+      "intentionally_pending": [
+        "blockwise streaming",
+        "learned M4 training",
+        "TFLite export",
+        "Honor X8c profile"
+      ]
+    }
   },
   "observed_reference_run": {
     "run_id": "PI8-DEMO-RUN-001",
@@ -41,5 +60,5 @@
     "complete Android streaming",
     "Honor X8c measurement before physical profiling"
   ],
-  "next_gate": "Train learned target-conditioned M4, integrate it, export TFLite, run parity and physical Android profile."
+  "next_gate": "Validate the full official UrbanSound8K distribution and execute/freeze the real M2 benchmark evidence; then proceed to the learned target-conditioned M4."
 }
