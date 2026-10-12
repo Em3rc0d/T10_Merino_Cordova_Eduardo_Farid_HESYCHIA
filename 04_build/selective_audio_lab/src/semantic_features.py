@@ -9,6 +9,8 @@ N_MELS = 64
 N_FFT = 512
 HOP = 160
 DURATION_S = 4.0
+RESAMPLE_TYPE = "soxr_hq"
+FEATURE_DIM = 2 * N_MFCC + 2 * N_MELS
 
 def load_audio(path: str | Path) -> np.ndarray:
     y, _ = librosa.load(
@@ -16,7 +18,7 @@ def load_audio(path: str | Path) -> np.ndarray:
         sr=SR,
         mono=True,
         duration=DURATION_S,
-        res_type="kaiser_fast",
+        res_type=RESAMPLE_TYPE,
     )
     target_len = int(SR * DURATION_S)
     if len(y) < target_len:
