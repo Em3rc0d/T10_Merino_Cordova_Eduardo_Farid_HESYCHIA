@@ -76,7 +76,7 @@ class SemanticBenchmarkTests(unittest.TestCase):
                 root, out, seed=42, require_official_shape=False
             )
             self.assertEqual(summary["dataset"], "UrbanSound8K")
-            self.assertEqual(summary["no_leakage_check"], "passed")
+            self.assertEqual(summary["no_leakage_check"], "labeled_occurrence_passed")
             self.assertIn(summary["selected_model"], {"svm_rbf", "random_forest"})
             self.assertTrue((out / "semantic_summary.json").exists())
             self.assertTrue((out / "validation_models.csv").exists())
