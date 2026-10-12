@@ -1,5 +1,9 @@
 # Guía rápida para el docente / revisor automatizado
 
+## Fuente de verdad y precedencia
+
+Ante cualquier contradicción con formulaciones históricas del documento original de Tesis I, usar **[SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md)**. La versión vigente es PI7 v1.1 corregida e integrada con las observaciones de PI6 y PI7.
+
 ## Qué debe verificarse primero
 
 Este repositorio está organizado para que la revisión del parcial pueda seguir exactamente la cadena solicitada:
