@@ -18,3 +18,8 @@ _qa/
 
 # Local scratch
 *.tmp
+
+# Thesis datasets (large / externally licensed)
+UrbanSound8K/
+**/UrbanSound8K/
+04_build/selective_audio_lab/data/
