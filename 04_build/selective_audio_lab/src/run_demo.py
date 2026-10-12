@@ -158,7 +158,7 @@ def run_demo(
     _register_artifact(artifact_rows, gain_path, "mask")
 
     for figure_path in _save_real_figures(out, mixture, output):
-        _register_artifact(artifact_rows, figure_path, "figure")
+        _register_artifact(artifact_rows, figure_path, "report")
 
     pd.DataFrame([metrics]).to_csv(out / "demo_metrics.csv", index=False)
     pd.DataFrame(artifact_rows).to_csv(out / "artifacts_manifest.csv", index=False)
