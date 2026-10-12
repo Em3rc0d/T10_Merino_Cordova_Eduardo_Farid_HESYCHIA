@@ -1,109 +1,128 @@
-# Presentación — Examen Parcial Semana 8
+# Presentación — Examen Parcial Semana 8 — estructura oficial de 12 diapositivas
 
-## Diapositiva 1 — Carátula
-**UNMSM · FISI · Proyecto de Tesis II**  
-**EXAMEN PARCIAL · SEMANA 8**
+Esta versión reemplaza la organización anterior para la exposición. Sigue literalmente el esqueleto común exigido y adapta la evidencia a **Grupo B — aporte práctico**.
 
-**Tesis:** Sistema inteligente de cancelación selectiva de ruido mediante aprendizaje profundo para la atenuación de estímulos acústicos asociados a la hiperacusia en personas con TEA.
+## 1. Carátula
+Título institucional exacto: **Diseño de un sistema inteligente de cancelación selectiva de ruido mediante aprendizaje profundo para la atenuación de estímulos acústicos asociados a la hiperacusia en personas con TEA**.
 
-**Tesista:** Merino Córdova, Eduardo Farid · T10 · Grupo B  
-**Asesor:** Daniel Alfonso Quinto Pazce
+Tesista: Eduardo Farid Merino Córdova · T10 · Grupo B.  
+Asesor: Daniel Alfonso Quinto Pazce.
 
-Trazabilidad: **S5 requisitos → S6 arquitectura → S7 diseño → S8 construcción inicial**.
+## 2. Problema y objetivos
+Problema: ausencia de una solución computacional selectiva que atenúe eventos acústicos molestos sin suprimir señales relevantes.
 
-> Idea central: no se promete eficacia clínica ni ANC físico; se demuestra un prototipo técnico de atenuación selectiva por máscara tiempo-frecuencia.
+Dato de continuidad desde Tesis I: la revisión consignó hiperacusia en 50–70 % de personas con TEA.
 
-## Diapositiva 2 — Problema y objetivos
-**Problema.** Los sistemas de supresión ciega reducen sonido sin conciencia semántica: pueden atenuar estímulos molestos, pero también señales que deben preservarse.
+Objetivo general: diseñar, implementar y evaluar computacionalmente el sistema.
 
-**Objetivo general.** Diseñar, implementar y evaluar computacionalmente un prototipo Edge AI de procesamiento selectivo de audio, con métricas semánticas, acústicas y computacionales.
+- OE1: representar/caracterizar audio con STFT, log-Mel y MFCC.
+- OE2: reconocer eventos y aplicar atenuación selectiva mediante máscara T-F condicionada.
+- OE3: evaluar desempeño semántico, acústico y viabilidad Edge.
 
-**OE1.** Comparar representaciones y modelos para reconocimiento semántico.  
-**OE2.** Implementar/evaluar atenuación selectiva por máscara T-F preservando señal protegida.  
-**OE3.** Caracterizar ejecución local/Edge: latencia, recursos, estabilidad y trazabilidad.
+## 3. S5 — Requisitos
+Tabla compacta con RF/RNF, prioridad MoSCoW y vínculo a OE.
 
-Alcance ético: no es dispositivo médico; no realiza ensayos clínicos; validación base con datasets públicos/licenciados y mezclas sintéticas.
+Must destacados:
+- RF-02 representación;
+- RF-03 benchmark semántico;
+- RF-04 target/protected/cap_dB;
+- RF-06/07 máscara + reconstrucción;
+- RF-08 runtime;
+- RF-09 evidencia;
+- RNF: Macro-F1 ≥ 0.85; A_target ≥ 6 dB; A_protected ≤ 1 dB; latencias preespecificadas.
 
-## Diapositiva 3 — S5: requisitos medibles
-**RF:** RF-01/02 audio + STFT/log-Mel/MFCC; RF-03 benchmark; RF-04/05 política + mezclas; RF-06/07 máscara T-F + reconstrucción; RF-08/09 runtime + evidencias; RF-10/11 entrenamiento + TFLite.
+## 4. S6 — Arquitectura
+Diagrama equivalente a C4 nivel 2 con dos caminos:
 
-**RNF principales**
-- RNF-03: Macro-F1 ≥ 0.85 en test predefinido.
-- RNF-04: A_target ≥ 6 dB; A_protected ≤ 1 dB; SI-SDRi > 0 dB.
-- RNF-05: laptop p95 camino crítico ≤ 10 ms/hop; E2E p95 ≤ 60 ms; Android TFLite p95 ≤ 20 ms.
+OFFLINE: M1 → M2 / M3a → M3b → M4 → M6.  
+RUNTIME laptop: M5 orquesta M1 → M3b → M4 → M6.
 
-Los umbrales son criterios de ingeniería del prototipo, no clínicos.
+Stack objetivo: Python 3.11, NumPy/SciPy/librosa, scikit-learn, TensorFlow/Keras, SQLite, FastAPI/Streamlit, Kotlin/TFLite y Git. Los elementos aún no implementados se rotulan como previstos.
 
-## Diapositiva 4 — S6: arquitectura corregida
-Pipeline: **M1 Ingesta → M2 Reconocimiento → M3b Política → M4 Máscara T-F/reconstrucción**, orquestado por **M5 Runtime**, con **M6 Evidencia**.
+## 5. S6 — Decisiones arquitectónicas
+1. Edge-first vs cloud obligatorio: latencia, privacidad, reproducibilidad, offline.
+2. M2 separado de M4: clasificación y separación no son el mismo problema.
+3. Política explícita target/protected vs decisión automática de M2: seguridad y trazabilidad.
+4. M3a offline; M3b sí participa en runtime.
 
-M3a genera mezclas únicamente offline. M2 no gobierna automáticamente M4. Laptop ejecuta el pipeline E2E; smartphone se limita a perfilado TFLite hasta contar con app real.
+## 6. S7 — Diseño detallado 1
+Grupo B: modelo de datos + secuencia.
 
-## Diapositiva 5 — S6: decisiones arquitectónicas
-**D1 · Edge-local.** Sin nube obligatoria para reducir dependencia, favorecer privacidad y reproducibilidad.  
-**D2 · Semántica ≠ separación.** La etiqueta no localiza bins; M2 y M4 están desacoplados.  
-**D3 · Evidencia trazable.** Run ID + checksum + SQLite + filesystem.
+Entidades clave: EXPERIMENT, RUN, MODEL_VERSION, AUDIO_ASSET, RUN_ASSET, POLICY_DECISION, METRIC, ARTIFACT.
 
-Alternativas descartadas: cloud como dependencia central; script monolítico; app móvil completa prematura.
+Secuencia crítica: config → M5 → M1 → M3b → M4 → M6.  
+Regla: si target ∈ protected_set → BLOCK → g=1.
 
-## Diapositiva 6 — S7: procesos y datos
-Proceso crítico: **stems test + target + policy → mezcla → M3b → M4 → audio/máscara/métricas**.
+## 7. S7 — Diseño detallado 2
+Grupo B: prototipo UI + contratos API.
 
-Modelo de datos: DATASET, AUDIO_ASSET, RUN_ASSET, RUN, POLICY_DECISION, METRIC y ARTIFACT. RUN_ASSET resuelve la N:M y POLICY_DECISION conserva la decisión aplicada.
+UI: configuración de target/protected/run, sin métricas ficticias.
 
-## Diapositiva 7 — S7: API, UI y contratos
-Trabajos largos: **202 Accepted + jobId**; consulta con **GET /jobs/{id}**. Android no depende de la API.
+API:
+- POST /jobs/benchmark → 202 {jobId}
+- POST /jobs/train-mask → 202 {jobId}
+- POST /jobs/attenuate → 202 {jobId}
+- POST /jobs/export-tflite → 202 {jobId}
+- GET /jobs/{id} → status/progress/resultRef
+- POST /streaming/session → 201 {sessionId}
 
-UI: configuración, benchmark, atenuación, streaming y evidencias. Los valores de los mockups son ilustrativos, no resultados finales.
+Android no depende de API: TFLite local + profile.json importado por M6.
 
-Regla de seguridad: si `target ∈ protected_set`, se bloquea atenuación y `g=1`.
+## 8. S8 — Construcción
+Mostrar qué funciona, qué falta y porcentaje de avance por módulo. Los porcentajes son **avance de construcción por checklist**, no resultados científicos.
 
-## Diapositiva 8 — S8: construcción
-Incremento funcional local reproducible:
-- mezcla controlada;
-- máscara T-F baseline/oracle;
-- iSTFT;
-- métricas acústicas;
-- benchmark local de ejecución;
-- JSON/CSV/checksums.
+Estado aproximado documentado:
+- M1 50 %
+- M2 70 %
+- M3a 60 %
+- M3b 100 %
+- M4 45 %
+- M5 30 %
+- M6 85 %
 
-Pendiente: estimador A5 aprendido, exportación TFLite y perfilado físico en Honor X8c.
+Funciona: baseline PI8+ E2E, M3b, M6, M2 software/fixture y CI.  
+Falta: M2 real, M4 aprendido, streaming, TFLite y Honor X8c.
 
-## Diapositiva 9 — S8: demostración y evidencia
-Resultados del run sintético controlado:
-- A_target = 11.99 dB
-- A_protected = 0.007 dB
-- SI-SDRi protected = 11.52 dB
-- latencia local p95 = 15.70 ms para el procesamiento del audio completo de 4 s en el entorno de desarrollo.
+Repositorio mediante QR/enlace.
 
-Comandos:
-```bash
-cd 04_build/selective_audio_lab
-python src/run_demo.py --out outputs/demo_run
-python src/latency_benchmark.py --out outputs/latency
-```
+## 9. S8 — Demostración
+Flujo reproducido: stems → mezcla → STFT → IRM oracle → gain → iSTFT → métricas → SQLite.
 
-**No interpretar esta latencia como perfil Android ni como E2E del sistema final.**
+Run de referencia:
+- A_target ≈ 11.99 dB
+- A_protected ≈ 0.007 dB
+- SI-SDRi(protected) ≈ 11.52 dB
 
-## Diapositiva 10 — Trazabilidad
-- OE1 → RF-01/02/03 → M1/M2 → A1/A2 → benchmark.
-- OE2 → RF-04/05/06/07 → M3/M4 → A3/A4/A5/A6 → audio + métricas.
-- OE3 → RF-08/09/11 → M5/M6 → A7/A8/A9 → perfil + evidencias.
+CI: 6 tests contractuales OK; checksums y SQLite validados.  
+Latencia CI del clip completo 4 s: p50≈12.52 ms, p95≈13.23 ms. No equivale a p95/hop, E2E ni Android.
 
-Ejemplo: RF-06 → M4 → A5 → `mask_irm.npy`, `output_selective.wav`, `demo_metrics.csv`.
+## 10. Matriz de trazabilidad
+OE → Requisito → Componente → Diseño → Evidencia construida.
 
-## Diapositiva 11 — Plan de validación
-S9 M4 real → S10 integración → S11 plan formal → S12 línea base → S13 validación final.
+La matriz diferencia explícitamente evidencia ya construida de contratos todavía pendientes, por ejemplo TFLite.
 
-Dimensiones:
-- semántica: Macro-F1/Recall/Precision;
-- acústica: A_target, A_protected, SI-SDRi;
-- computacional: p50/p95, RAM, tamaño, drops;
-- reproducibilidad: seeds, folds y checksums.
+## 11. Plan de validación
+Semántica: UrbanSound8K + Macro-F1 ≥ 0.85.  
+Acústica: A_target ≥ 6 dB, A_protected ≤ 1 dB, SI-SDRi > 0.  
+Compute: laptop p95/hop ≤ 10 ms, E2E p95 ≤ 60 ms, TFLite p95 ≤ 20 ms.
 
-## Diapositiva 12 — Riesgos y próximos pasos
-**R1 Latencia:** optimizar o reportar incumplimiento.  
-**R2 Preservación:** RN-01, cap_dB, A_protected ≤ 1 dB, SI-SDRi.  
-**R3 Android:** perfilar TFLite físicamente; no inventar mediciones.
+Cronograma:
+- S9: UrbanSound8K real + congelar RNF-03.
+- S10: M4 aprendido + mezclas reales.
+- S11: métricas acústicas + TFLite/paridad.
+- S12: streaming laptop + p95/E2E.
+- S13: Honor X8c + RAM/tamaño.
+- S14: estabilidad 10 min + integración.
+- S15: validación final + cierre.
 
-Siguiente hito: reemplazar baseline oracle por estimador M4 entrenado y ejecutar perfil TFLite real.
+## 12. Riesgos y próximos pasos
+Riesgos:
+1. confundir baseline con final;
+2. confundir alcances de latencia;
+3. no alcanzar umbrales experimentales.
+
+Mitigación: SOURCE_OF_TRUTH, mediciones separadas y criterios congelados.
+
+Observaciones del asesor levantadas: M2 no gobierna M4; M3a/M3b separados; Android limitado a TFLite; jobs 202+jobId; RUN_ASSET/POLICY_DECISION; UI sin fake metrics; no claims clínicos.
+
+Siguiente gate inmediato: validar UrbanSound8K completo y ejecutar benchmark real M2.
