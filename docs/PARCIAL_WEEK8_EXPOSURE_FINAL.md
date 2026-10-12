@@ -78,21 +78,11 @@ Esto permite reproducibilidad y auditoría del avance.
 
 ## 8. M2 semántico
 
-El módulo M2 ya tiene pipeline ejecutable para UrbanSound8K. El pipeline valida metadata, folds, clases, no leakage por `fsID`, extrae MFCC y log-Mel, entrena SVM/RF y genera Macro-F1, Macro-Recall, Macro-Precision, Accuracy, matriz de confusión y predicciones.
-
-Sin embargo, todavía no afirmo un resultado científico real de UrbanSound8K porque la distribución completa está en descarga. El fixture del CI valida el software, no sustituye el experimento real.
+El módulo M2 ya fue ejecutado sobre UrbanSound8K oficial completo. Se validaron 8,732 clips, 10 clases y 10 folds, sin audios faltantes ni ocurrencias etiquetadas cruzando particiones. Se compararon SVM RBF y Random Forest usando fold 9 para selección. SVM obtuvo Macro-F1 de validación 0.7146 y fue seleccionado. En fold 10 obtuvo Macro-F1 0.7257, Macro-Recall 0.7170, Macro-Precision 0.7426 y Accuracy 0.7145. El RNF-03 fijado en 0.85 **no fue alcanzado por esta baseline**.
 
 ## 9. Estado del dataset
 
-UrbanSound8K pesa aproximadamente 5.6 GB y se está descargando en la laptop local. Una vez descomprimido, primero se ejecutará el validador oficial del contrato:
-
-- 8732 filas;
-- folds 1 al 10;
-- metadata completa;
-- audio en `fold1` a `fold10`;
-- cero archivos faltantes.
-
-Solo después de esa validación se ejecuta el benchmark real.
+UrbanSound8K fue descargado desde la distribución oficial y el archivo comprimido coincidió con el MD5 oficial. El validador confirmó 8,732 filas, folds 1–10, 10 clases y cero audios faltantes. Se detectaron cinco `fsID` presentes en más de un fold para clases distintas; se conservaron los folds oficiales y se bloqueó leakage a nivel de ocurrencia etiquetada `(fsID,classID,occurrenceID)`, con cero cruces de ocurrencia.
 
 ## 10. Resultados que sí puedo afirmar
 
@@ -102,8 +92,8 @@ Puedo afirmar que:
 - CI pasa correctamente;
 - M3b funciona;
 - M6 funciona;
-- el pipeline M2 está implementado;
-- no se ha inventado evidencia de UrbanSound8K;
+- M2 fue ejecutado sobre UrbanSound8K oficial y su baseline real quedó en Macro-F1=0.7257;
+- RNF-03 no fue cumplido por la baseline y no se movió el umbral;
 - no se han inventado mediciones Android;
 - no se han hecho claims clínicos.
 
@@ -111,7 +101,7 @@ Puedo afirmar que:
 
 Los siguientes gates no pueden omitirse:
 
-1. ejecutar UrbanSound8K completo;
+1. desarrollar el siguiente candidato M2/M4 sin tuning sobre fold 10 y manteniendo congelada la baseline;
 2. entrenar M4 aprendido;
 3. integrar datasets reales en la evaluación de atenuación;
 4. implementar streaming por bloques;
