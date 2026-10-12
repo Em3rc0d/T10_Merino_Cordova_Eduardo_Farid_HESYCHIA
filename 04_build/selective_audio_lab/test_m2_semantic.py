@@ -12,7 +12,13 @@ ROOT = Path(__file__).parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from semantic_benchmark import run_benchmark
-from urbansound8k import EXPECTED_CLASSES, validate_contract
+from urbansound8k import (
+    EXPECTED_CLASSES,
+    assert_no_leakage,
+    load_metadata,
+    split_metadata,
+    validate_contract,
+)
 
 class SemanticBenchmarkTests(unittest.TestCase):
     def make_fixture(self, root: Path):
@@ -62,6 +68,8 @@ class SemanticBenchmarkTests(unittest.TestCase):
             self.assertEqual(report.rows, 20)
             self.assertEqual(report.folds, tuple(range(1, 11)))
             self.assertEqual(report.missing_audio, 0)
+            self.assertTrue(report.source_fold_consistency_ok)
+            self.assertEqual(report.cross_fold_fsid_count, 0)
 
             out = Path(td) / "out"
             summary = run_benchmark(
@@ -86,6 +94,42 @@ class SemanticBenchmarkTests(unittest.TestCase):
             self.assertEqual(len(summary["selected_model_sha256"]), 64)
             self.assertIn("fixed holdout protocol", summary["protocol_note"])
             self.assertGreaterEqual(summary["test"]["macro_f1"], 0.5)
+
+    def test_cross_fold_fsid_is_reported_and_blocked(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "UrbanSound8K"
+            self.make_fixture(root)
+            metadata = root / "metadata" / "UrbanSound8K.csv"
+            rows = list(csv.DictReader(metadata.open(encoding="utf-8")))
+            rows[-2]["fsID"] = rows[0]["fsID"]
+            rows[-2]["slice_file_name"] = (
+                f"{rows[0]['fsID']}-{rows[-2]['classID']}-0-99.wav"
+            )
+            old_path = root / "audio" / "fold10" / "10001-0-0-0.wav"
+            new_path = root / "audio" / "fold10" / rows[-2]["slice_file_name"]
+            if old_path.exists():
+                old_path.rename(new_path)
+            with metadata.open("w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(
+                    f,
+                    fieldnames=[
+                        "slice_file_name","fsID","start","end",
+                        "salience","fold","classID","class"
+                    ],
+                )
+                writer.writeheader()
+                writer.writerows(rows)
+
+            report = validate_contract(
+                root, require_official_shape=False, verify_audio=True
+            )
+            self.assertFalse(report.source_fold_consistency_ok)
+            self.assertGreater(report.cross_fold_fsid_count, 0)
+
+            df = load_metadata(root)
+            train, val, test = split_metadata(df)
+            with self.assertRaisesRegex(ValueError, "source-fold inconsistency"):
+                assert_no_leakage(train, val, test)
 
 if __name__ == "__main__":
     unittest.main()
