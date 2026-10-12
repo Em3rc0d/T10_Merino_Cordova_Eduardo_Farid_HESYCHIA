@@ -761,7 +761,7 @@ Derecha: observaciones levantadas:
 - sin claims clínicos.
 
 Callout final grande:
-**SIGUIENTE GATE: ejecutar UrbanSound8K completo y congelar evidencia M2.**
+**SIGUIENTE GATE: mantener congelada la baseline M2 y desarrollar el candidato aprendido preespecificado sin tuning sobre fold 10; RNF-05 final se cierra después con streaming por bloques.**
 
 ## 16. Instrucción final para NotebookLM
 
@@ -785,15 +785,18 @@ Procedimiento:
 
 Etiqueta obligatoria del dato: `whole_clip_processing_only`.
 
-Resultado real para la PPT:
-- p50 whole-clip = **19.976 ms**;
-- p95 whole-clip = **26.205 ms**;
-- media whole-clip = **20.725 ms**;
-- runs = **40**;
+Resultado real preferido para la PPT — **campaña agregada**:
+- lotes = **2**;
+- muestras totales = **80**;
+- p50 pooled whole-clip = **20.024 ms**;
+- p95 pooled whole-clip = **34.607 ms**;
+- media pooled whole-clip = **22.688 ms**;
+- p95 por lote = **26.205–41.508 ms**;
+- rango de p95 = **15.303 ms**;
 - seed = **42**;
 - scope = **`whole_clip_processing_only`**.
 
-No comparar 26.205 ms directamente con el RNF `p95/hop ≤ 10 ms`; son unidades de trabajo distintas. No declarar RNF-05 final como cumplido.
+No usar únicamente el lote de p95=26.205 ms porque sería cherry-picking. No comparar 34.607 ms directamente con el RNF `p95/hop ≤ 10 ms`; son unidades de trabajo distintas. No declarar RNF-05 final como cumplido.
 
 ## 18. REGLA VISUAL FINAL DE DATOS
 
@@ -839,3 +842,29 @@ No dibujar la matriz de confusión a partir de memoria ni inferencia. Para la sl
 ### Regla posterior al test
 
 El fold 10 ya fue observado con esta baseline. Las decisiones del siguiente candidato no deben seleccionarse usando ese resultado. Documentar la configuración antes de volver a evaluar test.
+
+
+## 20. LATENCIA ACER — VISUAL REAL PERMITIDO
+
+Para la PPT, priorizar la campaña agregada y mostrar también la variabilidad entre lotes:
+
+| Evidencia | Valor |
+|---|---:|
+| p50 pooled | 20.024 ms |
+| p95 pooled | 34.607 ms |
+| media pooled | 22.688 ms |
+| p95 lote mínimo | 26.205 ms |
+| p95 lote máximo | 41.508 ms |
+| muestras | 80 |
+
+### Gráfico real permitido para latencia
+
+```mermaid
+xychart-beta
+    title "p95 whole-clip por lote · Acer Nitro 5"
+    x-axis ["Lote A","Lote B","Pooled"]
+    y-axis "ms" 0 --> 50
+    bar [26.205,41.508,34.607]
+```
+
+Rotular explícitamente **whole-clip only**. No dibujar una línea de 10 ms como si fuera un umbral comparable, porque RNF-05 usa p95 **por hop**.
