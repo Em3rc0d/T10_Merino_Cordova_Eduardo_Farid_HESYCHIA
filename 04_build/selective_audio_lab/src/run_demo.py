@@ -1,20 +1,25 @@
 from __future__ import annotations
+
 import argparse
 import hashlib
 import json
 import time
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import soundfile as sf
 
-from audio_core import SR, N_FFT, HOP, synthesize
+from audio_core import SR, N_FFT, HOP, stft_complex, synthesize
 from attenuation import apply_selective_attenuation
 from evidence_store import EvidenceStore
 from policy import resolve_policy
 
 RUN_ID = "PI8-DEMO-RUN-001"
+
 
 def sha256(path: Path) -> str:
     h = hashlib.sha256()
@@ -23,21 +28,95 @@ def sha256(path: Path) -> str:
             h.update(chunk)
     return h.hexdigest()
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default="outputs/demo_run")
-    ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--target-label", default="siren_synthetic")
-    ap.add_argument("--protected", nargs="*", default=["speech_like_synthetic"])
-    ap.add_argument("--cap-db", type=float, default=12.0)
-    ap.add_argument("--alpha", type=float, default=1.0)
-    args = ap.parse_args()
 
-    out = Path(args.out)
+def _register_artifact(rows: list[dict], path: Path, kind: str) -> None:
+    rows.append(
+        {
+            "artifact": path.name,
+            "kind": kind,
+            "path": path.name,
+            "sha256": sha256(path),
+        }
+    )
+
+
+def _save_real_figures(out: Path, mixture: np.ndarray, output: np.ndarray) -> list[Path]:
+    """Generate figures exclusively from the current run audio."""
+    time_axis = np.arange(len(mixture)) / SR
+
+    waveform_path = out / "waveform_comparison.png"
+    fig, axes = plt.subplots(2, 1, figsize=(11, 4.8), sharex=True)
+    axes[0].plot(time_axis, mixture, linewidth=0.7)
+    axes[0].set_title("Mezcla de entrada")
+    axes[0].set_ylabel("Amplitud")
+    axes[0].grid(alpha=0.2)
+    axes[1].plot(time_axis, output, linewidth=0.7)
+    axes[1].set_title("Salida con atenuación selectiva")
+    axes[1].set_xlabel("Tiempo (s)")
+    axes[1].set_ylabel("Amplitud")
+    axes[1].grid(alpha=0.2)
+    fig.tight_layout()
+    fig.savefig(waveform_path, dpi=150)
+    plt.close(fig)
+
+    spec_path = out / "spectrogram_comparison.png"
+    mix_db = 20 * np.log10(np.abs(stft_complex(mixture)) + 1e-8)
+    out_db = 20 * np.log10(np.abs(stft_complex(output)) + 1e-8)
+    vmax = float(max(mix_db.max(), out_db.max()))
+    vmin = vmax - 80.0
+    extent = [0.0, len(mixture) / SR, 0.0, SR / 2.0]
+
+    fig, axes = plt.subplots(2, 1, figsize=(11, 5.4), sharex=True)
+    axes[0].imshow(
+        mix_db,
+        origin="lower",
+        aspect="auto",
+        extent=extent,
+        vmin=vmin,
+        vmax=vmax,
+    )
+    axes[0].set_title("Espectrograma · mezcla")
+    axes[0].set_ylabel("Frecuencia (Hz)")
+    axes[1].imshow(
+        out_db,
+        origin="lower",
+        aspect="auto",
+        extent=extent,
+        vmin=vmin,
+        vmax=vmax,
+    )
+    axes[1].set_title("Espectrograma · salida")
+    axes[1].set_xlabel("Tiempo (s)")
+    axes[1].set_ylabel("Frecuencia (Hz)")
+    fig.tight_layout()
+    fig.savefig(spec_path, dpi=150)
+    plt.close(fig)
+
+    return [waveform_path, spec_path]
+
+
+def run_demo(
+    out_dir: str | Path = "outputs/demo_run",
+    *,
+    seed: int = 42,
+    target_label: str = "siren_synthetic",
+    protected: list[str] | tuple[str, ...] = ("speech_like_synthetic",),
+    cap_db: float = 12.0,
+    alpha: float = 1.0,
+    run_id: str = RUN_ID,
+) -> dict:
+    out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    policy = resolve_policy(args.target_label, args.protected, args.cap_db)
-    protected, target, background = synthesize(args.seed)
+    if target_label != "siren_synthetic":
+        raise ValueError(
+            "The current controlled generator only supports target_label='siren_synthetic'."
+        )
+    if not 0.0 <= alpha <= 1.0:
+        raise ValueError("alpha must be between 0 and 1")
+
+    policy = resolve_policy(target_label, protected, cap_db)
+    protected_audio, target, background = synthesize(seed)
 
     start = time.perf_counter()
     (
@@ -50,14 +129,15 @@ def main():
         gain,
         metrics,
     ) = apply_selective_attenuation(
-        protected,
+        protected_audio,
         target,
         background,
         policy=policy,
-        alpha=args.alpha,
+        alpha=alpha,
     )
     metrics["wall_time_ms"] = float((time.perf_counter() - start) * 1000)
 
+    artifact_rows: list[dict] = []
     audio_paths = {
         "protected.wav": p,
         "target.wav": tg,
@@ -65,51 +145,33 @@ def main():
         "mixture.wav": mixture,
         "output_selective.wav": output,
     }
-
-    artifact_rows: list[dict] = []
     for name, data in audio_paths.items():
         path = out / name
         sf.write(path, data, SR)
-        artifact_rows.append(
-            {
-                "artifact": name,
-                "kind": "audio",
-                "path": path.name,
-                "sha256": sha256(path),
-            }
-        )
+        _register_artifact(artifact_rows, path, "audio")
 
-    np.save(out / "mask_irm.npy", mask)
-    artifact_rows.append(
-        {
-            "artifact": "mask_irm.npy",
-            "kind": "mask",
-            "path": "mask_irm.npy",
-            "sha256": sha256(out / "mask_irm.npy"),
-        }
-    )
-    np.save(out / "gain.npy", gain)
-    artifact_rows.append(
-        {
-            "artifact": "gain.npy",
-            "kind": "mask",
-            "path": "gain.npy",
-            "sha256": sha256(out / "gain.npy"),
-        }
-    )
+    mask_path = out / "mask_irm.npy"
+    gain_path = out / "gain.npy"
+    np.save(mask_path, mask)
+    np.save(gain_path, gain)
+    _register_artifact(artifact_rows, mask_path, "mask")
+    _register_artifact(artifact_rows, gain_path, "mask")
+
+    for figure_path in _save_real_figures(out, mixture, output):
+        _register_artifact(artifact_rows, figure_path, "figure")
 
     pd.DataFrame([metrics]).to_csv(out / "demo_metrics.csv", index=False)
     pd.DataFrame(artifact_rows).to_csv(out / "artifacts_manifest.csv", index=False)
 
     config = {
-        "seed": args.seed,
+        "seed": seed,
         "sr": SR,
         "n_fft": N_FFT,
         "hop": HOP,
-        "target_label": args.target_label,
+        "target_label": target_label,
         "protected_set": list(policy.protected_set),
-        "cap_db": args.cap_db,
-        "alpha": args.alpha,
+        "cap_db": cap_db,
+        "alpha": alpha,
         "baseline": "oracle_IRM_stem_demo",
     }
     policy_dict = {
@@ -122,17 +184,17 @@ def main():
 
     store = EvidenceStore(out / "evidence.sqlite")
     store.persist_demo(
-        run_id=RUN_ID,
-        seed=args.seed,
+        run_id=run_id,
+        seed=seed,
         metrics=metrics,
         artifacts=artifact_rows,
         policy=policy_dict,
         config=config,
     )
-    db_summary = store.summary(RUN_ID)
+    db_summary = store.summary(run_id)
 
     summary = {
-        "run_id": RUN_ID,
+        "run_id": run_id,
         "scope": "incremento_funcional_local_reproducible",
         "warning": "No clinical claim. Synthetic/stem-controlled demo only.",
         "config": config,
@@ -149,8 +211,31 @@ def main():
         json.dumps(summary, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
+    return summary
 
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default="outputs/demo_run")
+    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--target-label", default="siren_synthetic")
+    ap.add_argument("--protected", nargs="*", default=["speech_like_synthetic"])
+    ap.add_argument("--cap-db", type=float, default=12.0)
+    ap.add_argument("--alpha", type=float, default=1.0)
+    ap.add_argument("--run-id", default=RUN_ID)
+    args = ap.parse_args()
+
+    summary = run_demo(
+        args.out,
+        seed=args.seed,
+        target_label=args.target_label,
+        protected=args.protected,
+        cap_db=args.cap_db,
+        alpha=args.alpha,
+        run_id=args.run_id,
+    )
     print(json.dumps(summary, indent=2, ensure_ascii=False))
+
 
 if __name__ == "__main__":
     main()
