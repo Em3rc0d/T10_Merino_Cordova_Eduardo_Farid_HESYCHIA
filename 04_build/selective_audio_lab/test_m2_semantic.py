@@ -100,13 +100,16 @@ class SemanticBenchmarkTests(unittest.TestCase):
             root = Path(td) / "UrbanSound8K"
             self.make_fixture(root)
             metadata = root / "metadata" / "UrbanSound8K.csv"
-            rows = list(csv.DictReader(metadata.open(encoding="utf-8")))
-            rows[-2]["fsID"] = rows[0]["fsID"]
-            rows[-2]["slice_file_name"] = (
-                f"{rows[0]['fsID']}-{rows[-2]['classID']}-0-99.wav"
+            with metadata.open(encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+            victim = rows[-1]  # fold10, class 8: deliberately different class
+            old_name = victim["slice_file_name"]
+            victim["fsID"] = rows[0]["fsID"]
+            victim["slice_file_name"] = (
+                f"{rows[0]['fsID']}-{victim['classID']}-0-99.wav"
             )
-            old_path = root / "audio" / "fold10" / "10001-0-0-0.wav"
-            new_path = root / "audio" / "fold10" / rows[-2]["slice_file_name"]
+            old_path = root / "audio" / "fold10" / old_name
+            new_path = root / "audio" / "fold10" / victim["slice_file_name"]
             if old_path.exists():
                 old_path.rename(new_path)
             with metadata.open("w", newline="", encoding="utf-8") as f:
@@ -136,7 +139,8 @@ class SemanticBenchmarkTests(unittest.TestCase):
             root = Path(td) / "UrbanSound8K"
             self.make_fixture(root)
             metadata = root / "metadata" / "UrbanSound8K.csv"
-            rows = list(csv.DictReader(metadata.open(encoding="utf-8")))
+            with metadata.open(encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
 
             # Force the same (fsID,classID,occurrenceID) into fold 10 while
             # keeping a distinct sliceID.
