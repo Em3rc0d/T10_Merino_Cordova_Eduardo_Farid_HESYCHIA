@@ -2,6 +2,15 @@ name: HESYCHIA PI8 reproducibility
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '04_build/**'
+      - '03_architecture/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+      - '.github/workflows/pi8-reproducibility.yml'
 
 jobs:
   verify:
