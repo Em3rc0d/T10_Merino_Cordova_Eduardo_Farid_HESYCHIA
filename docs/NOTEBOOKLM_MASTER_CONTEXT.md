@@ -382,27 +382,19 @@ Importante: la latencia del clip completo **no** se puede presentar como p95 por
 
 ## 10. Estado real por módulo
 
-Los porcentajes son **avance de construcción por checklist**, no éxito científico ni cumplimiento de hipótesis.
+No usar porcentajes de avance salvo que exista una metodología formal que los calcule. Para el parcial se utiliza una **tabla categórica verificable**.
 
-| Módulo | Avance para slide | Qué está construido | Qué falta |
-|---|---:|---|---|
-| M1 | 50 % | DSP baseline, 16 kHz, STFT | integración completa datos reales/runtime |
-| M2 | 70 % | pipeline UrbanSound8K, SVM/RF, folds, métricas, fixture CI | ejecutar dataset oficial completo + candidato CNN si corresponde |
-| M3a | 60 % | stems y mezcla sintética controlada | mezclas con datos reales |
-| M3b | 100 % | ALLOW/BLOCK, protected precedence, persistencia | — |
-| M4 | 45 % | IRM oracle + gain + iSTFT | entrenar estimador aprendido |
-| M5 | 30 % | benchmark local de clip | streaming por bloques + E2E + Android |
-| M6 | 85 % | SQLite, Run ID, métricas, artefactos, SHA-256, validator | integrar evidencias finales M2/M4/TFLite |
+| Módulo | Estado verificable | Qué está construido | Qué falta |
+|---|---|---|---|
+| M1 | PARCIAL | DSP baseline, 16 kHz, STFT | integración completa con datos reales/runtime |
+| M2 | SOFTWARE LISTO / EVIDENCIA REAL PENDIENTE | pipeline UrbanSound8K, SVM/RF, folds, métricas, fixture CI | ejecutar dataset oficial completo |
+| M3a | BASELINE | stems y mezcla sintética controlada | mezclas con datos reales |
+| M3b | IMPLEMENTADO | ALLOW/BLOCK, protected precedence, persistencia | — |
+| M4 | BASELINE | IRM oracle + gain + iSTFT | entrenar estimador aprendido |
+| M5 | PARCIAL | web console Docker + procesamiento local de clip | streaming por bloques + E2E + Android |
+| M6 | IMPLEMENTADO | SQLite, Run ID, métricas, artefactos, SHA-256, validator | integrar evidencias finales M2/M4/TFLite |
 
-### Visual para avance
-
-```mermaid
-xychart-beta
-    title "Avance de construcción por módulo (%)"
-    x-axis ["M1","M2","M3a","M3b","M4","M5","M6"]
-    y-axis "Avance" 0 --> 100
-    bar [50,70,60,100,45,30,85]
-```
+**Visual correcto para esta información: tabla de estados, no gráfica porcentual.**
 
 ## 11. Trazabilidad
 
@@ -650,25 +642,25 @@ Pie rojo/ámbar pequeño: “No mostrar métricas ficticias como reales”.
 ---
 
 ### SLIDE 8 — S8 CONSTRUCCIÓN · 1 min
-Layout 55/45.
+Layout 60/40.
 
-Izquierda: tabla estado:
-| Módulo | % | Estado |
-|---|---:|---|
-| M1 | 50 | parcial |
-| M2 | 70 | software listo; evidencia real pendiente |
-| M3a | 60 | baseline |
-| M3b | 100 | implementado |
-| M4 | 45 | baseline oracle |
-| M5 | 30 | parcial |
-| M6 | 85 | implementado casi completo |
+Izquierda: **tabla categórica**, no usar gráfica ni porcentajes inventados:
+| Módulo | Estado |
+|---|---|
+| M1 | PARCIAL |
+| M2 | SOFTWARE LISTO / EVIDENCIA REAL PENDIENTE |
+| M3a | BASELINE |
+| M3b | IMPLEMENTADO |
+| M4 | BASELINE |
+| M5 | PARCIAL |
+| M6 | IMPLEMENTADO |
 
 Derecha:
-- “Funciona ahora”: M3b, M6, baseline M4, pipeline M2, CI.
+- “Funciona ahora”: consola web Docker, M3b, M6, baseline M4, pipeline M2, CI.
 - “Falta”: M2 real, M4 aprendido, streaming, TFLite, Honor X8c.
 - QR al repositorio.
 
-Pie: “% = avance de construcción por checklist, no éxito científico.”
+Pie: “Estados derivados de evidencia del repositorio; no equivalen a porcentajes de éxito científico.”
 
 ---
 
