@@ -19,11 +19,13 @@ class WebConsoleTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         base = Path(self.tmp.name)
+        self.evidence_root = base / "evidence"
         self.server = create_server(
             "127.0.0.1",
             0,
             output_root=base / "outputs",
             dataset_root=base / "missing_dataset",
+            evidence_root=self.evidence_root,
         )
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
@@ -80,6 +82,46 @@ class WebConsoleTests(unittest.TestCase):
         self.assertEqual(states["M3b"], "implemented")
         self.assertEqual(states["M4"], "baseline")
         self.assertEqual(states["M5"], "partial")
+
+    def test_status_discovers_persisted_m2_and_latency_evidence(self):
+        m2_dir = self.evidence_root / "m2_urbansound8k"
+        m2_dir.mkdir(parents=True)
+        (m2_dir / "semantic_summary.json").write_text(
+            json.dumps({
+                "dataset_rows": 8732,
+                "selected_model": "svm_rbf",
+                "test": {"macro_f1": 0.7257233295971242},
+                "rnf03_met": False,
+            }),
+            encoding="utf-8",
+        )
+        latency_dir = self.evidence_root / "latency" / "LATENCY-test"
+        latency_dir.mkdir(parents=True)
+        (latency_dir / "latency_summary.json").write_text(
+            json.dumps({
+                "device_label": "Acer Nitro 5",
+                "runs": 40,
+                "processing_p50_ms": 19.976,
+                "processing_p95_ms": 26.205,
+                "processing_mean_ms": 20.725,
+                "measurement_scope": "whole_clip_processing_only",
+            }),
+            encoding="utf-8",
+        )
+
+        _, status = self.get_json("/api/status")
+        states = {x["id"]: x for x in status["modules"]}
+        self.assertEqual(states["M2"]["state"], "measured_not_met")
+        self.assertIn("0.7257", states["M2"]["evidence"])
+        self.assertIn("26.205", states["M5"]["evidence"])
+        self.assertFalse(
+            any("full benchmark evidence" in x for x in status["pending"])
+        )
+        self.assertFalse(status["m2_evidence"]["rnf03_met"])
+        self.assertEqual(
+            status["latency_evidence"]["device_label"],
+            "Acer Nitro 5",
+        )
 
     def test_allow_job_generates_real_evidence_and_integrity_passes(self):
         status_code, job = self.post_json(
