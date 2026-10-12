@@ -1,0 +1,20 @@
+services:
+  hesychia:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hesychia-demo
+    ports:
+      - "8080:8080"
+    environment:
+      HESYCHIA_OUTPUT_ROOT: /workspace/04_build/selective_audio_lab/outputs/web
+      URBANSOUND8K_ROOT: /data/UrbanSound8K
+    volumes:
+      - type: bind
+        source: ./04_build/selective_audio_lab/outputs
+        target: /workspace/04_build/selective_audio_lab/outputs
+      - type: bind
+        source: ${URBANSOUND8K_HOST_PATH:-./data/UrbanSound8K}
+        target: /data/UrbanSound8K
+        read_only: true
+    restart: unless-stopped
