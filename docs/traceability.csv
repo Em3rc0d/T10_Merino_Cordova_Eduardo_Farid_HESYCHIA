@@ -12,7 +12,7 @@ OE2,RF-10,M4,A5-train,"detailed design frozen; learned training pending",pending
 OE3,RF-11,M5,A8,"TFLite contract frozen; physical profile pending",pending-S9/S10
 OE1,RNF-03,M2,A2,"SVM RBF test fold10 Macro-F1=0.7257 vs target 0.85; baseline does not meet RNF-03",measured-not-met-baseline
 OE2,RNF-04,M4,A5/A6,"A_target/A_protected/SI-SDRi in demo_metrics.csv",implemented-baseline
-OE3,RNF-05,M5,A7,"whole-clip local processing measured; per-hop/E2E final pending",partial
+OE3,RNF-05,M5,A7,"Acer Nitro 5 whole-clip 40 runs: p50=19.976 ms p95=26.205 ms mean=20.725 ms; per-hop/E2E final pending",partial-target-device-measured
 OE3,RNF-06,M5,A8,"TFLite model/RAM physical limits frozen; not measured",pending
 OE1-OE3,RNF-08,M6,A9,"synthetic/public-data scope; no primary TEA audio",implemented
 OE1-OE3,RNF-09,M6,A9,"git history + SOURCE_OF_TRUTH + SQLite evidence + checksums",implemented
