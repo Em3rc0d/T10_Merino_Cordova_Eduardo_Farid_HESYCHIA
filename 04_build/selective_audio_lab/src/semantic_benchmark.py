@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
-from semantic_features import extract_features
+from semantic_features import RESAMPLE_TYPE, extract_features
 from urbansound8k import (
     EXPECTED_CLASSES,
     assert_no_leakage,
@@ -43,10 +43,17 @@ def sha256_file(path: str | Path) -> str:
 def feature_cache_key(row) -> str:
     return f"fold{int(row.fold)}__{row.slice_file_name}.npy"
 
-def build_matrix(root: Path, frame: pd.DataFrame, cache_dir: Path):
+def build_matrix(
+    root: Path,
+    frame: pd.DataFrame,
+    cache_dir: Path,
+    *,
+    split_name: str,
+):
     cache_dir.mkdir(parents=True, exist_ok=True)
     xs, ys, files = [], [], []
-    for row in frame.itertuples(index=False):
+    total = len(frame)
+    for index, row in enumerate(frame.itertuples(index=False), start=1):
         cache = cache_dir / feature_cache_key(row)
         if cache.exists():
             feat = np.load(cache)
@@ -57,6 +64,12 @@ def build_matrix(root: Path, frame: pd.DataFrame, cache_dir: Path):
         xs.append(feat)
         ys.append(int(row.classID))
         files.append(str(row.slice_file_name))
+        if index == 1 or index % 250 == 0 or index == total:
+            print(
+                f"[features:{split_name}] {index}/{total} "
+                f"({index * 100.0 / total:.1f}%)",
+                flush=True,
+            )
     return np.stack(xs), np.asarray(ys, dtype=np.int64), files
 
 def make_models(seed: int):
@@ -102,10 +115,20 @@ def run_benchmark(
     train_df, val_df, test_df = split_metadata(df)
     assert_no_leakage(train_df, val_df, test_df)
 
-    cache = out / "feature_cache"
-    x_train, y_train, train_files = build_matrix(root, train_df, cache)
-    x_val, y_val, val_files = build_matrix(root, val_df, cache)
-    x_test, y_test, test_files = build_matrix(root, test_df, cache)
+    cache = out / f"feature_cache_v2_sr16000_{RESAMPLE_TYPE}"
+    print(
+        f"[m2] feature cache: {cache} | resampler={RESAMPLE_TYPE}",
+        flush=True,
+    )
+    x_train, y_train, train_files = build_matrix(
+        root, train_df, cache, split_name="train"
+    )
+    x_val, y_val, val_files = build_matrix(
+        root, val_df, cache, split_name="validation"
+    )
+    x_test, y_test, test_files = build_matrix(
+        root, test_df, cache, split_name="test"
+    )
 
     validation_rows = []
     fitted = {}
@@ -219,6 +242,8 @@ def run_benchmark(
             "mfcc": 20,
             "logmel_bins": 64,
             "summary": "mean+std",
+            "resampler": RESAMPLE_TYPE,
+            "cache_version": "v2_sr16000_soxr_hq",
         },
         "selection_rule": "max validation Macro-F1, then Macro-Recall; test not used for selection",
         "selected_model": selected,
