@@ -54,33 +54,38 @@ Secuencia crítica: config → M5 → M1 → M3b → M4 → M6.
 Regla: si target ∈ protected_set → BLOCK → g=1.
 
 ## 7. S7 — Diseño detallado 2
-Grupo B: prototipo UI + contratos API.
+Grupo B: UI funcional + contratos API.
 
-UI: configuración de target/protected/run, sin métricas ficticias.
+UI PI8+: consola web responsive servida por el mismo contenedor Docker. Lee métricas y artefactos desde runs reales; no contiene valores científicos hard-codeados.
 
-API:
-- POST /jobs/benchmark → 202 {jobId}
-- POST /jobs/train-mask → 202 {jobId}
-- POST /jobs/attenuate → 202 {jobId}
-- POST /jobs/export-tflite → 202 {jobId}
-- GET /jobs/{id} → status/progress/resultRef
-- POST /streaming/session → 201 {sessionId}
+Rutas actualmente funcionales:
+- POST /api/jobs/attenuate → 202 {jobId}
+- POST /api/dataset/validate → 202 {jobId}
+- POST /api/jobs/benchmark → 202 {jobId}
+- GET /api/jobs/{id} → status/resultRef
+- GET /api/runs y /api/runs/{id} → evidencia
 
-Android no depende de API: TFLite local + profile.json importado por M6.
+Contratos aún pendientes:
+- /api/jobs/train-mask
+- /api/jobs/export-tflite
+- /api/streaming/session
+
+Estos responden 501 hasta tener implementación probada. Android seguirá usando TFLite local cuando esa fase exista.
 
 ## 8. S8 — Construcción
-Mostrar qué funciona, qué falta y porcentaje de avance por módulo. Los porcentajes son **avance de construcción por checklist**, no resultados científicos.
+Mostrar una **tabla categórica de estado**, no porcentajes estimados.
 
-Estado aproximado documentado:
-- M1 50 %
-- M2 70 %
-- M3a 60 %
-- M3b 100 %
-- M4 45 %
-- M5 30 %
-- M6 85 %
+| Módulo | Estado verificable |
+|---|---|
+| M1 | PARCIAL |
+| M2 | SOFTWARE LISTO / EVIDENCIA REAL PENDIENTE |
+| M3a | BASELINE |
+| M3b | IMPLEMENTADO |
+| M4 | BASELINE |
+| M5 | PARCIAL |
+| M6 | IMPLEMENTADO |
 
-Funciona: baseline PI8+ E2E, M3b, M6, M2 software/fixture y CI.  
+Funciona: consola web Docker, baseline PI8+, M3b, M6, M2 software/fixture y CI.  
 Falta: M2 real, M4 aprendido, streaming, TFLite y Honor X8c.
 
 Repositorio mediante QR/enlace.
@@ -104,7 +109,9 @@ La matriz diferencia explícitamente evidencia ya construida de contratos todav�
 ## 11. Plan de validación
 Semántica: UrbanSound8K + Macro-F1 ≥ 0.85.  
 Acústica: A_target ≥ 6 dB, A_protected ≤ 1 dB, SI-SDRi > 0.  
-Compute: laptop p95/hop ≤ 10 ms, E2E p95 ≤ 60 ms, TFLite p95 ≤ 20 ms.\n\nCalidad Grupo B: pruebas funcionales + ISO/IEC 25010. SUS/TAM se deja como aplicabilidad por confirmar con el asesor; no se declara validación de usuarios inexistente.
+Compute: laptop p95/hop ≤ 10 ms, E2E p95 ≤ 60 ms, TFLite p95 ≤ 20 ms.
+
+Calidad Grupo B: pruebas funcionales + ISO/IEC 25010. SUS/TAM se deja como aplicabilidad por confirmar con el asesor; no se declara validación de usuarios inexistente.
 
 Cronograma:
 - S9: UrbanSound8K real + congelar RNF-03.
