@@ -18,6 +18,14 @@ Este repositorio está organizado para que la revisión del parcial pueda seguir
 - **Evidencia:** `05_evidence/`.
 - **Exposición:** `docs/presentacion_semana8.md` y `docs/guion_exposicion.md`.
 
+## M2 — estado verificable
+
+El módulo de benchmark semántico ya posee una implementación ejecutable: valida el contrato de UrbanSound8K, congela folds 1–8/9/10, verifica ausencia de leakage por fsID, extrae MFCC/log-Mel, entrena SVM y Random Forest, selecciona únicamente con validación y genera Macro-F1/Recall/Precision, matriz de confusión, predicciones y modelo serializado.
+
+El CI valida este pipeline con un fixture de audio que conserva el contrato de folds. **El fixture prueba software, no constituye resultado científico de UrbanSound8K.** El Macro-F1 real permanece pendiente hasta ejecutar la distribución completa.
+
+Protocolo: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
+
 ## Afirmaciones soportadas
 
 1. Existe un incremento funcional local reproducible.
