@@ -31,7 +31,7 @@ Protocolo: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
 1. Existe un incremento funcional local reproducible.
 2. La demo genera stems sintéticos, mezcla, máscara IRM baseline, audio procesado y métricas.
 3. En el run de referencia se observaron A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB.
-4. El benchmark local del clip completo tuvo p50≈14.03 ms y p95≈15.70 ms en el entorno de desarrollo.
+4. La medición S8 en la Acer Nitro 5, 40 runs, obtuvo p50=19.976 ms, p95=26.205 ms y media=20.725 ms para `whole_clip_processing_only`; no equivale a p95/hop ni E2E.
 5. Existe trazabilidad mediante JSON/CSV/SQLite/manifiesto/checksum y un validador de **integridad cruzada** que exige coherencia entre filesystem, Run ID, política, métricas, configuración, artefactos SQLite y SHA-256 reales de los WAV de entrada.
 6. M3b ya ejecuta la regla de precedencia protected: si target ∈ protected_set, la decisión es BLOCK y g=1.
 
@@ -75,7 +75,7 @@ Los tests contractuales verifican finitud, rango de máscara/ganancia, reproduci
 
 La demo actual se levanta con `docker compose up --build` y sirve una consola en `http://localhost:8080`. La UI consume resultados reales de jobs/runs: no conserva los números ilustrativos del prototipo PI7. Las funciones aún pendientes (streaming, train-mask, export-tflite) responden 501 o permanecen deshabilitadas en lugar de simularse.
 
-La verificación CI más reciente del incremento web/Docker ejecutó 8 tests, validación de sintaxis JavaScript, reproducción PI8, build de la imagen y health smoke test del contenedor con resultado SUCCESS.
+La verificación CI del incremento web/Docker cubre tests contractuales, sintaxis JavaScript, reproducción PI8, build de la imagen y health smoke test. Consultar el workflow verde más reciente para el conteo exacto, evitando conservar cifras históricas obsoletas.
 
 
 ## Nota metodológica M2
