@@ -2,11 +2,20 @@ name: HESYCHIA PI8 reproducibility
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '04_build/**'
+      - '03_architecture/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+      - '.github/workflows/pi8-reproducibility.yml'
 
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -14,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.11.17'
           cache: 'pip'
           cache-dependency-path: 04_build/selective_audio_lab/requirements-lock.txt
 
@@ -22,9 +31,19 @@ jobs:
         working-directory: 04_build/selective_audio_lab
         run: pip install -r requirements-lock.txt
 
-      - name: Contract tests
+      - name: Contract and web tests
         working-directory: 04_build/selective_audio_lab
         run: python -m unittest discover -p "test*.py"
+
+      - name: Validate inline UI JavaScript syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('04_build/selective_audio_lab/web/index.html').read_text(encoding='utf-8')
+          script = text.split('<script>', 1)[1].split('</script>', 1)[0]
+          Path('/tmp/hesychia-ui.js').write_text(script, encoding='utf-8')
+          PY
+          node --check /tmp/hesychia-ui.js
 
       - name: Reproduce PI8 demo
         working-directory: 04_build/selective_audio_lab
@@ -32,6 +51,31 @@ jobs:
           python src/run_demo.py --out outputs/demo_run
           python src/latency_benchmark.py --out outputs/latency --runs 40
           python src/validate_artifacts.py --run-dir outputs/demo_run
+
+      - name: Build Docker demo image
+        run: docker build -t hesychia-demo:ci .
+
+      - name: Docker health smoke test
+        run: |
+          docker run -d --rm --name hesychia-smoke -p 18080:8080 hesychia-demo:ci
+          python - <<'PY'
+          import json, time, urllib.request
+          url = 'http://127.0.0.1:18080/api/health'
+          last = None
+          for _ in range(30):
+              try:
+                  with urllib.request.urlopen(url, timeout=2) as r:
+                      data = json.loads(r.read().decode())
+                  assert data['status'] == 'ok'
+                  print(data)
+                  break
+              except Exception as exc:
+                  last = exc
+                  time.sleep(1)
+          else:
+              raise SystemExit(f'container health failed: {last}')
+          PY
+          docker stop hesychia-smoke
 
       - name: Upload reproducibility evidence
         uses: actions/upload-artifact@v4
