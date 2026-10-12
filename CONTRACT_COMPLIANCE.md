@@ -20,6 +20,7 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | Edge-first sin nube obligatoria | COMPLIANT | build local y CI sin API de inferencia externa |
 | No afirmaciones clínicas | COMPLIANT | manifest y documentación lo excluyen |
 | Evidencia reproducible | COMPLIANT | Run ID, JSON, CSV, SQLite, checksums, validator, tests y CI |
+| Demo reproducible Docker | COMPLIANT-S8 | imagen construida en CI, health smoke test OK, UI sin métricas científicas hard-codeadas |
 | Dependencias congeladas | COMPLIANT | requirements-lock + CI usando lockfile |
 | RF-01/02 DSP | PARTIAL / ON PLAN | demo sintética implementa 16 kHz/STFT; integración completa con datasets reales pendiente |
 | RF-03 / M2 benchmark | IMPLEMENTED-SOFTWARE / REAL-EVIDENCE-PENDING | Validador UrbanSound8K + folds 1–8/9/10 + no-leakage + SVM/RF + métricas y artefactos; falta ejecutar distribución oficial completa |
@@ -27,7 +28,7 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | RF-05 mezclas | COMPLIANT-BASELINE | stems sintéticos controlados + manifiesto/checksums |
 | RF-06 M4 máscara aprendida | PENDING / ON PLAN | PI8 usa IRM oracle explícitamente; estimador aprendido S9 |
 | RF-07 reconstrucción | COMPLIANT-BASELINE | iSTFT funcional |
-| RF-08 runtime/streaming | PARTIAL / ON PLAN | procesamiento local medido; streaming por bloques aún pendiente |
+| RF-08 runtime/streaming | PARTIAL / ON PLAN | consola web Docker y procesamiento local operativos; streaming por bloques aún pendiente |
 | RF-09 expediente | COMPLIANT | evidence.sqlite + Run ID + métricas + artefactos + SHA-256 + validación cruzada |
 | RF-10 entrenamiento M4 | PENDING / ON PLAN | S9 |
 | RF-11 TFLite/paridad | PENDING / ON PLAN | S9–S10 |
