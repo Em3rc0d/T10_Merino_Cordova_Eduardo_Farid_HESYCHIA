@@ -242,6 +242,13 @@ def discover_latency_evidence(evidence_root: Path) -> dict | None:
     return _latest_json(evidence_root / "latency", "**/latency_summary.json")
 
 
+def discover_latency_campaign(evidence_root: Path) -> dict | None:
+    return _latest_json(
+        evidence_root / "latency_campaigns",
+        "**/latency_campaign_summary.json",
+    )
+
+
 def system_status(dataset_root: Path, evidence_root: Path) -> dict:
     metadata = dataset_root / "metadata" / "UrbanSound8K.csv"
     fold1 = dataset_root / "audio" / "fold1"
@@ -249,6 +256,7 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
     dataset_mounted = metadata.exists() and fold1.exists() and fold10.exists()
     m2 = discover_m2_evidence(evidence_root)
     latency = discover_latency_evidence(evidence_root)
+    latency_campaign = discover_latency_campaign(evidence_root)
     m2_measured = bool(
         m2
         and int(m2.get("dataset_rows", -1)) == 8732
@@ -260,6 +268,12 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
         latency
         and latency.get("measurement_scope") == "whole_clip_processing_only"
         and latency.get("processing_p95_ms") is not None
+    )
+    latency_campaign_measured = bool(
+        latency_campaign
+        and latency_campaign.get("measurement_scope") == "whole_clip_processing_only"
+        and latency_campaign.get("pooled_p95_ms") is not None
+        and int(latency_campaign.get("batch_count", 0)) >= 2
     )
     pending = [
         "learned target-conditioned M4",
@@ -334,11 +348,19 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
                 "name": "Runtime / profiling",
                 "state": "partial",
                 "evidence": (
-                    f"{latency.get('device_label','host')} · whole-clip p95="
-                    f"{float(latency['processing_p95_ms']):.3f} ms; "
+                    f"{latency_campaign.get('device_label','host')} · "
+                    f"campaign pooled p95={float(latency_campaign['pooled_p95_ms']):.3f} ms · "
+                    f"{int(latency_campaign.get('batch_count',0))} lotes / "
+                    f"{int(latency_campaign.get('total_samples',0))} muestras; "
                     "streaming/E2E pendiente"
-                    if latency_measured
-                    else "procesamiento de clip medido; streaming/E2E pendiente"
+                    if latency_campaign_measured
+                    else (
+                        f"{latency.get('device_label','host')} · whole-clip p95="
+                        f"{float(latency['processing_p95_ms']):.3f} ms; "
+                        "streaming/E2E pendiente"
+                        if latency_measured
+                        else "procesamiento de clip medido; streaming/E2E pendiente"
+                    )
                 ),
             },
             {
@@ -364,6 +386,9 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
         "pending": pending,
         "m2_evidence": m2 if m2_measured else None,
         "latency_evidence": latency if latency_measured else None,
+        "latency_campaign_evidence": (
+            latency_campaign if latency_campaign_measured else None
+        ),
     }
 
 
