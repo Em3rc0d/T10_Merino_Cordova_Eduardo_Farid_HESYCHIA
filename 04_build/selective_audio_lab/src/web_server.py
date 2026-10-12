@@ -29,6 +29,9 @@ DEFAULT_OUTPUT_ROOT = Path(
 DEFAULT_DATASET_ROOT = Path(
     os.environ.get("URBANSOUND8K_ROOT", "/data/UrbanSound8K")
 )
+DEFAULT_EVIDENCE_ROOT = Path(
+    os.environ.get("HESYCHIA_EVIDENCE_ROOT", LAB_ROOT / "outputs")
+)
 
 
 def utc_now() -> str:
@@ -207,11 +210,69 @@ def load_run(output_root: Path, run_id: str) -> dict:
     return summary
 
 
-def system_status(dataset_root: Path) -> dict:
+def _latest_json(root: Path, pattern: str) -> dict | None:
+    if not root.exists():
+        return None
+    candidates = [p for p in root.glob(pattern) if p.is_file()]
+    if not candidates:
+        return None
+    path = max(candidates, key=lambda p: p.stat().st_mtime)
+    try:
+        payload = _load_json(path)
+    except Exception:
+        return None
+    payload["_evidence_path"] = str(path)
+    return payload
+
+
+def discover_m2_evidence(evidence_root: Path) -> dict | None:
+    root = evidence_root / "m2_urbansound8k"
+    direct = root / "semantic_summary.json"
+    if direct.exists():
+        try:
+            payload = _load_json(direct)
+            payload["_evidence_path"] = str(direct)
+            return payload
+        except Exception:
+            pass
+    return _latest_json(root, "**/semantic_summary.json")
+
+
+def discover_latency_evidence(evidence_root: Path) -> dict | None:
+    return _latest_json(evidence_root / "latency", "**/latency_summary.json")
+
+
+def system_status(dataset_root: Path, evidence_root: Path) -> dict:
     metadata = dataset_root / "metadata" / "UrbanSound8K.csv"
     fold1 = dataset_root / "audio" / "fold1"
     fold10 = dataset_root / "audio" / "fold10"
     dataset_mounted = metadata.exists() and fold1.exists() and fold10.exists()
+    m2 = discover_m2_evidence(evidence_root)
+    latency = discover_latency_evidence(evidence_root)
+    m2_measured = bool(
+        m2
+        and int(m2.get("dataset_rows", -1)) == 8732
+        and isinstance(m2.get("test"), dict)
+        and "macro_f1" in m2.get("test", {})
+    )
+    m2_met = bool(m2_measured and m2.get("rnf03_met"))
+    latency_measured = bool(
+        latency
+        and latency.get("measurement_scope") == "whole_clip_processing_only"
+        and latency.get("processing_p95_ms") is not None
+    )
+    pending = [
+        "learned target-conditioned M4",
+        "blockwise laptop streaming",
+        "TFLite export/parity",
+        "physical Honor X8c profiling",
+        "10-minute stability validation",
+    ]
+    if not m2_measured:
+        pending.insert(0, "UrbanSound8K full benchmark evidence")
+    elif not m2_met:
+        pending.insert(0, "RNF-03 semantic target >= 0.85 not met by current M2 baseline")
+
     return {
         "service": "ok",
         "scope": "PI8+ technical prototype",
@@ -235,8 +296,20 @@ def system_status(dataset_root: Path) -> dict:
             {
                 "id": "M2",
                 "name": "Reconocimiento semántico",
-                "state": "software_ready_evidence_pending",
-                "evidence": "pipeline UrbanSound8K + SVM/RF + fixture CI",
+                "state": (
+                    "implemented"
+                    if m2_met
+                    else "measured_not_met"
+                    if m2_measured
+                    else "software_ready_evidence_pending"
+                ),
+                "evidence": (
+                    f"UrbanSound8K real · {m2.get('selected_model')} · "
+                    f"Macro-F1 test={float(m2['test']['macro_f1']):.4f} · "
+                    f"RNF-03={'CUMPLE' if m2_met else 'NO CUMPLE'}"
+                    if m2_measured
+                    else "pipeline UrbanSound8K + SVM/RF + fixture CI"
+                ),
             },
             {
                 "id": "M3a",
@@ -260,7 +333,13 @@ def system_status(dataset_root: Path) -> dict:
                 "id": "M5",
                 "name": "Runtime / profiling",
                 "state": "partial",
-                "evidence": "procesamiento de clip medido; streaming/E2E pendiente",
+                "evidence": (
+                    f"{latency.get('device_label','host')} · whole-clip p95="
+                    f"{float(latency['processing_p95_ms']):.3f} ms; "
+                    "streaming/E2E pendiente"
+                    if latency_measured
+                    else "procesamiento de clip medido; streaming/E2E pendiente"
+                ),
             },
             {
                 "id": "M6",
@@ -282,14 +361,9 @@ def system_status(dataset_root: Path) -> dict:
                 "android_tflite_p95_ms": "<= 20",
             },
         },
-        "pending": [
-            "UrbanSound8K full benchmark evidence",
-            "learned target-conditioned M4",
-            "blockwise laptop streaming",
-            "TFLite export/parity",
-            "physical Honor X8c profiling",
-            "10-minute stability validation",
-        ],
+        "pending": pending,
+        "m2_evidence": m2 if m2_measured else None,
+        "latency_evidence": latency if latency_measured else None,
     }
 
 
@@ -303,6 +377,10 @@ class AppHandler(BaseHTTPRequestHandler):
     @property
     def dataset_root(self) -> Path:
         return self.server.dataset_root
+
+    @property
+    def evidence_root(self) -> Path:
+        return self.server.evidence_root
 
     @property
     def jobs(self) -> JobManager:
@@ -353,7 +431,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "ok", "service": "hesychia-web"})
             return
         if path == "/api/status":
-            self._send_json(system_status(self.dataset_root))
+            self._send_json(system_status(self.dataset_root, self.evidence_root))
             return
         if path == "/api/jobs":
             self._send_json({"jobs": self.jobs.list()})
@@ -573,11 +651,14 @@ class AppServer(ThreadingHTTPServer):
         *,
         output_root: Path,
         dataset_root: Path,
+        evidence_root: Path,
     ):
         super().__init__(address, handler)
         self.output_root = output_root
         self.output_root.mkdir(parents=True, exist_ok=True)
         self.dataset_root = dataset_root
+        self.evidence_root = evidence_root
+        self.evidence_root.mkdir(parents=True, exist_ok=True)
         self.jobs = JobManager()
 
 
@@ -587,12 +668,14 @@ def create_server(
     *,
     output_root: str | Path | None = None,
     dataset_root: str | Path | None = None,
+    evidence_root: str | Path | None = None,
 ) -> AppServer:
     return AppServer(
         (host, port),
         AppHandler,
         output_root=Path(output_root or DEFAULT_OUTPUT_ROOT),
         dataset_root=Path(dataset_root or DEFAULT_DATASET_ROOT),
+        evidence_root=Path(evidence_root or DEFAULT_EVIDENCE_ROOT),
     )
 
 
@@ -602,6 +685,7 @@ def main():
     ap.add_argument("--port", type=int, default=8080)
     ap.add_argument("--output-root", default=str(DEFAULT_OUTPUT_ROOT))
     ap.add_argument("--dataset-root", default=str(DEFAULT_DATASET_ROOT))
+    ap.add_argument("--evidence-root", default=str(DEFAULT_EVIDENCE_ROOT))
     args = ap.parse_args()
 
     server = create_server(
@@ -609,6 +693,7 @@ def main():
         args.port,
         output_root=args.output_root,
         dataset_root=args.dataset_root,
+        evidence_root=args.evidence_root,
     )
     print(
         f"HESYCHIA web console: http://{args.host}:{server.server_address[1]} "
