@@ -19,15 +19,16 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | M5 orquestador | COMPLIANT | runtime documentado como orquestador |
 | Edge-first sin nube obligatoria | COMPLIANT | build local y CI sin API de inferencia externa |
 | No afirmaciones clínicas | COMPLIANT | manifest y documentación lo excluyen |
-| Evidencia reproducible | COMPLIANT | Run ID, JSON, CSV, checksums, tests y CI |
+| Evidencia reproducible | COMPLIANT | Run ID, JSON, CSV, SQLite, checksums, validator, tests y CI |
 | Dependencias congeladas | COMPLIANT | requirements-lock + CI usando lockfile |
 | RF-01/02 DSP | PARTIAL / ON PLAN | demo sintética implementa 16 kHz/STFT; integración completa con datasets reales pendiente |
 | RF-03 / M2 benchmark real | PENDING / ON PLAN | S9 |
-| RF-04/05 política + mezclas | COMPLIANT-BASELINE | demo controlada |
+| RF-04 política | COMPLIANT | M3b ejecutable con ALLOW/BLOCK, precedencia protected y persistencia POLICY_DECISION |
+| RF-05 mezclas | COMPLIANT-BASELINE | stems sintéticos controlados + manifiesto/checksums |
 | RF-06 M4 máscara aprendida | PENDING / ON PLAN | PI8 usa IRM oracle explícitamente; estimador aprendido S9 |
 | RF-07 reconstrucción | COMPLIANT-BASELINE | iSTFT funcional |
 | RF-08 runtime/streaming | PARTIAL / ON PLAN | procesamiento local medido; streaming por bloques aún pendiente |
-| RF-09 expediente | COMPLIANT | evidencia versionada |
+| RF-09 expediente | COMPLIANT | evidence.sqlite + Run ID + métricas + artefactos + SHA-256 + validación cruzada |
 | RF-10 entrenamiento M4 | PENDING / ON PLAN | S9 |
 | RF-11 TFLite/paridad | PENDING / ON PLAN | S9–S10 |
 | RNF-03 Macro-F1 ≥0.85 | UNMEASURED / ON PLAN | no se inventa resultado antes del benchmark real |
@@ -42,7 +43,7 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 ## Resultado de auditoría
 
 **No se detecta una desviación contractual activa en el estado PI8.**  
-Los elementos faltantes están declarados como pendientes y corresponden a fases posteriores. La baseline IRM no se presenta como CNN final; las métricas locales no se presentan como Android ni como validación definitiva.
+Los elementos faltantes están declarados como pendientes y corresponden a fases posteriores. La baseline IRM no se presenta como CNN final; las métricas locales no se presentan como Android ni como validación definitiva. Desde el incremento PI8+ la política M3b y el expediente M6 ya son ejecutables y están cubiertos por pruebas automáticas.
 
 ## Gates que NO pueden omitirse
 
