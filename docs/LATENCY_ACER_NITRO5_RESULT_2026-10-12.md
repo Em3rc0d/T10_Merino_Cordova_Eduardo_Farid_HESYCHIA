@@ -47,3 +47,18 @@ Por tanto, no debe compararse `26.205 ms` directamente con el requisito `p95/hop
 Si existen varias ejecuciones con la misma Acer Nitro 5, seed y número de repeticiones, conservar cada lote y generar una campaña agregada. La presentación debe priorizar la distribución combinada y el rango de p95 entre lotes, evitando cherry-picking.
 
 Utilidad: `src/freeze_latency_campaign.py`.
+
+
+## Campaña agregada posterior
+
+Después de congelar este lote se ejecutó un segundo lote equivalente y se construyó una campaña agregada de **2 lotes / 80 muestras**. Para la presentación y el informe, esa campaña reemplaza a este lote individual como resumen principal:
+
+- p50 pooled = **20.024 ms**;
+- p95 pooled = **34.607 ms**;
+- media pooled = **22.688 ms**;
+- p95 entre lotes = **26.205–41.508 ms**;
+- rango de p95 = **15.303 ms**.
+
+Ver: `docs/LATENCY_CAMPAIGN_ACER_NITRO5_2026-10-12.md`.
+
+Este archivo se conserva como evidencia del lote A, no como el valor definitivo a citar.
