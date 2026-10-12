@@ -48,23 +48,38 @@ Plan de validación
 
 ## Pipeline técnico v1.1
 
+La arquitectura corregida distingue **dos caminos diferentes** para evitar interpretar los módulos como una única secuencia lineal.
+
+### Camino experimental/offline
+
 ```text
-M1 Ingesta/representación
-        ↓
-M2 Reconocimiento semántico (evaluación/monitor)
-        ↓
-M3a Mezclas controladas — SOLO OFFLINE
-        ↓
-M3b Política target/protected
-        ↓
-M4 Máscara T-F + reconstrucción
-        ↓
-M5 Runtime/perfilado
-        ↓
-M6 Evidencia y métricas
+Datasets/corpus
+     ↓
+M1 Ingesta y representación
+     ├──────────────→ M2 Reconocimiento semántico / benchmark
+     │
+     └→ M3a Generación de mezclas controladas
+              ↓
+        M3b Política target/protected
+              ↓
+        M4 Máscara T-F + reconstrucción
+              ↓
+        M6 Evidencia y métricas
 ```
 
-En streaming, **M5 orquesta M1 + M3b + M4**. M3a no forma parte del camino crítico y M2 no modifica automáticamente el target en v1.1.
+### Camino runtime / streaming en laptop
+
+```text
+Audio / bloques
+     ↓
+M5 Runtime/orquestador
+     ├→ M1 representación
+     ├→ M3b política
+     ├→ M4 máscara + iSTFT
+     └→ M6 métricas / trazabilidad
+```
+
+**M3a no participa en streaming.** **M2 no modifica automáticamente el target** en v1.1; puede operar como benchmark o monitor asíncrono. Esta separación sigue la corrección consolidada PI6 → PI7.
 
 ## PI8 — incremento funcional
 
@@ -89,9 +104,15 @@ source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 
 pip install -r requirements.txt
+# Para reproduccción exacta del entorno CI validado:
+# pip install -r requirements-lock.txt
 python src/run_demo.py --out outputs/demo_run
 python src/latency_benchmark.py --out outputs/latency
 ```
+
+## Reproducibilidad
+
+El entorno verificado en CI usa **Python 3.11.17**. `requirements.txt` fija las dependencias directas validadas y `requirements-lock.txt` conserva el conjunto completo observado en la ejecución exitosa del workflow.
 
 ## Alcance Edge
 
