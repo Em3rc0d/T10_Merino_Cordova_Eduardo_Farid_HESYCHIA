@@ -372,7 +372,7 @@ Evidencias:
 - latency_summary.json
 
 CI más reciente del incremento modular:
-- 6 tests contractuales OK.
+- Suite contractual CI OK. Si se cita un número exacto de tests, tomarlo únicamente del workflow exitoso más reciente.
 - instalación lockfile OK.
 - demo OK.
 - benchmark local del clip OK.
@@ -572,15 +572,23 @@ Pie: “Umbrales técnicos, no clínicos.”
 
 Usar el Mermaid de arquitectura general de §2.1.
 
-Panel stack:
+Panel stack — separar **implementado** de **previsto**:
+
+Implementado en PI8+:
 - Python 3.11
 - NumPy / SciPy / librosa
 - scikit-learn
-- TensorFlow/Keras [previsto para M4 aprendido]
 - SQLite
-- FastAPI / Streamlit [contrato]
-- Kotlin / TFLite [perfilado]
+- HTML / CSS / JavaScript
+- servidor HTTP Python local con jobs
+- Docker / Docker Compose
 - Git
+
+Previsto para siguientes fases:
+- TensorFlow/Keras [M4 aprendido]
+- Kotlin / TFLite [perfilado móvil]
+
+No presentar FastAPI o Streamlit como tecnología ejecutada si el build actual no los usa.
 
 Marcar visualmente OFFLINE vs RUNTIME.
 
@@ -623,7 +631,7 @@ Grupo B: UI + API.
 
 Layout 55/45.
 
-Izquierda: wireframe lógico:
+Izquierda: UI funcional PI8+ empaquetada con Docker. Mostrar captura real si está disponible; si no, usar este wireframe lógico:
 ```mermaid
 flowchart TD
     HOME["Dashboard / Run"] --> CFG["Target · protected_set · cap_dB"]
@@ -636,7 +644,10 @@ flowchart TD
     STAT --> RES["Resultados reales / artefactos"]
 ```
 
-Derecha: endpoints compactos.
+Derecha: endpoints compactos y estado:
+- funcionales: attenuate, dataset/validate, benchmark, jobs, runs, integrity;
+- pendientes: train-mask, export-tflite, streaming → 501.
+
 Pie rojo/ámbar pequeño: “No mostrar métricas ficticias como reales”.
 
 ---
@@ -686,10 +697,13 @@ Centro: 3 KPIs grandes:
 - SI-SDRi = 11.52 dB
 
 Abajo:
-- “6 tests CI · OK”
+- “suite CI · OK”
 - “checksums · OK”
-- “SQLite · OK”
+- “SQLite · coherente”
+- “input WAV SHA-256 · verificado”
 - latencia del clip completo solo como nota secundaria y rotulada “NO E2E / NO Android”.
+
+Como evidencia de seguridad puede mostrarse un segundo run BLOCK: si target ∈ protected_set, la política fuerza g=1. No evaluar ese run contra el umbral A_target≥6 dB porque la atenuación está deliberadamente bloqueada.
 
 Ideal: usar waveform/spectrogram real de la evidencia si NotebookLM lo puede tomar de las fuentes.
 
