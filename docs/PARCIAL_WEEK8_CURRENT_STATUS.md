@@ -21,6 +21,7 @@ El repositorio ya contiene un incremento funcional Edge-local reproducible. No s
 - M4 baseline IRM oracle: funcional como línea base controlada;
 - M6 evidencia: funcional con JSON, CSV, SQLite, checksums y validador;
 - M2 benchmark semántico: **evidencia real medida** sobre UrbanSound8K oficial; SVM seleccionado en validación; test Macro-F1=0.7257; RNF-03=0.85 **no cumplido por la baseline**;
+- latencia S8 en Acer Nitro 5: **medida** con 40 runs, p50=19.976 ms, p95=26.205 ms, media=20.725 ms (`whole_clip_processing_only`); RNF-05 final sigue pendiente;
 - TFLite/Honor X8c: pendiente;
 - streaming real por bloques: pendiente;
 - claims clínicos: prohibidos.
