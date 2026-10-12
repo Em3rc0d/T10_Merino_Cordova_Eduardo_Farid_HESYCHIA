@@ -29,12 +29,12 @@ El incremento PI8+ queda como **demo técnica reproducible y verificable**, no c
 
 ## Verificación automatizada actual
 
-Workflow de código exitoso: **38209183375**.
+Workflow final de código exitoso: **38209597684** (job **114680574511**).
 
 Evidencia observada en ese workflow:
 
 - Python 3.11.17;
-- **20 tests → OK**;
+- **22 tests → OK**;
 - sintaxis JavaScript → OK;
 - reproducción PI8 → OK;
 - validator de integridad → OK;
@@ -42,7 +42,8 @@ Evidencia observada en ese workflow:
 - 3 input assets ligados a SHA-256 real;
 - `docker compose config` → OK;
 - build de imagen Docker → OK;
-- health smoke test → `{"status":"ok","service":"hesychia-web"}`.
+- health smoke test → `{"status":"ok","service":"hesychia-web"}`;
+- job de latencia local etiquetado `whole_clip_processing_only` probado por CI.
 
 ## Qué demuestra hoy la demo
 
@@ -92,6 +93,8 @@ Es un **holdout basado en folds oficiales**, no validación cruzada de diez fold
 8. RAM/tamaño de modelo móvil.
 9. estabilidad de 10 minutos.
 10. validación final congelada.
+
+Además, la **latencia en el dispositivo objetivo Acer Nitro 5** sigue pendiente de ejecución por el tesista. El mecanismo ya existe en la UI/Docker, pero el valor de CI no debe presentarse como medición de la Acer.
 
 ## Regla de defensa
 
