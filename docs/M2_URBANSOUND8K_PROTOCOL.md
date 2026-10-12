@@ -43,7 +43,7 @@ fold 9     → validación / selección de candidato
 fold 10    → test final
 ```
 
-El código verifica además que `fsID` no cruce train/validation/test.
+El código **no reordena ni remezcla** los folds oficiales. La verificación bloqueante se realiza a nivel de ocurrencia etiquetada `(fsID, classID, occurrenceID)`, que es la unidad formada por los slices de una misma ocurrencia. El cruce de un `fsID` entre folds se registra como diagnóstico, no como motivo automático para alterar los folds oficiales.
 
 ## Representación baseline
 
@@ -138,7 +138,8 @@ El pipeline M2 se prueba automáticamente con un fixture de audio que conserva e
 
 - lectura de metadata;
 - construcción de paths;
-- no leakage por `fsID`;
+- integridad de folds a nivel de ocurrencia etiquetada `(fsID, classID, occurrenceID)`;
+- diagnóstico de `fsID` reutilizados entre folds;
 - extracción de features;
 - entrenamiento SVM/RF;
 - selección por validación;
@@ -166,3 +167,38 @@ Cada ejecución genera además:
 - versión de Python/NumPy/Pandas observada en el run.
 
 Esto identifica la evidencia producida sin convertir el fixture CI en evidencia científica del dataset real.
+
+
+## Hallazgo de integridad en la distribución oficial
+
+La copia descargada y verificada por checksum MD5 oficial `9AA69802BBF37FB986F71EC1483A196E` contiene 8,732 filas, 10 folds, 10 clases y cero audios faltantes.
+
+Se observaron cinco `fsID` presentes en más de un fold:
+
+```text
+77751  -> folds 2, 7
+106905 -> folds 1, 8
+132016 -> folds 1, 4
+176638 -> folds 1, 4
+180937 -> folds 1, 9
+```
+
+En estos casos, el mismo Freesound ID participa con **clases objetivo distintas**. El archivo oficial no se modifica ni se reagrupa para “corregir” este comportamiento, ya que la recomendación del dataset es conservar los folds predefinidos.
+
+La protección contra leakage del pipeline se define por la ocurrencia etiquetada:
+
+```text
+occurrence_key = (fsID, classID, occurrenceID)
+```
+
+Los distintos `sliceID` de una misma ocurrencia deben permanecer en un único fold. Si una misma `occurrence_key` aparece en dos particiones, el benchmark se bloquea.
+
+El cruce de `fsID` entre clases diferentes se conserva como **diagnóstico de la distribución**, no como criterio para remezclar los datos.
+
+## Nota sobre protocolo oficial y protocolo de tesis
+
+La documentación oficial de UrbanSound8K recomienda 10-fold cross-validation sobre los folds predefinidos para comparabilidad con la literatura. El protocolo PI7 de esta tesis permanece, por ahora, como holdout 1–8/9/10 para selección/test interno. Por ello:
+
+- no se llama “10-fold cross-validation” al resultado principal de PI7;
+- no se reclama comparabilidad directa con publicaciones que reportan el promedio de los 10 folds;
+- se recomienda incorporar posteriormente un benchmark secundario 10-fold para comparabilidad, sin alterar retrospectivamente RNF-03.
