@@ -20,9 +20,9 @@ Este repositorio está organizado para que la revisión del parcial pueda seguir
 
 ## M2 — estado verificable
 
-El módulo de benchmark semántico ya posee una implementación ejecutable: valida el contrato de UrbanSound8K, congela folds 1–8/9/10, verifica ausencia de leakage por fsID, extrae MFCC/log-Mel, entrena SVM y Random Forest, selecciona únicamente con validación y genera Macro-F1/Recall/Precision, matriz de confusión, predicciones y modelo serializado.
+El módulo de benchmark semántico valida UrbanSound8K, conserva folds 1–8/9/10, bloquea leakage a nivel de ocurrencia etiquetada `(fsID,classID,occurrenceID)`, extrae MFCC/log-Mel, entrena SVM y Random Forest, selecciona únicamente con validación y genera Macro-F1/Recall/Precision, matriz de confusión, predicciones y modelo serializado.
 
-El CI valida este pipeline con un fixture de audio que conserva el contrato de folds. **El fixture prueba software, no constituye resultado científico de UrbanSound8K.** El Macro-F1 real permanece pendiente hasta ejecutar la distribución completa.
+El CI valida el software con fixture, y además la distribución oficial completa ya fue ejecutada localmente. SVM RBF fue seleccionado en fold 9 y obtuvo Macro-F1=0.7257 en fold 10. RNF-03=0.85 **no fue cumplido por la baseline**. El resultado está documentado en `docs/M2_REAL_RESULT_2026-10-12.md`.
 
 Protocolo: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
 
