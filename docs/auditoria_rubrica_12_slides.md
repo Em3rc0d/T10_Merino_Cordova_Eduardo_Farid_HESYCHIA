@@ -17,3 +17,4 @@ La versión de exposición debe seguir este orden:
 
 ## Nota de evidencia Grupo B
 La evidencia construida válida hoy incluye M3b, M6, baseline M4, M2 software/fixture, repositorio y CI. El benchmark UrbanSound8K completo, M4 aprendido, streaming, TFLite y Honor X8c permanecen pendientes y no deben presentarse como realizados.
+\n\nNota Grupo B: pruebas funcionales e ISO/IEC 25010 están incluidas; SUS/TAM no se presenta como ejecutado y su aplicabilidad debe confirmarse con el asesor antes de convertirlo en obligación metodológica.
