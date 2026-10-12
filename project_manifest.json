@@ -42,6 +42,28 @@
         "TFLite export",
         "Honor X8c profile"
       ]
+    },
+    "m2_real": {
+      "status": "measured_baseline",
+      "run_id": "M2-US8K-BASELINE-001",
+      "dataset": "UrbanSound8K",
+      "rows": 8732,
+      "selected_model": "svm_rbf",
+      "validation_macro_f1": 0.7146288787040411,
+      "test_macro_f1": 0.7257233295971242,
+      "rnf03_target_macro_f1": 0.85,
+      "rnf03_met": false
+    },
+    "target_device_latency": {
+      "status": "measured_s8_scope",
+      "device_label": "Acer Nitro 5",
+      "runs": 40,
+      "seed": 42,
+      "p50_ms": 19.976,
+      "p95_ms": 26.205,
+      "mean_ms": 20.725,
+      "measurement_scope": "whole_clip_processing_only",
+      "rnf05_final_met": null
     }
   },
   "observed_reference_run": {
@@ -60,5 +82,5 @@
     "complete Android streaming",
     "Honor X8c measurement before physical profiling"
   ],
-  "next_gate": "Validate the full official UrbanSound8K distribution and execute/freeze the real M2 benchmark evidence; then proceed to the learned target-conditioned M4."
+  "next_gate": "Freeze latency evidence, update partial artifacts with real M2/Acer results, then develop the preplanned learned candidate without tuning on fold 10."
 }
