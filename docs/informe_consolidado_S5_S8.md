@@ -80,7 +80,7 @@ Correcciones clave:
 - M3a no participa en streaming;
 - M2 no cambia automáticamente el target;
 - Android queda en perfilado TFLite con tensores exportados;
-- streaming E2E completo se prueba en laptop.
+- el streaming E2E completo **se validará en laptop en una fase posterior**; PI8+ demuestra procesamiento local de clip y consola reproducible, no streaming final.
 
 ## 4. Diseño detallado
 
