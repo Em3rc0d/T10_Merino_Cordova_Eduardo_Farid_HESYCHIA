@@ -64,6 +64,8 @@ class EvidenceStore:
                 "checksum": checksum,
             }
 
+        experiment_id = f"EXP-{run_id}"
+
         with self.connect() as con:
             con.execute(
                 "INSERT OR IGNORE INTO dataset(id,name,version,license) VALUES(?,?,?,?)",
@@ -102,20 +104,17 @@ class EvidenceStore:
                 ),
             )
             con.execute(
-                """INSERT OR IGNORE INTO experiment
+                """INSERT INTO experiment
                 (id,scenario,config_json,created_at)
-                VALUES(?,?,?,datetime('now'))""",
+                VALUES(?,?,?,datetime('now'))
+                ON CONFLICT(id) DO UPDATE SET
+                  scenario=excluded.scenario,
+                  config_json=excluded.config_json""",
                 (
-                    "EXP-PI8-DEMO",
+                    experiment_id,
                     "attenuation",
                     json.dumps(config, sort_keys=True),
                 ),
-            )
-            con.execute(
-                """UPDATE experiment
-                SET config_json=?
-                WHERE id='EXP-PI8-DEMO'""",
-                (json.dumps(config, sort_keys=True),),
             )
             con.execute(
                 """INSERT INTO run
@@ -130,7 +129,7 @@ class EvidenceStore:
                   ended_at=datetime('now')""",
                 (
                     run_id,
-                    "EXP-PI8-DEMO",
+                    experiment_id,
                     "BASELINE-IRM-ORACLE",
                     "local_python_reference",
                     seed,
