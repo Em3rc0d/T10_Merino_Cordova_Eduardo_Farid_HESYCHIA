@@ -20,7 +20,7 @@ El repositorio ya contiene un incremento funcional Edge-local reproducible. No s
 - M3b política target/protected: funcional;
 - M4 baseline IRM oracle: funcional como línea base controlada;
 - M6 evidencia: funcional con JSON, CSV, SQLite, checksums y validador;
-- M2 benchmark semántico: pipeline implementado y probado con fixture; evidencia real de UrbanSound8K pendiente de descarga/ejecución completa;
+- M2 benchmark semántico: **evidencia real medida** sobre UrbanSound8K oficial; SVM seleccionado en validación; test Macro-F1=0.7257; RNF-03=0.85 **no cumplido por la baseline**;
 - TFLite/Honor X8c: pendiente;
 - streaming real por bloques: pendiente;
 - claims clínicos: prohibidos.
@@ -41,7 +41,7 @@ La última verificación CI pasada incluyó:
 
 El equipo local ya tiene dependencias instaladas, pero se detectó que el `.venv` usado inicialmente quedó en Python 3.14.2. Como el contrato CI usa Python 3.11.x y el equipo también tiene Python 3.11.9 disponible, el entorno local debe recrearse con `py -3.11` antes de ejecutar la evidencia científica real.
 
-UrbanSound8K está en descarga. La evidencia real de M2 solo se congela después de:
+UrbanSound8K ya fue descargado, validado y ejecutado. La evidencia real observada fue:
 
 ```powershell
 $DATASET = "C:\Users\eduar\Desktop\Farid\UrbanSound8K"
@@ -51,9 +51,9 @@ $DATASET = "C:\Users\eduar\Desktop\Farid\UrbanSound8K"
 
 ## Mensaje de defensa
 
-> Este parcial no presenta una tesis final terminada. Presenta un artefacto técnico que ya pasó de especificación a construcción verificable. El sistema actual demuestra la cadena DSP, la política de preservación, la reconstrucción, la trazabilidad y el expediente reproducible. El reconocimiento semántico M2 ya tiene pipeline ejecutable, pero sus resultados científicos reales se congelarán únicamente cuando se ejecute UrbanSound8K completo.
+> Este parcial no presenta una tesis final terminada. Presenta un artefacto técnico que ya pasó de especificación a construcción verificable. El sistema actual demuestra la cadena DSP, la política de preservación, la reconstrucción, la trazabilidad y el expediente reproducible. M2 ya cuenta con benchmark real sobre UrbanSound8K: la baseline SVM obtuvo Macro-F1=0.7257 en fold 10 y **no alcanzó** RNF-03=0.85; el umbral se conserva y el siguiente candidato debe desarrollarse sin tuning sobre el test.
 
 ## Riesgo principal de exposición
 
-No decir: “ya entrené IA con UrbanSound8K”.  
-Sí decir: “ya implementé el pipeline reproducible de benchmark; la ejecución real está preparada y depende de completar la descarga del dataset oficial”.
+No decir: “M2 ya cumple el requisito de desempeño”.  
+Sí decir: “ejecuté la baseline real sobre UrbanSound8K; SVM fue el mejor candidato clásico, obtuvo Macro-F1=0.7257 en test y no alcanzó el umbral 0.85. El resultado queda congelado como línea base y justifica avanzar al candidato aprendido ya previsto”.
