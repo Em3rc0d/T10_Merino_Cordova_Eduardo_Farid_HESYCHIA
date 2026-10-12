@@ -8,8 +8,8 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 
 | Evidencia exigida | Estado actual | Evidencia disponible | Acción pendiente antes del parcial |
 |---|---|---|---|
-| Dataset de audio y clases de estímulos | VALIDADO / BENCHMARK PENDIENTE | UrbanSound8K oficial descargado; MD5 oficial, 8,732 filas, 10 folds, 10 clases y 0 audios faltantes; guard de ocurrencia corregido | ejecutar benchmark real y congelar resultados |
-| Modelo base de clasificación/separación procesando audio | CUMPLE COMO BASELINE S8 | M2 SVM/RF ejecutable; M4 IRM oracle procesa mezcla y genera salida/audio/métricas | no presentar oracle como modelo aprendido final |
+| Dataset de audio y clases de estímulos | CUMPLE S8 | UrbanSound8K oficial validado: 8,732 clips, 10 folds, 10 clases, 0 faltantes, integridad de ocurrencias OK | evidencia real congelada |
+| Modelo base de clasificación/separación procesando audio | CUMPLE S8 | M2 real: SVM/RF sobre UrbanSound8K; SVM seleccionado; test Macro-F1=0.7257. M4 IRM oracle procesa mezcla y genera salida/audio/métricas | RNF-03 no cumplido por baseline; continuar candidato aprendido previsto |
 | Latencia medida en dispositivo objetivo | PENDIENTE DE EVIDENCIA LOCAL | job de medición `whole_clip_processing_only` y UI/Docker ya implementados | ejecutar 40 runs en Acer Nitro 5 y congelar `latency_summary.json` |
 
 ## Requisitos comunes de Grupo B
@@ -40,8 +40,7 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 
 ### No puede afirmarse todavía
 
-- Macro-F1 real de UrbanSound8K.
-- cumplimiento RNF-03.
+- cumplimiento RNF-03 por el modelo final; la baseline real quedó en Macro-F1=0.7257 y **NO CUMPLE**.
 - streaming real por bloques.
 - p95/hop o E2E final.
 - latencia de Acer Nitro 5 hasta ejecutar el job local.
@@ -51,8 +50,8 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 
 ## Gates previos al parcial
 
-1. volver a ejecutar el validador actualizado y confirmar `occurrence_fold_consistency_ok=true`.
-2. Ejecutar M2 real y congelar resultados.
-3. Ejecutar medición whole-clip en Acer Nitro 5.
-4. Grabar video de respaldo usando exactamente la misma imagen Docker.
-5. Actualizar NotebookLM/PPT únicamente con los números producidos por esos dos runs reales.
+1. Congelar/custodiar los artefactos locales del run M2 real.
+2. Ejecutar medición whole-clip en Acer Nitro 5.
+3. Grabar video de respaldo usando exactamente la misma imagen Docker.
+4. Actualizar la PPT con Macro-F1=0.7257 como baseline real y RNF-03 no cumplido, sin ocultarlo.
+5. No usar fold 10 para elegir cambios del siguiente candidato.
