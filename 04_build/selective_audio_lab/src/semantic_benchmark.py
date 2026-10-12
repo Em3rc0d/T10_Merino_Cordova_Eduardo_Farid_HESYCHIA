@@ -204,7 +204,15 @@ def run_benchmark(
         "split_counts": split_counts,
         "fold_counts": fold_counts,
         "metadata_sha256": manifest["source"]["metadata_sha256"],
-        "no_leakage_check": "passed",
+        "no_leakage_check": "labeled_occurrence_passed",
+        "dataset_integrity": {
+            "official_shape_ok": report.official_shape_ok,
+            "filename_metadata_consistency_ok": report.filename_metadata_consistency_ok,
+            "occurrence_fold_consistency_ok": report.occurrence_fold_consistency_ok,
+            "cross_fold_occurrence_count": report.cross_fold_occurrence_count,
+            "cross_fold_fsid_count_diagnostic": report.cross_fold_fsid_count,
+            "cross_fold_fsid_cross_class_only": report.cross_fold_fsid_cross_class_only,
+        },
         "feature_contract": {
             "sample_rate_hz": 16000,
             "duration_s": 4.0,
@@ -228,8 +236,10 @@ def run_benchmark(
         "protocol_note": (
             "The thesis uses a fixed holdout protocol: folds 1-8 train, 9 validation, "
             "10 final test. Results must not be presented as directly comparable to "
-            "published evaluations that use a different fold protocol such as 10-fold "
-            "cross-validation."
+            "published evaluations that use 10-fold cross-validation. Official folds "
+            "are preserved. Leakage blocking is performed at labeled-occurrence level "
+            "(fsID,classID,occurrenceID); cross-fold fsID reuse across different target "
+            "classes is retained as a dataset diagnostic rather than 'fixed' by reshuffling."
         ),
         "note": (
             "This is a semantic recognition baseline (M2). "
