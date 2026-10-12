@@ -102,7 +102,7 @@ Run ALLOW de referencia:
 Caso BLOCK disponible en la UI: al marcar el target como protegido, M3b fuerza g=1 y la atenuación objetivo se trata como no aplicable por diseño.
 
 CI final del incremento PI8+: **22 tests OK** (workflow 38209597684); checksums, SQLite, integridad cruzada, Docker Compose, build y health check validados.  
-Latencia de CI del clip completo es evidencia de reproducibilidad, no del dispositivo objetivo. **Acer Nitro 5: valor pendiente de ejecución local antes del parcial** mediante Edge readiness → Medir procesamiento local. Ese dato se rotula `whole_clip_processing_only` y no equivale a p95/hop, E2E ni Android.
+**Acer Nitro 5 · whole-clip medido:** p50=19.976 ms, p95=26.205 ms, media=20.725 ms en 40 runs. Rotular siempre `whole_clip_processing_only`: no equivale a p95/hop, E2E ni Android y no cierra RNF-05 final.
 
 ## 10. Matriz de trazabilidad
 OE → Requisito → Componente → Diseño → Evidencia construida.
