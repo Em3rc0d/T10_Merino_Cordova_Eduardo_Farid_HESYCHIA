@@ -69,3 +69,10 @@ python src/validate_artifacts.py --run-dir outputs/demo_run
 ```
 
 Los tests contractuales verifican finitud, rango de máscara/ganancia, reproducibilidad, criterios acústicos, precedencia de política y round-trip de evidencia SQLite.
+
+
+## Demo web / Docker
+
+La demo actual se levanta con `docker compose up --build` y sirve una consola en `http://localhost:8080`. La UI consume resultados reales de jobs/runs: no conserva los números ilustrativos del prototipo PI7. Las funciones aún pendientes (streaming, train-mask, export-tflite) responden 501 o permanecen deshabilitadas en lugar de simularse.
+
+La verificación CI más reciente del incremento web/Docker ejecutó 8 tests, validación de sintaxis JavaScript, reproducción PI8, build de la imagen y health smoke test del contenedor con resultado SUCCESS.
