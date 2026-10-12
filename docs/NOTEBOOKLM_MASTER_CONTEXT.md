@@ -372,7 +372,7 @@ Evidencias:
 - latency_summary.json
 
 CI más reciente del incremento modular:
-- Suite contractual CI OK. Si se cita un número exacto de tests, tomarlo únicamente del workflow exitoso más reciente.
+- Suite contractual CI final: **22 tests OK** en workflow `38209597684`. Docker Compose, build de imagen y health smoke test también OK.
 - instalación lockfile OK.
 - demo OK.
 - benchmark local del clip OK.
@@ -770,3 +770,34 @@ Genera una presentación académica de exactamente 12 diapositivas siguiendo el 
 Prioriza diagramas y tablas sobre párrafos. Mantén el texto oral fuera de la diapositiva. No inventes resultados, usuarios, encuestas, métricas, gráficos ni porcentajes diferentes de los especificados. Distingue visualmente IMPLEMENTADO / BASELINE / PENDIENTE.
 
 La presentación debe ser defendible ante un jurado técnico: cada claim debe corresponder a evidencia real o estar explícitamente marcado como objetivo/pending.
+
+
+## 17. LATENCIA EN DISPOSITIVO OBJETIVO — SLOT PENDIENTE DE EJECUCIÓN
+
+La rúbrica específica de T10 exige latencia medida en el dispositivo objetivo. El mecanismo ya está implementado en la consola Docker, pero **no insertar un número de la Acer Nitro 5 hasta que el tesista ejecute el job localmente**.
+
+Procedimiento:
+1. definir `HESYCHIA_DEVICE_LABEL=Acer Nitro 5`;
+2. levantar `docker compose up --build`;
+3. abrir **Edge readiness**;
+4. ejecutar **Medir procesamiento local** con 40 runs y seed 42;
+5. tomar p50/p95/media únicamente de `latency_summary.json`.
+
+Etiqueta obligatoria del dato: `whole_clip_processing_only`.
+
+En la PPT, mientras no exista ese archivo local, mostrar:
+
+**Acer Nitro 5 · latencia de clip completo: PENDIENTE DE EJECUCIÓN LOCAL**
+
+No reemplazarlo por la latencia de GitHub Actions. No compararlo directamente con el RNF `p95/hop ≤ 10 ms`.
+
+## 18. REGLA VISUAL FINAL DE DATOS
+
+- Tabla → requisitos, estados, riesgos, trazabilidad, comparaciones discretas.
+- Diagrama → arquitectura, secuencia, pipeline, decisión ALLOW/BLOCK.
+- KPI → una medición real individual.
+- Gráfica → solo una serie o comparación con datos efectivamente medidos.
+- Waveform/espectrograma → generado a partir del WAV del run presentado.
+- Placeholder PENDIENTE → cuando el experimento aún no se ejecutó.
+
+No fabricar barras de progreso, porcentajes de construcción ni valores Android/M2/latencia Acer.
