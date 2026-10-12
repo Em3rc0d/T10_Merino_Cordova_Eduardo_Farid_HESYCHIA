@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Regenerable build outputs
+04_build/selective_audio_lab/outputs/**/*.wav
+04_build/selective_audio_lab/outputs/**/*.npy
+04_build/selective_audio_lab/outputs/latency/
+_qa/
+
+# Local scratch
+*.tmp
