@@ -28,6 +28,9 @@ class DatasetContractReport:
     classes: tuple[str, ...]
     missing_audio: int
     official_shape_ok: bool
+    source_fold_consistency_ok: bool
+    cross_fold_fsid_count: int
+    cross_fold_fsid_sample: tuple[int, ...]
 
 def metadata_path(root: str | Path) -> Path:
     return Path(root) / "metadata" / "UrbanSound8K.csv"
@@ -50,6 +53,17 @@ def load_metadata(root: str | Path) -> pd.DataFrame:
     df["fold"] = df["fold"].astype(int)
     df["classID"] = df["classID"].astype(int)
     return df
+
+def source_fold_violations(df: pd.DataFrame) -> pd.DataFrame:
+    """Return fsIDs that appear in more than one official fold."""
+    grouped = (
+        df.assign(fsID=df["fsID"].astype(int), fold=df["fold"].astype(int))
+        .groupby("fsID")["fold"]
+        .agg(lambda s: tuple(sorted(set(int(x) for x in s))))
+    )
+    bad = grouped[grouped.map(len) > 1]
+    return bad.rename("folds").reset_index()
+
 
 def validate_contract(
     root: str | Path,
@@ -79,6 +93,9 @@ def validate_contract(
         if class_pairs != EXPECTED_CLASSES:
             raise ValueError("Class map does not match official UrbanSound8K")
 
+    violations = source_fold_violations(df)
+    source_fold_consistency_ok = violations.empty
+
     missing_audio = 0
     if verify_audio:
         for row in df.itertuples(index=False):
@@ -99,6 +116,11 @@ def validate_contract(
             and folds == EXPECTED_FOLDS
             and class_pairs == EXPECTED_CLASSES
         ),
+        source_fold_consistency_ok=source_fold_consistency_ok,
+        cross_fold_fsid_count=int(len(violations)),
+        cross_fold_fsid_sample=tuple(
+            int(x) for x in violations["fsID"].head(10).tolist()
+        ),
     )
 
 def split_metadata(df: pd.DataFrame):
@@ -110,14 +132,41 @@ def split_metadata(df: pd.DataFrame):
 def assert_no_leakage(train: pd.DataFrame, val: pd.DataFrame, test: pd.DataFrame):
     # fsID identifies the source Freesound recording. No source recording may
     # appear across these experiment partitions.
+    frames = {"train": train, "validation": val, "test": test}
     sets = {
-        "train": set(train["fsID"].astype(int)),
-        "val": set(val["fsID"].astype(int)),
-        "test": set(test["fsID"].astype(int)),
+        name: set(frame["fsID"].astype(int))
+        for name, frame in frames.items()
     }
-    if sets["train"] & sets["val"]:
-        raise ValueError("fsID leakage between train and validation")
-    if sets["train"] & sets["test"]:
-        raise ValueError("fsID leakage between train and test")
-    if sets["val"] & sets["test"]:
-        raise ValueError("fsID leakage between validation and test")
+    pairs = (
+        ("train", "validation"),
+        ("train", "test"),
+        ("validation", "test"),
+    )
+    failures = []
+    for left, right in pairs:
+        overlap = sorted(sets[left] & sets[right])
+        if overlap:
+            details = []
+            for fsid in overlap[:10]:
+                fold_rows = pd.concat(
+                    [
+                        frames[left].loc[
+                            frames[left]["fsID"].astype(int) == fsid,
+                            ["fold", "slice_file_name"],
+                        ],
+                        frames[right].loc[
+                            frames[right]["fsID"].astype(int) == fsid,
+                            ["fold", "slice_file_name"],
+                        ],
+                    ]
+                )
+                folds = sorted(set(int(x) for x in fold_rows["fold"]))
+                details.append(f"{fsid}:folds={folds}")
+            failures.append(
+                f"{left}<->{right}: count={len(overlap)}, sample=[{'; '.join(details)}]"
+            )
+    if failures:
+        raise ValueError(
+            "fsID leakage/source-fold inconsistency detected. "
+            + " | ".join(failures)
+        )
