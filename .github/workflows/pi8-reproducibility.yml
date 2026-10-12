@@ -30,13 +30,14 @@ jobs:
 
       - name: Contract tests
         working-directory: 04_build/selective_audio_lab
-        run: python test_demo.py
+        run: python -m unittest discover -p "test*.py"
 
       - name: Reproduce PI8 demo
         working-directory: 04_build/selective_audio_lab
         run: |
           python src/run_demo.py --out outputs/demo_run
           python src/latency_benchmark.py --out outputs/latency --runs 40
+          python src/validate_artifacts.py --run-dir outputs/demo_run
 
       - name: Upload reproducibility evidence
         uses: actions/upload-artifact@v4
