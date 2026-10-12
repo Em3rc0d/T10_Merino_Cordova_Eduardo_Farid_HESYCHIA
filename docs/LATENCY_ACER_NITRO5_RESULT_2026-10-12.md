@@ -6,7 +6,7 @@
 **Seed:** 42  
 **Scope:** `whole_clip_processing_only`
 
-## Resultado observado
+## Resultado observado — lote congelado A
 
 | Métrica | Valor |
 |---|---:|
@@ -16,7 +16,7 @@
 
 ## Interpretación
 
-Esta evidencia satisface la necesidad de S8 de mostrar una medición ejecutada en el dispositivo objetivo, pero su alcance está deliberadamente acotado.
+Este lote satisface la necesidad de S8 de mostrar una medición ejecutada en el dispositivo objetivo, pero no debe tratarse como una estimación definitiva de rendimiento. Los lotes repetidos deben agregarse y reportar también su variabilidad; no se debe seleccionar retrospectivamente el p95 más bajo.
 
 **Sí demuestra:**
 - ejecución local del pipeline controlado en la Acer Nitro 5;
@@ -41,3 +41,9 @@ Por tanto, no debe compararse `26.205 ms` directamente con el requisito `p95/hop
 
 - Evidencia de latencia en dispositivo objetivo para S8: **MEDIDA**.
 - RNF-05 final: **PARCIAL / PENDIENTE**.
+
+## Regla para lotes repetidos
+
+Si existen varias ejecuciones con la misma Acer Nitro 5, seed y número de repeticiones, conservar cada lote y generar una campaña agregada. La presentación debe priorizar la distribución combinada y el rango de p95 entre lotes, evitando cherry-picking.
+
+Utilidad: `src/freeze_latency_campaign.py`.
