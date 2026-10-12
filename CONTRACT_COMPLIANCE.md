@@ -22,7 +22,7 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | Evidencia reproducible | COMPLIANT | Run ID, JSON, CSV, SQLite, checksums, validator, tests y CI |
 | Dependencias congeladas | COMPLIANT | requirements-lock + CI usando lockfile |
 | RF-01/02 DSP | PARTIAL / ON PLAN | demo sintética implementa 16 kHz/STFT; integración completa con datasets reales pendiente |
-| RF-03 / M2 benchmark real | PENDING / ON PLAN | S9 |
+| RF-03 / M2 benchmark | IMPLEMENTED-SOFTWARE / REAL-EVIDENCE-PENDING | Validador UrbanSound8K + folds 1–8/9/10 + no-leakage + SVM/RF + métricas y artefactos; falta ejecutar distribución oficial completa |
 | RF-04 política | COMPLIANT | M3b ejecutable con ALLOW/BLOCK, precedencia protected y persistencia POLICY_DECISION |
 | RF-05 mezclas | COMPLIANT-BASELINE | stems sintéticos controlados + manifiesto/checksums |
 | RF-06 M4 máscara aprendida | PENDING / ON PLAN | PI8 usa IRM oracle explícitamente; estimador aprendido S9 |
@@ -31,7 +31,7 @@ En Semana 8, un elemento puede estar correctamente **PENDING** si el cronograma 
 | RF-09 expediente | COMPLIANT | evidence.sqlite + Run ID + métricas + artefactos + SHA-256 + validación cruzada |
 | RF-10 entrenamiento M4 | PENDING / ON PLAN | S9 |
 | RF-11 TFLite/paridad | PENDING / ON PLAN | S9–S10 |
-| RNF-03 Macro-F1 ≥0.85 | UNMEASURED / ON PLAN | no se inventa resultado antes del benchmark real |
+| RNF-03 Macro-F1 ≥0.85 | UNMEASURED-REAL / ON PLAN | pipeline de medición verificado; resultado científico queda pendiente hasta ejecutar UrbanSound8K completo |
 | RNF-04 selectividad acústica | COMPLIANT-BASELINE | baseline supera criterios en run sintético; no se extrapola al modelo final |
 | RNF-05 latencia final | PARTIAL / ON PLAN | CI/local mide procesamiento de clip; no se confunde con p95/hop, E2E o Android |
 | RNF-06 recursos Android | UNMEASURED / ON PLAN | Honor X8c no perfilado aún |
@@ -47,7 +47,7 @@ Los elementos faltantes están declarados como pendientes y corresponden a fases
 
 ## Gates que NO pueden omitirse
 
-1. Benchmark semántico real.
+1. Ejecutar el benchmark semántico sobre UrbanSound8K completo y congelar su evidencia.
 2. M4 aprendido.
 3. Integración con datasets reales y particiones congeladas.
 4. Streaming por bloques en laptop.
