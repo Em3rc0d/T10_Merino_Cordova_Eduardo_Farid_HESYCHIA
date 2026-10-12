@@ -81,6 +81,23 @@ M5 Runtime/orquestador
 
 **M3a no participa en streaming.** **M2 no modifica automáticamente el target** en v1.1; puede operar como benchmark o monitor asíncrono. Esta separación sigue la corrección consolidada PI6 → PI7.
 
+## M2 — benchmark semántico ejecutable
+
+El repositorio ya contiene un pipeline funcional para **UrbanSound8K**:
+
+- valida metadata, clases, folds y presencia de audio;
+- congela folds 1–8 para train, 9 para validación y 10 para test;
+- verifica ausencia de fuga por `fsID`;
+- extrae MFCC + log-Mel;
+- entrena baselines SVM RBF y Random Forest;
+- selecciona candidato solo con validación;
+- evalúa test una vez;
+- genera Macro-F1, Macro-Recall, Macro-Precision, Accuracy, matriz de confusión, predicciones y modelo serializado.
+
+El CI verifica el pipeline con un fixture controlado. **La evidencia científica real de M2 sigue pendiente de ejecutar la distribución completa oficial de UrbanSound8K**; no se sustituye por el fixture.
+
+Ver: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
+
 ## PI8 — incremento funcional
 
 El incremento inicial permite:
