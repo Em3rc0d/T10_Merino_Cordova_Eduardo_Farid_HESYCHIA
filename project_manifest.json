@@ -55,13 +55,18 @@
       "rnf03_met": false
     },
     "target_device_latency": {
-      "status": "measured_s8_scope",
+      "status": "measured_s8_campaign",
       "device_label": "Acer Nitro 5",
-      "runs": 40,
       "seed": 42,
-      "p50_ms": 19.976,
-      "p95_ms": 26.205,
-      "mean_ms": 20.725,
+      "batch_count": 2,
+      "runs_per_batch": 40,
+      "total_samples": 80,
+      "pooled_p50_ms": 20.023778999998854,
+      "pooled_p95_ms": 34.60660265000398,
+      "pooled_mean_ms": 22.68833928750098,
+      "batch_p95_min_ms": 26.20465239998424,
+      "batch_p95_max_ms": 41.50784759998769,
+      "batch_p95_range_ms": 15.30319520000345,
       "measurement_scope": "whole_clip_processing_only",
       "rnf05_final_met": null
     }
@@ -82,5 +87,5 @@
     "complete Android streaming",
     "Honor X8c measurement before physical profiling"
   ],
-  "next_gate": "Freeze latency evidence, update partial artifacts with real M2/Acer results, then develop the preplanned learned candidate without tuning on fold 10."
+  "next_gate": "Keep M2 and Acer evidence frozen; develop the preplanned learned candidate without tuning on fold 10, then implement blockwise streaming for final RNF-05 measurement."
 }
