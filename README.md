@@ -168,3 +168,10 @@ docker compose up --build
 ```
 
 Guía completa: `docs/DEMO_DOCKER.md`.
+
+
+### Resultado real M2 — 2026-10-12
+
+UrbanSound8K oficial completo fue validado y ejecutado con el protocolo 1–8/9/10. La baseline clásica seleccionó SVM RBF en fold 9 y obtuvo en fold 10 Macro-F1 **0.7257**, Macro-Recall **0.7170**, Macro-Precision **0.7426** y Accuracy **0.7145**. RNF-03 (`Macro-F1 >= 0.85`) **no fue cumplido por esta baseline**. El umbral se mantiene. Ver `docs/M2_REAL_RESULT_2026-10-12.md`.
+
+La Acer Nitro 5 también fue medida para S8 con 40 runs de procesamiento del clip completo: p50 **19.976 ms**, p95 **26.205 ms**, media **20.725 ms**, scope `whole_clip_processing_only`. Esto no equivale a p95/hop ni E2E final. Ver `docs/LATENCY_ACER_NITRO5_RESULT_2026-10-12.md`.
