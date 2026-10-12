@@ -202,3 +202,29 @@ La documentación oficial de UrbanSound8K recomienda 10-fold cross-validation so
 - no se llama “10-fold cross-validation” al resultado principal de PI7;
 - no se reclama comparabilidad directa con publicaciones que reportan el promedio de los 10 folds;
 - se recomienda incorporar posteriormente un benchmark secundario 10-fold para comparabilidad, sin alterar retrospectivamente RNF-03.
+
+## Resultado real congelado — 2026-10-12
+
+La distribución oficial completa fue validada y el benchmark se ejecutó con seed 42.
+
+Selección en fold 9:
+
+| Modelo | Macro-F1 | Macro-Recall | Macro-Precision | Accuracy |
+|---|---:|---:|---:|---:|
+| SVM RBF | **0.7146** | **0.7227** | 0.7163 | **0.6912** |
+| Random Forest | 0.6795 | 0.6813 | **0.7065** | 0.6691 |
+
+Modelo seleccionado: **SVM RBF**.
+
+Test fold 10:
+
+| Métrica | Valor |
+|---|---:|
+| Macro-F1 | **0.7257** |
+| Macro-Recall | 0.7170 |
+| Macro-Precision | 0.7426 |
+| Accuracy | 0.7145 |
+
+RNF-03: **NO CUMPLE** para esta baseline (`0.7257 < 0.85`).
+
+Este resultado queda congelado como baseline real. El umbral no se cambia y el fold 10 no debe usarse para seleccionar cambios posteriores. Detalle: `docs/M2_REAL_RESULT_2026-10-12.md`.
