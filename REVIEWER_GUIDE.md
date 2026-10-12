@@ -32,7 +32,7 @@ Protocolo: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
 2. La demo genera stems sintéticos, mezcla, máscara IRM baseline, audio procesado y métricas.
 3. En el run de referencia se observaron A_target≈11.99 dB, A_protected≈0.007 dB y SI-SDRi≈11.52 dB.
 4. El benchmark local del clip completo tuvo p50≈14.03 ms y p95≈15.70 ms en el entorno de desarrollo.
-5. Existe trazabilidad mediante JSON/CSV/SQLite/manifiesto/checksum y un validador que cruza filesystem, Run ID y base de evidencias.
+5. Existe trazabilidad mediante JSON/CSV/SQLite/manifiesto/checksum y un validador de **integridad cruzada** que exige coherencia entre filesystem, Run ID, política, métricas, configuración, artefactos SQLite y SHA-256 reales de los WAV de entrada.
 6. M3b ya ejecuta la regla de precedencia protected: si target ∈ protected_set, la decisión es BLOCK y g=1.
 
 ## Afirmaciones que NO hace el proyecto
@@ -76,3 +76,8 @@ Los tests contractuales verifican finitud, rango de máscara/ganancia, reproduci
 La demo actual se levanta con `docker compose up --build` y sirve una consola en `http://localhost:8080`. La UI consume resultados reales de jobs/runs: no conserva los números ilustrativos del prototipo PI7. Las funciones aún pendientes (streaming, train-mask, export-tflite) responden 501 o permanecen deshabilitadas en lugar de simularse.
 
 La verificación CI más reciente del incremento web/Docker ejecutó 8 tests, validación de sintaxis JavaScript, reproducción PI8, build de la imagen y health smoke test del contenedor con resultado SUCCESS.
+
+
+## Nota metodológica M2
+
+El protocolo de tesis usa holdout 1–8/9/10 (train/validation/test) sobre los folds oficiales. No se describe como validación cruzada de diez folds y sus resultados no deben compararse directamente con publicaciones que usen otro protocolo de agregación. `benchmark_manifest.json` conserva metadata SHA-256, conteos y hashes de artefactos del benchmark.
