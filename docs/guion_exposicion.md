@@ -33,7 +33,7 @@ Ejecutar o mostrar: tests → run_demo.py → demo_summary.json → evidence.sql
 Recorrer un ejemplo: OE2 → RF-04/06/07 → M3b/M4 → A4/A5/A6 → policy + mask + WAV. Indicar que TFLite aparece como pendiente, no como evidencia falsa.
 
 ## 11. Plan de validación — 1 min
-Semántica: UrbanSound8K y Macro-F1≥0.85. Acústica: A_target, A_protected, SI-SDRi. Compute: p95/hop, E2E, TFLite, RAM y tamaño. Cronograma S9–S15 hasta cierre. Si un umbral no se alcanza, se reporta; no se mueve post hoc.
+Semántica: UrbanSound8K y Macro-F1≥0.85. Acústica: A_target, A_protected, SI-SDRi. Compute: p95/hop, E2E, TFLite, RAM y tamaño. Como Grupo B, incluir pruebas funcionales e ISO/IEC 25010; SUS/TAM queda como aplicabilidad por confirmar con el asesor. Cronograma S9–S15 hasta cierre. Si un umbral no se alcanza, se reporta; no se mueve post hoc.
 
 ## 12. Riesgos y próximos pasos — 0.5 min
 Riesgos: sobreclaim, latencia ambigua y no alcanzar umbrales. Mitigaciones: SOURCE_OF_TRUTH, mediciones separadas y criterios congelados. Observaciones ya levantadas: M2/M4 separados, M3a/M3b, Android acotado, API jobs, trazabilidad de datos, UI honesta y no claims clínicos. Siguiente gate: UrbanSound8K real.
