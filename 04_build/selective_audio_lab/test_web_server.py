@@ -146,6 +146,38 @@ class WebConsoleTests(unittest.TestCase):
                 self.assertEqual(code, 400)
                 self.assertEqual(body["error"], "invalid_parameters")
 
+    def test_latency_job_returns_explicit_whole_clip_scope(self):
+        code, job = self.post_json(
+            "/api/jobs/latency",
+            {
+                "runs": 5,
+                "seed": 42,
+                "device_label": "CI host",
+            },
+        )
+        self.assertEqual(code, 202)
+        final = self.wait_job(job["jobId"])
+        self.assertEqual(final["status"], "completed", final.get("error"))
+        result = final["result"]
+        self.assertEqual(result["measurement_scope"], "whole_clip_processing_only")
+        self.assertEqual(result["device_label"], "CI host")
+        self.assertEqual(result["runs"], 5)
+        self.assertGreater(result["processing_p95_ms"], 0.0)
+        self.assertIn("No equivale a p95 por hop", result["note"])
+
+    def test_invalid_latency_parameters_are_rejected(self):
+        for payload in (
+            {"runs": 1},
+            {"runs": 201},
+            {"seed": -1},
+            {"device_label": 123},
+            {"device_label": "x" * 81},
+        ):
+            with self.subTest(payload=payload):
+                code, body = self.post_error("/api/jobs/latency", payload)
+                self.assertEqual(code, 400)
+                self.assertEqual(body["error"], "invalid_parameters")
+
     def test_benchmark_is_blocked_without_dataset(self):
         code, body = self.post_error("/api/jobs/benchmark", {"seed": 42})
         self.assertEqual(code, 409)
