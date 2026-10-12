@@ -108,12 +108,37 @@ class WebConsoleTests(unittest.TestCase):
             }),
             encoding="utf-8",
         )
+        campaign_dir = (
+            self.evidence_root
+            / "latency_campaigns"
+            / "LATENCY-CAMPAIGN-Acer_Nitro_5"
+        )
+        campaign_dir.mkdir(parents=True)
+        (campaign_dir / "latency_campaign_summary.json").write_text(
+            json.dumps({
+                "device_label": "Acer Nitro 5",
+                "seed": 42,
+                "runs_per_batch": 40,
+                "batch_count": 2,
+                "total_samples": 80,
+                "measurement_scope": "whole_clip_processing_only",
+                "pooled_p50_ms": 20.023779,
+                "pooled_p95_ms": 34.606603,
+                "pooled_mean_ms": 22.688339,
+                "batch_p95_min_ms": 26.204652,
+                "batch_p95_max_ms": 41.507848,
+                "batch_p95_mean_ms": 33.856250,
+                "batch_p95_range_ms": 15.303195,
+            }),
+            encoding="utf-8",
+        )
 
         _, status = self.get_json("/api/status")
         states = {x["id"]: x for x in status["modules"]}
         self.assertEqual(states["M2"]["state"], "measured_not_met")
         self.assertIn("0.7257", states["M2"]["evidence"])
-        self.assertIn("26.205", states["M5"]["evidence"])
+        self.assertIn("34.607", states["M5"]["evidence"])
+        self.assertIn("2 lotes / 80 muestras", states["M5"]["evidence"])
         self.assertFalse(
             any("full benchmark evidence" in x for x in status["pending"])
         )
@@ -121,6 +146,10 @@ class WebConsoleTests(unittest.TestCase):
         self.assertEqual(
             status["latency_evidence"]["device_label"],
             "Acer Nitro 5",
+        )
+        self.assertEqual(
+            status["latency_campaign_evidence"]["batch_count"],
+            2,
         )
 
     def test_allow_job_generates_real_evidence_and_integrity_passes(self):
