@@ -250,7 +250,7 @@ Android no depende de esta API para inferencia: TFLite local y profile.json como
 
 ## 6. M2 — benchmark UrbanSound8K
 
-Estado: software implementado y probado con fixture; **resultado científico real pendiente** hasta ejecutar la distribución completa.
+Estado: software implementado y probado con fixture; **distribución oficial ya descargada y validada estructuralmente; resultado científico real pendiente** hasta ejecutar el benchmark completo.
 
 Contrato:
 - 8,732 clips.
@@ -260,7 +260,7 @@ Contrato:
 - Train = folds 1–8.
 - Validación = fold 9.
 - Test final = fold 10.
-- Verificar que fsID no cruce particiones.
+- Mantener folds oficiales sin reshuffle. Bloquear leakage de la misma ocurrencia etiquetada `(fsID,classID,occurrenceID)` entre particiones. Reportar como diagnóstico los 5 `fsID` oficiales que aparecen en más de un fold para clases distintas.
 - 16 kHz mono.
 - n_fft = 512.
 - hop = 160.
