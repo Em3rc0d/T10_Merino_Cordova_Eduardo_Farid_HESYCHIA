@@ -8,7 +8,7 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 
 | Evidencia exigida | Estado actual | Evidencia disponible | Acción pendiente antes del parcial |
 |---|---|---|---|
-| Dataset de audio y clases de estímulos | PARCIAL | contrato UrbanSound8K, 10 clases, validador, pipeline M2 y fixture CI | terminar descarga, validar distribución oficial y ejecutar benchmark real |
+| Dataset de audio y clases de estímulos | VALIDADO / BENCHMARK PENDIENTE | UrbanSound8K oficial descargado; MD5 oficial, 8,732 filas, 10 folds, 10 clases y 0 audios faltantes; guard de ocurrencia corregido | ejecutar benchmark real y congelar resultados |
 | Modelo base de clasificación/separación procesando audio | CUMPLE COMO BASELINE S8 | M2 SVM/RF ejecutable; M4 IRM oracle procesa mezcla y genera salida/audio/métricas | no presentar oracle como modelo aprendido final |
 | Latencia medida en dispositivo objetivo | PENDIENTE DE EVIDENCIA LOCAL | job de medición `whole_clip_processing_only` y UI/Docker ya implementados | ejecutar 40 runs en Acer Nitro 5 y congelar `latency_summary.json` |
 
@@ -51,7 +51,7 @@ Este archivo separa **capacidad implementada** de **evidencia todavía pendiente
 
 ## Gates previos al parcial
 
-1. Extraer y validar UrbanSound8K oficial.
+1. volver a ejecutar el validador actualizado y confirmar `occurrence_fold_consistency_ok=true`.
 2. Ejecutar M2 real y congelar resultados.
 3. Ejecutar medición whole-clip en Acer Nitro 5.
 4. Grabar video de respaldo usando exactamente la misma imagen Docker.
