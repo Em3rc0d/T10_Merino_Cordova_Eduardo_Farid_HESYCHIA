@@ -1,7 +1,7 @@
 OE,Requirement,Component,Design,PI8 evidence,Status
 OE1,RF-01,M1,A1,"audio_core.py / 16 kHz STFT",partial
 OE1,RF-02,M1,A1,"audio_core.py / n_fft=512 hop=160",partial
-OE1,RF-03,M2,A2,"semantic_benchmark.py + official-fold validator + SVM/RF + CI fixture; full UrbanSound8K run pending",implemented-software / real-evidence-pending
+OE1,RF-03,M2,A2,"UrbanSound8K 8732 clips validated; SVM/RF real run; SVM selected; semantic_summary + confusion matrix + predictions + model hash",implemented / real-evidence-measured
 OE2,RF-04,M3b,A4,"policy.py + BLOCK/ALLOW tests + persisted policy_decision",implemented
 OE2,RF-05,M3a,A3,"synthetic stems + mixture + checksums",implemented
 OE2,RF-06,M4,A5-infer,"attenuation.py / oracle IRM baseline + bounded gain",implemented-baseline
@@ -10,7 +10,7 @@ OE3,RF-08,M5,A7,"web console + Docker demo + whole-clip latency job implemented;
 OE1-OE3,RF-09,M6,A9,"evidence.sqlite + Run ID + JSON/CSV + SHA-256 validator",implemented
 OE2,RF-10,M4,A5-train,"detailed design frozen; learned training pending",pending-S9
 OE3,RF-11,M5,A8,"TFLite contract frozen; physical profile pending",pending-S9/S10
-OE1,RNF-03,M2,A2,"Macro-F1/Recall/Precision/confusion matrix pipeline verified; full UrbanSound8K result not yet measured",real-evidence-pending
+OE1,RNF-03,M2,A2,"SVM RBF test fold10 Macro-F1=0.7257 vs target 0.85; baseline does not meet RNF-03",measured-not-met-baseline
 OE2,RNF-04,M4,A5/A6,"A_target/A_protected/SI-SDRi in demo_metrics.csv",implemented-baseline
 OE3,RNF-05,M5,A7,"whole-clip local processing measured; per-hop/E2E final pending",partial
 OE3,RNF-06,M5,A8,"TFLite model/RAM physical limits frozen; not measured",pending
