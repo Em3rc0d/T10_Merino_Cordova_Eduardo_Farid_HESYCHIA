@@ -53,6 +53,7 @@ ejecutar antes de Compose:
 
 ```powershell
 $env:URBANSOUND8K_HOST_PATH="C:\Users\eduar\Desktop\Farid\UrbanSound8K"
+$env:HESYCHIA_DEVICE_LABEL="Acer Nitro 5"
 docker compose up --build
 ```
 
@@ -75,8 +76,9 @@ La UI comprobará `metadata/UrbanSound8K.csv`, `audio/fold1` y `audio/fold10` an
 7. Reproducir `mixture.wav` y `output_selective.wav` desde la UI.
 8. Mostrar waveform y espectrograma generados a partir del mismo run.
 9. Abrir **Evidencias** y pulsar **Verificar** para comprobar JSON/SQLite/manifiesto/SHA-256.
-10. Si UrbanSound8K ya está montado y validado, abrir **Benchmark M2** y ejecutar/mostrar el resultado real.
-11. En **Edge readiness**, mostrar que streaming/TFLite/Honor X8c siguen pendientes si aún no fueron medidos.
+10. Abrir **Edge readiness** y ejecutar **Medir procesamiento local** en la laptop objetivo. Reportar el resultado únicamente como `whole_clip_processing_only`; no llamarlo p95/hop ni E2E.
+11. Si UrbanSound8K ya está montado y validado, abrir **Benchmark M2** y ejecutar/mostrar el resultado real.
+12. Mostrar que streaming/TFLite/Honor X8c siguen pendientes si aún no fueron medidos.
 
 ## Persistencia
 
@@ -118,3 +120,22 @@ docker compose run --rm hesychia python -m unittest discover -p "test*.py"
 El ejecutable ya no depende de que el jurado replique la configuración de Python del tesista: Python, dependencias y servidor quedan dentro de la imagen. El host aporta únicamente Docker, el dataset opcional y el puerto 8080.
 
 Esto reduce el problema de «en mi PC funcionaba», pero no elimina factores externos como arquitectura de CPU, recursos del host o permisos de Docker. Las métricas de rendimiento final deben seguir midiéndose en el dispositivo objetivo especificado.
+
+## Medición en la laptop objetivo
+
+Antes de levantar el contenedor en la Acer Nitro 5:
+
+```powershell
+$env:HESYCHIA_DEVICE_LABEL="Acer Nitro 5"
+docker compose up --build
+```
+
+En la UI: **Edge readiness → Medir procesamiento local**.
+
+El resultado contiene p50/p95/media para el procesamiento completo de un clip de 4 s y queda rotulado como:
+
+```text
+measurement_scope = whole_clip_processing_only
+```
+
+Esta medición es útil como evidencia S8 ejecutada en el dispositivo objetivo, pero no sustituye RNF-05 final: p95 por hop, latencia E2E de captura/salida, streaming ni Android.
