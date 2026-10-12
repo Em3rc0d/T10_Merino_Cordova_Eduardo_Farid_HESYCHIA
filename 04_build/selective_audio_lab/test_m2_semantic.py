@@ -75,6 +75,16 @@ class SemanticBenchmarkTests(unittest.TestCase):
             self.assertTrue((out / "confusion_matrix_test_fold10.csv").exists())
             self.assertTrue((out / "predictions_test_fold10.csv").exists())
             self.assertTrue(any(out.glob("*_selected.joblib")))
+            self.assertTrue((out / "benchmark_manifest.json").exists())
+            self.assertEqual(summary["split_counts"], {
+                "train": 16,
+                "validation": 2,
+                "test": 2,
+            })
+            self.assertEqual(set(summary["fold_counts"]), {str(i) for i in range(1, 11)})
+            self.assertEqual(len(summary["metadata_sha256"]), 64)
+            self.assertEqual(len(summary["selected_model_sha256"]), 64)
+            self.assertIn("fixed holdout protocol", summary["protocol_note"])
             self.assertGreaterEqual(summary["test"]["macro_f1"], 0.5)
 
 if __name__ == "__main__":
