@@ -102,7 +102,7 @@ Run ALLOW de referencia:
 Caso BLOCK disponible en la UI: al marcar el target como protegido, M3b fuerza g=1 y la atenuación objetivo se trata como no aplicable por diseño.
 
 CI final del incremento PI8+: **22 tests OK** (workflow 38209597684); checksums, SQLite, integridad cruzada, Docker Compose, build y health check validados.  
-**Acer Nitro 5 · whole-clip medido:** p50=19.976 ms, p95=26.205 ms, media=20.725 ms en 40 runs. Rotular siempre `whole_clip_processing_only`: no equivale a p95/hop, E2E ni Android y no cierra RNF-05 final.
+**Acer Nitro 5 · campaña whole-clip:** 2 lotes/80 muestras; pooled p50=20.024 ms, pooled p95=34.607 ms, media=22.688 ms; p95 por lote 26.205–41.508 ms. Rotular siempre `whole_clip_processing_only`: no equivale a p95/hop, E2E ni Android y no cierra RNF-05 final.
 
 ## 10. Matriz de trazabilidad
 OE → Requisito → Componente → Diseño → Evidencia construida.
@@ -137,4 +137,4 @@ Mitigación: SOURCE_OF_TRUTH, mediciones separadas y criterios congelados.
 
 Observaciones del asesor levantadas: M2 no gobierna M4; M3a/M3b separados; Android limitado a TFLite; jobs 202+jobId; RUN_ASSET/POLICY_DECISION; UI sin fake metrics; no claims clínicos.
 
-Siguiente gate inmediato: validar UrbanSound8K completo y ejecutar benchmark real M2.
+Siguiente gate inmediato: conservar M2 y latencia Acer congelados; desarrollar el candidato aprendido preespecificado sin tuning sobre fold 10 y después implementar streaming por bloques para RNF-05 final.
