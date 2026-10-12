@@ -1,6 +1,8 @@
 from __future__ import annotations
 import argparse
+import hashlib
 import json
+import platform
 import time
 from pathlib import Path
 
@@ -25,9 +27,18 @@ from urbansound8k import (
     assert_no_leakage,
     audio_path,
     load_metadata,
+    metadata_path,
     split_metadata,
     validate_contract,
 )
+
+def sha256_file(path: str | Path) -> str:
+    h = hashlib.sha256()
+    with Path(path).open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
 
 def feature_cache_key(row) -> str:
     return f"fold{int(row.fold)}__{row.slice_file_name}.npy"
@@ -135,10 +146,51 @@ def run_benchmark(
         "fold": 10,
     })
 
-    validation_df.to_csv(out / "validation_models.csv", index=False)
-    cm_df.to_csv(out / "confusion_matrix_test_fold10.csv")
-    predictions.to_csv(out / "predictions_test_fold10.csv", index=False)
-    joblib.dump(model, out / f"{selected}_selected.joblib")
+    validation_path = out / "validation_models.csv"
+    cm_path = out / "confusion_matrix_test_fold10.csv"
+    predictions_path = out / "predictions_test_fold10.csv"
+    model_path = out / f"{selected}_selected.joblib"
+
+    validation_df.to_csv(validation_path, index=False)
+    cm_df.to_csv(cm_path)
+    predictions.to_csv(predictions_path, index=False)
+    joblib.dump(model, model_path)
+
+    fold_counts = {
+        str(int(fold)): int(count)
+        for fold, count in df.groupby("fold").size().sort_index().items()
+    }
+    split_counts = {
+        "train": int(len(train_df)),
+        "validation": int(len(val_df)),
+        "test": int(len(test_df)),
+    }
+    metadata_file = metadata_path(root)
+    manifest = {
+        "source": {
+            "metadata_path": str(metadata_file),
+            "metadata_sha256": sha256_file(metadata_file),
+            "dataset_rows": int(report.rows),
+            "fold_counts": fold_counts,
+            "split_counts": split_counts,
+        },
+        "artifacts": [
+            {
+                "path": path.name,
+                "sha256": sha256_file(path),
+            }
+            for path in (
+                validation_path,
+                cm_path,
+                predictions_path,
+                model_path,
+            )
+        ],
+    }
+    (out / "benchmark_manifest.json").write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
 
     summary = {
         "run_id": "M2-US8K-BASELINE-001",
@@ -149,6 +201,9 @@ def run_benchmark(
             "validation": [9],
             "test": [10],
         },
+        "split_counts": split_counts,
+        "fold_counts": fold_counts,
+        "metadata_sha256": manifest["source"]["metadata_sha256"],
         "no_leakage_check": "passed",
         "feature_contract": {
             "sample_rate_hz": 16000,
@@ -163,6 +218,19 @@ def run_benchmark(
         "test": test_metrics,
         "rnf03_target_macro_f1": 0.85,
         "rnf03_met": bool(test_metrics["macro_f1"] >= 0.85),
+        "selected_model_sha256": sha256_file(model_path),
+        "benchmark_manifest": "benchmark_manifest.json",
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "pandas": pd.__version__,
+        },
+        "protocol_note": (
+            "The thesis uses a fixed holdout protocol: folds 1-8 train, 9 validation, "
+            "10 final test. Results must not be presented as directly comparable to "
+            "published evaluations that use a different fold protocol such as 10-fold "
+            "cross-validation."
+        ),
         "note": (
             "This is a semantic recognition baseline (M2). "
             "It does not localize time-frequency bins and does not control M4 automatically."
