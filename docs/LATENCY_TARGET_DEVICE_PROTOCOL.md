@@ -65,14 +65,19 @@ No comparar el p95 de clip completo con el umbral `p95/hop ≤ 10 ms`, porque la
 
 ## Resultado ejecutado — 2026-10-12
 
-La medición se ejecutó desde la consola Docker en la **Acer Nitro 5**, con 40 runs y seed 42:
+Se ejecutaron **dos lotes de 40 runs** en la Acer Nitro 5, seed 42, y se congeló una campaña agregada de **80 muestras**:
 
-| Métrica | Valor |
+| Métrica agregada | Valor |
 |---|---:|
-| p50 · clip completo | **19.976 ms** |
-| p95 · clip completo | **26.205 ms** |
-| media · clip completo | **20.725 ms** |
+| p50 pooled · clip completo | **20.024 ms** |
+| p95 pooled · clip completo | **34.607 ms** |
+| media pooled · clip completo | **22.688 ms** |
+| p95 mínimo entre lotes | **26.205 ms** |
+| p95 máximo entre lotes | **41.508 ms** |
+| rango p95 inter-lote | **15.303 ms** |
 
 Alcance: `whole_clip_processing_only`.
 
-Este dato ya puede usarse como evidencia S8 de medición en el dispositivo objetivo. **RNF-05 final sigue pendiente**, porque aún faltan p95/hop, E2E de captura/salida y streaming real.
+La campaña agregada es el resumen preferido para la PPT porque evita seleccionar el lote más favorable. **RNF-05 final sigue pendiente**, porque aún faltan p95/hop, E2E de captura/salida y streaming real.
+
+Ver `docs/LATENCY_CAMPAIGN_ACER_NITRO5_2026-10-12.md`.
