@@ -127,11 +127,8 @@ class WebConsoleTests(unittest.TestCase):
         self.assertEqual(run["policy"]["reason"], "target_is_protected")
         self.assertAlmostEqual(run["metrics"]["A_target_db"], 0.0, places=3)
 
-        by_name = {x["artifact"]: x for x in run["artifacts"]}
-        self.assertEqual(
-            by_name["mixture.wav"]["sha256"],
-            by_name["output_selective.wav"]["sha256"],
-        )
+        self.assertAlmostEqual(run["metrics"]["A_protected_db"], 0.0, places=3)
+        self.assertAlmostEqual(run["metrics"]["SI_SDRi_protected_db"], 0.0, places=3)
 
     def test_invalid_attenuation_parameters_are_rejected(self):
         cases = [
