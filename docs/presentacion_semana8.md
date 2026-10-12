@@ -37,7 +37,7 @@ Diagrama equivalente a C4 nivel 2 con dos caminos:
 OFFLINE: M1 → M2 / M3a → M3b → M4 → M6.  
 RUNTIME laptop: M5 orquesta M1 → M3b → M4 → M6.
 
-Stack objetivo: Python 3.11, NumPy/SciPy/librosa, scikit-learn, TensorFlow/Keras, SQLite, FastAPI/Streamlit, Kotlin/TFLite y Git. Los elementos aún no implementados se rotulan como previstos.
+Stack PI8+ implementado: Python 3.11, NumPy/SciPy/librosa, scikit-learn, SQLite, HTML/CSS/JavaScript, servidor HTTP Python, Docker/Docker Compose y Git. TensorFlow/Keras y Kotlin/TFLite se muestran como previstos para las fases siguientes.
 
 ## 5. S6 — Decisiones arquitectónicas
 1. Edge-first vs cloud obligatorio: latencia, privacidad, reproducibilidad, offline.
@@ -64,6 +64,7 @@ Rutas actualmente funcionales:
 - POST /api/jobs/benchmark → 202 {jobId}
 - GET /api/jobs/{id} → status/resultRef
 - GET /api/runs y /api/runs/{id} → evidencia
+- GET /api/runs/{id}/integrity → coherencia JSON/SQLite/manifiesto/SHA-256
 
 Contratos aún pendientes:
 - /api/jobs/train-mask
@@ -93,12 +94,14 @@ Repositorio mediante QR/enlace.
 ## 9. S8 — Demostración
 Flujo reproducido: stems → mezcla → STFT → IRM oracle → gain → iSTFT → métricas → SQLite.
 
-Run de referencia:
+Run ALLOW de referencia:
 - A_target ≈ 11.99 dB
 - A_protected ≈ 0.007 dB
 - SI-SDRi(protected) ≈ 11.52 dB
 
-CI: 6 tests contractuales OK; checksums y SQLite validados.  
+Caso BLOCK disponible en la UI: al marcar el target como protegido, M3b fuerza g=1 y la atenuación objetivo se trata como no aplicable por diseño.
+
+CI: suite contractual OK; checksums, SQLite e integridad cruzada validados. Si se menciona un número exacto de tests, usar el workflow exitoso más reciente.  
 Latencia CI del clip completo 4 s: p50≈12.52 ms, p95≈13.23 ms. No equivale a p95/hop, E2E ni Android.
 
 ## 10. Matriz de trazabilidad
