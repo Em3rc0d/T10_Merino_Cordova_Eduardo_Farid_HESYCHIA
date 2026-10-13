@@ -160,12 +160,17 @@ docker compose up --build
 
 Abrir `http://localhost:8080`.
 
-Para UrbanSound8K en Windows:
+Para montar UrbanSound8K use una variable de entorno con una ruta local absoluta o relativa:
 
-```powershell
-$env:URBANSOUND8K_HOST_PATH="C:\Users\eduar\Desktop\Farid\UrbanSound8K"
+```bash
+export URBANSOUND8K_HOST_PATH="/ruta/al/UrbanSound8K"
+export HESYCHIA_DEVICE_LABEL="laptop_objetivo"
 docker compose up --build
 ```
+
+En PowerShell el equivalente es `$env:URBANSOUND8K_HOST_PATH="C:\ruta\UrbanSound8K"`. En WSL use una ruta Linux, por ejemplo `/mnt/c/.../UrbanSound8K`.
+
+La distribución no se incluye en Git. Debe descargarse desde la fuente oficial de UrbanSound8K y conservar sus folds predefinidos.
 
 Guía completa: `docs/DEMO_DOCKER.md`.
 
@@ -175,3 +180,35 @@ Guía completa: `docs/DEMO_DOCKER.md`.
 UrbanSound8K oficial completo fue validado y ejecutado con el protocolo 1–8/9/10. La baseline clásica seleccionó SVM RBF en fold 9 y obtuvo en fold 10 Macro-F1 **0.7257**, Macro-Recall **0.7170**, Macro-Precision **0.7426** y Accuracy **0.7145**. RNF-03 (`Macro-F1 >= 0.85`) **no fue cumplido por esta baseline**. El umbral se mantiene. Ver `docs/M2_REAL_RESULT_2026-10-12.md`.
 
 La Acer Nitro 5 fue medida en **2 lotes / 80 muestras**. La campaña agregada obtuvo pooled p50 **20.024 ms**, pooled p95 **34.607 ms** y media **22.688 ms**; el p95 por lote varió entre **26.205 y 41.508 ms**. Scope `whole_clip_processing_only`: no equivale a p95/hop ni E2E final. Ver `docs/LATENCY_CAMPAIGN_ACER_NITRO5_2026-10-12.md`.
+
+## Evidencia adicional solicitada por revisión parcial
+
+Se incorporaron dos protocolos reproducibles para cerrar observaciones metodológicas:
+
+### M2 — benchmark secundario oficial de 10 folds
+
+```bash
+python src/semantic_benchmark_10fold.py \
+  --dataset-root /ruta/al/UrbanSound8K \
+  --out outputs/m2_10fold \
+  --seed 42
+```
+
+Reporta Macro-F1, Macro-Recall, Macro-Precision y Accuracy por fold, además de media, desviación estándar e IC95. Este benchmark es **secundario y de comparabilidad**; no sustituye retrospectivamente el resultado RNF-03 ya congelado con 1–8/9/10.
+
+### M4 — lote real de mezclas para techo oracle
+
+Requiere UrbanSound8K y un corpus de voz real, recomendado LibriSpeech:
+
+```bash
+python src/real_mixture_oracle_batch.py \
+  --dataset-root /ruta/al/UrbanSound8K \
+  --speech-root /ruta/a/LibriSpeech \
+  --out outputs/m4_real_mixture_oracle_batch \
+  --n 100 \
+  --target-snrs=-5,0,5,10 \
+  --caps=12,18,24,30 \
+  --seed 42
+```
+
+Este experimento usa sirenas reales, voz real y fondos reales, y produce media, desviación estándar e IC95. Continúa siendo un **techo oracle basado en stems**, no desempeño del M4 aprendido.
