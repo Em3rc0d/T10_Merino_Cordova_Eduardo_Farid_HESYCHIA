@@ -32,14 +32,23 @@ def mean_sd_ci95(values: list[float]) -> dict:
     }
 
 
-def run_cv(dataset_root: str | Path, out_dir: str | Path, seed: int = 42):
+def run_cv(
+    dataset_root: str | Path,
+    out_dir: str | Path,
+    seed: int = 42,
+    cache_dir: str | Path | None = None,
+):
     root = Path(dataset_root)
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     validate_contract(root, require_official_shape=True, verify_audio=True)
     df = load_metadata(root)
 
-    cache = out / f"feature_cache_v2_sr16000_{RESAMPLE_TYPE}"
+    cache = (
+        Path(cache_dir)
+        if cache_dir is not None
+        else out / f"feature_cache_v2_sr16000_{RESAMPLE_TYPE}"
+    )
     all_x, all_y, all_files, all_folds = [], [], [], []
     for fold in range(1, 11):
         frame = df[df["fold"] == fold].copy()
@@ -119,8 +128,22 @@ def main():
     ap.add_argument("--dataset-root", required=True)
     ap.add_argument("--out", default="outputs/m2_10fold")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument(
+        "--cache-dir",
+        default=None,
+        help=(
+            "Optional existing feature cache. Reuse "
+            "outputs/m2_urbansound8k/feature_cache_v2_sr16000_soxr_hq "
+            "to avoid re-extracting all 8,732 clips."
+        ),
+    )
     args = ap.parse_args()
-    run_cv(args.dataset_root, args.out, seed=args.seed)
+    run_cv(
+        args.dataset_root,
+        args.out,
+        seed=args.seed,
+        cache_dir=args.cache_dir,
+    )
 
 
 if __name__ == "__main__":
