@@ -191,6 +191,7 @@ Se incorporaron dos protocolos reproducibles para cerrar observaciones metodoló
 python src/semantic_benchmark_10fold.py \
   --dataset-root /ruta/al/UrbanSound8K \
   --out outputs/m2_10fold \
+  --cache-dir outputs/m2_urbansound8k/feature_cache_v2_sr16000_soxr_hq \
   --seed 42
 ```
 
