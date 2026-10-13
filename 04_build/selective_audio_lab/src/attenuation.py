@@ -48,6 +48,7 @@ def apply_selective_attenuation(
             10 * np.log10((np.sum(p**2) + EPS) / (np.sum(p_out**2) + EPS))
         ),
         "SI_SDRi_protected_db": float(si_sdr(output, p) - si_sdr(mixture, p)),
+        "SI_SDRi_target_db": float(si_sdr(output, tg) - si_sdr(mixture, tg)),
         "mask_mean": float(np.mean(irm)),
         "mask_max": float(np.max(irm)),
         "gain_min": float(np.min(gain)),
