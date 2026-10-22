@@ -25,7 +25,7 @@ Se preparó un paquete local `HESYCHIA_M4_CORPUS_BATCH_AUTOMATION_2026-10-22.zip
 - `04_build/selective_audio_lab/test_m4_public_corpus_bootstrap.py`: **8/8 pruebas locales con fixtures PASS**. No son resultados de entrenamiento o audio real.
 - `docs/M4_CORPUS_BATCH_EXPANSION_2026-10-22.md`: instrucciones y límites.
 
-**Importante:** este paquete está preparado por separado y **no está aún integrado como código de este commit**. No ejecutar comandos que presuman esa ruta hasta instalarla o integrarla explícitamente.
+**Actualización posterior:** el código, las ocho pruebas y la guía de operación están incorporados directamente en `main` mediante el siguiente commit de M4. No se han descargado archivos acústicos.
 
 ## Gates y amenazas
 
