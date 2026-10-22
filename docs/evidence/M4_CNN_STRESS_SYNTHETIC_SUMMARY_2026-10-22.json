@@ -1,0 +1,83 @@
+{
+  "id": "M4-CNN-STRESS-SYNTH-2026-10-22",
+  "kind": "synthetic_engineering_only",
+  "model": "Keras causal CNN 236833 params",
+  "backend": "Keras 3.13.2/PyTorch 2.10.0 CPU",
+  "split": {
+    "train": 768,
+    "val": 192,
+    "test_id": 160,
+    "test_ood": 160,
+    "seeds": [
+      42,
+      1042,
+      2042,
+      3042
+    ]
+  },
+  "training": {
+    "epochs": 30,
+    "batch": 16,
+    "lr": 0.001,
+    "loss": "MSE mask (not PI7 L0)",
+    "before": 0.23063254356384277,
+    "after": 0.0024712353479117155,
+    "val": 0.0026107674930244684,
+    "wall_s": 23.8938862039995
+  },
+  "outcomes": [
+    {
+      "case": "ID",
+      "n_present": 120,
+      "cnn_both": 120,
+      "oracle_both": 120,
+      "at": 11.933747706134083,
+      "ap": 0.06600733454989786
+    },
+    {
+      "case": "OOD_interference",
+      "n_present": 40,
+      "cnn_both": 4,
+      "oracle_both": 40,
+      "at": 3.716106615889359,
+      "ap": 0.03972486562063603
+    },
+    {
+      "case": "OOD_novel_frequency",
+      "n_present": 40,
+      "cnn_both": 0,
+      "oracle_both": 40,
+      "at": 0.03981980621592858,
+      "ap": 0.18527443745155156
+    },
+    {
+      "case": "OOD_overlap",
+      "n_present": 40,
+      "cnn_both": 1,
+      "oracle_both": 39,
+      "at": 5.040709664144481,
+      "ap": 3.100867051579327
+    }
+  ],
+  "target_absent": {
+    "n": 80,
+    "ap_mean_db_approx": 0.0005
+  },
+  "diagnostic": {
+    "n": 500,
+    "inference_32frame_window_p50_ms": 4.5573954994324595,
+    "p95_ms": 5.627291599785167,
+    "p99_ms": 7.23479674015834,
+    "max_ms": 250.00926399934542,
+    "over_10ms": 4,
+    "cnn_causal_prefix_max_delta": 0,
+    "weights_sha256": "760d6eedb2531cd4b5663f4e418bd03d3ba931d6dfed4a00974e13e1965a6beb"
+  },
+  "limitations": [
+    "synthetic only",
+    "MSE not PI7 L0",
+    "not actual hop/E2E",
+    "not real source separation",
+    "not unseen test after intervention"
+  ]
+}
