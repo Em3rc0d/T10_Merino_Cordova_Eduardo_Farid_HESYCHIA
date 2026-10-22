@@ -1,0 +1,71 @@
+{
+  "experiment": "M4-RETRAIN-SYNTH-2026-10-22",
+  "status": "synthetic_engineering_experiment_not_scientific_claim",
+  "model": "Keras CNN causal same 236833 params",
+  "origin_checkpoint_sha256": "760d6eedb2531cd4b5663f4e418bd03d3ba931d6dfed4a00974e13e1965a6beb",
+  "new_checkpoint_sha256": "20e11a860a8953300b98e232054fb21cf7c7eb6705008d6d49ce9618e8de0c10",
+  "training": {
+    "n": 4000,
+    "validation_n": 1000,
+    "epochs": 25,
+    "lr": 0.0005,
+    "batch": 32,
+    "loss": "mask MSE + 0.08 speech spectral penalty; NOT PI7 L0",
+    "val_start": 0.03426256403326988,
+    "val_final": 0.0041629900224506855,
+    "train_wall_s": 83.23693852500037,
+    "device": "shared sandbox CPU"
+  },
+  "compared_set": {
+    "n": 600,
+    "target_present": 500,
+    "target_absent": 100,
+    "success_before": 131,
+    "success_after": 354,
+    "error_before": 0.738,
+    "error_after": 0.292,
+    "success_gains": 224,
+    "success_regressions": 1,
+    "criterion": "A_target>=6 dB and A_protected<=1 dB"
+  },
+  "cases": [
+    {
+      "name": "id",
+      "n": 100,
+      "old": 100,
+      "new": 100
+    },
+    {
+      "name": "interference",
+      "n": 100,
+      "old": 30,
+      "new": 97
+    },
+    {
+      "name": "novel_frequency",
+      "n": 100,
+      "old": 0,
+      "new": 95
+    },
+    {
+      "name": "overlap",
+      "n": 100,
+      "old": 1,
+      "new": 62
+    },
+    {
+      "name": "new_fm_siren_untrained",
+      "n": 100,
+      "old": 0,
+      "new": 0
+    },
+    {
+      "name": "absent",
+      "n": 100,
+      "old": null,
+      "new": null
+    }
+  ],
+  "warning": "Previous difficult generator families were observed and added to new train; novel FM set failed 0/100. Results do not establish real-world acoustic generalization.",
+  "artifact_source": "HESYCHIA_M4_CNN_retraining_2026-10-22.zip (conversation file; not stored on GitHub)"
+}
