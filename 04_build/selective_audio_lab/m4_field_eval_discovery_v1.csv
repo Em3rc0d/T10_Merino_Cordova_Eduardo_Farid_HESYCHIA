@@ -1,0 +1,5 @@
+candidate_id,origin_uri,license_observed,recording_kind,target_purity,possible_use,manual_review_status
+FS_716552,https://freesound.org/people/AudioPapkin/sounds/716552/,CC0-1.0,field_recording_ambulance_traffic,MIXED_NOT_ISOLATED,qualitative_external_scene,PENDING
+FS_834507,https://freesound.org/people/RutgerMuller/sounds/834507/,CC0-1.0,field_recording_distant_emergency_siren,MIXED_NOT_ISOLATED,qualitative_external_scene,PENDING
+FS_834502,https://freesound.org/people/RutgerMuller/sounds/834502/,CC0-1.0,field_recording_city_traffic_siren,MIXED_NOT_ISOLATED,qualitative_external_scene,PENDING
+FS_329774,https://freesound.org/people/paulmessier/sounds/329774/,CC0-1.0,field_recording_traffic_siren_voices,MIXED_NOT_ISOLATED,qualitative_external_scene,PENDING
