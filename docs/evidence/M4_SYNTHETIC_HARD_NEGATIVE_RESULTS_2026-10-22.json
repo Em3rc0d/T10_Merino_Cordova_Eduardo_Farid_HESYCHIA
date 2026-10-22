@@ -1,0 +1,313 @@
+{
+  "schema_version": "hesychia.m4.synthetic_robustness.v1",
+  "scope": "SYNTHETIC_ENGINEERING_ONLY_NOT_REAL_AUDIO_NOT_THESIS_EVIDENCE",
+  "trained_families": [
+    "id",
+    "novel_frequency",
+    "overlap",
+    "interference",
+    "fm_target",
+    "pulse_target",
+    "absent",
+    "negative_car_alarm",
+    "negative_reverse_beeper",
+    "negative_whistle",
+    "negative_music_sweep"
+  ],
+  "evaluation_families": [
+    "id",
+    "interference",
+    "overlap",
+    "fm_target",
+    "pulse_target",
+    "negative_car_alarm",
+    "negative_reverse_beeper",
+    "negative_whistle",
+    "ood_dual_target",
+    "ood_irregular_pulse_target",
+    "ood_confuser_cluster"
+  ],
+  "previous_checkpoint_sha256": "20e11a860a8953300b98e232054fb21cf7c7eb6705008d6d49ce9618e8de0c10",
+  "new_checkpoint_sha256": "290f9b50b6c718238abc22860ed96e04841a9458cac0cbcfe7c2eee2a413edb6",
+  "train": 1650,
+  "val": 330,
+  "test_n": 275,
+  "test_per_family": 25,
+  "seed": 42,
+  "epochs_completed": 12,
+  "batch_size": 32,
+  "lr": 0.0004,
+  "training_wall_seconds": 16.937309228998856,
+  "loss": "MSE mask + 0.08 spectral protected surrogate (NOT PI7 L0)",
+  "architecture": "UNCHANGED 3xConv1D 128 d1/2/4, Embedding16, mask257",
+  "model_params": 236833,
+  "old": {
+    "n_positive": 175,
+    "joint_ok": 71,
+    "joint_rate": 0.4057142857142857,
+    "n_negative": 100,
+    "negative_mask_mean": 0.1054872973728925,
+    "negative_protected_violation_n": 0
+  },
+  "new": {
+    "n_positive": 175,
+    "joint_ok": 107,
+    "joint_rate": 0.6114285714285714,
+    "n_negative": 100,
+    "negative_mask_mean": 0.022993079979205504,
+    "negative_protected_violation_n": 0
+  },
+  "old_by_family": {
+    "fm_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 1,
+      "joint_rate": 0.04,
+      "protected_loss_mean_db": 0.156779291138022,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "id": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 25,
+      "joint_rate": 1.0,
+      "protected_loss_mean_db": 0.06324965628662207,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "interference": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 23,
+      "joint_rate": 0.92,
+      "protected_loss_mean_db": 0.034814621511981246,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "negative_car_alarm": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.2200033676655994,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.05386708591133356,
+      "negative_protected_loss_mean_db": 0.2200033676655994
+    },
+    "negative_reverse_beeper": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.1319233640011241,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.07112694293260574,
+      "negative_protected_loss_mean_db": 0.1319233640011241
+    },
+    "negative_whistle": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.13316700518219748,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.055866921097040174,
+      "negative_protected_loss_mean_db": 0.13316700518219748
+    },
+    "ood_confuser_cluster": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.19718391519068137,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.24108823955059053,
+      "negative_protected_loss_mean_db": 0.19718391519068137
+    },
+    "ood_dual_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 0,
+      "joint_rate": 0.0,
+      "protected_loss_mean_db": 0.17497956138720508,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "ood_irregular_pulse_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 0,
+      "joint_rate": 0.0,
+      "protected_loss_mean_db": 0.11139827456228135,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "overlap": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 21,
+      "joint_rate": 0.84,
+      "protected_loss_mean_db": 0.16341098565547374,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "pulse_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 1,
+      "joint_rate": 0.04,
+      "protected_loss_mean_db": 0.05624449820719932,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    }
+  },
+  "new_by_family": {
+    "fm_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 11,
+      "joint_rate": 0.44,
+      "protected_loss_mean_db": 0.16332661846682314,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "id": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 25,
+      "joint_rate": 1.0,
+      "protected_loss_mean_db": 0.0877331631899229,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "interference": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 22,
+      "joint_rate": 0.88,
+      "protected_loss_mean_db": 0.02881766030880098,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "negative_car_alarm": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.009602857666345454,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.001997370554599911,
+      "negative_protected_loss_mean_db": 0.009602857666345454
+    },
+    "negative_reverse_beeper": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.017333968684502342,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.008563810996711253,
+      "negative_protected_loss_mean_db": 0.017333968684502342
+    },
+    "negative_whistle": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.014372689002744405,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.00683433328056708,
+      "negative_protected_loss_mean_db": 0.014372689002744405
+    },
+    "ood_confuser_cluster": {
+      "n": 25,
+      "positive_n": 0,
+      "negative_n": 25,
+      "joint_ok": 0,
+      "joint_rate": null,
+      "protected_loss_mean_db": 0.02758748670752552,
+      "protected_violation_n": 0,
+      "negative_mask_mean": 0.07457680508494377,
+      "negative_protected_loss_mean_db": 0.02758748670752552
+    },
+    "ood_dual_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 0,
+      "joint_rate": 0.0,
+      "protected_loss_mean_db": 0.23937298154566214,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "ood_irregular_pulse_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 15,
+      "joint_rate": 0.6,
+      "protected_loss_mean_db": 0.15426653006539917,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "overlap": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 21,
+      "joint_rate": 0.84,
+      "protected_loss_mean_db": 0.26911751297811326,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    },
+    "pulse_target": {
+      "n": 25,
+      "positive_n": 25,
+      "negative_n": 0,
+      "joint_ok": 13,
+      "joint_rate": 0.52,
+      "protected_loss_mean_db": 0.1298396584845397,
+      "protected_violation_n": 0,
+      "negative_mask_mean": null,
+      "negative_protected_loss_mean_db": null
+    }
+  },
+  "warnings": [
+    "Synthetic procedural signals, not sirens or human speech",
+    "Previous FM failure already observed and drove training; no blind generalization claim",
+    "Evaluation OOD generator is a procedural diagnostic, not untouched acoustic field holdout",
+    "Centered offline STFT, NOT a causal streaming frontend",
+    "No clinical validation, Android TFLite, real deployment latency or software model certification"
+  ]
+}
