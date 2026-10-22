@@ -213,3 +213,20 @@ python src/real_mixture_oracle_batch.py \
 ```
 
 Este experimento usa sirenas reales, voz real y fondos reales, y produce media, desviación estándar e IC95. Continúa siendo un **techo oracle basado en stems**, no desempeño del M4 aprendido.
+
+
+## Continuación posterior a la exposición del 20 de octubre de 2026
+
+Se registra la retroalimentación y se mantiene intacto el test M2 0.7257 y el benchmark whole-clip de Acer 34.607 ms. El lote acústico Oracle dispone ahora de una auditoría por mezcla (solo si existe el CSV real; no se generan números ficticios). **M4 aprendido, streaming, E2E, TFLite y pruebas físicas Honor siguen abiertos.**
+
+- [Acta de retroalimentación](docs/RETROALIMENTACION_EXPOSICION_2026-10-20.md)
+- [Protocolo experimental S9–S13](docs/PROTOCOLO_POST_PARCIAL_S9_S13.md)
+- [Auditoría acústica por mezcla](docs/M4_METRICS_AUDIT.md)
+- [Contrato de latencia](docs/LATENCY_BUDGET_S9.md)
+- [Registro de procedencia de evidencia](docs/EVIDENCE_PROVENANCE_REGISTER.md)
+
+Ejemplo, desde `04_build/selective_audio_lab` y **solo con los artefactos reales disponibles**:
+
+```bash
+python src/m4_oracle_audit.py --input outputs/m4_real_mixture_oracle_batch/real_mixture_runs.csv --out outputs/m4_oracle_audit
+```
