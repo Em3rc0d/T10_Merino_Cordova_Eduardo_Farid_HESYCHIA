@@ -1,0 +1,39 @@
+{
+  "schema_version": "hesychia.m4-tonal-screen.v1",
+  "file_sha256": "bdf08584d0db2b8735861fbe08978026d107a36870044715ffc968162431f3ff",
+  "sample_rate_hz": 16000,
+  "channels": 1,
+  "subtype": "PCM_16",
+  "duration_s": 11.24,
+  "rms": 0.100342779,
+  "peak_abs": 0.566467285,
+  "fraction_near_clip": 0,
+  "stft": {
+    "n_fft": 1024,
+    "hop": 256,
+    "window": "scipy_default_hann",
+    "boundary": null,
+    "active_rule": "spectral_energy_gt_3pct_max",
+    "active_frames": 391,
+    "total_frames": 700,
+    "active_interval_s": [
+      1.04,
+      7.44
+    ],
+    "median_spectral_flatness_active": 0.0042335,
+    "dominant_frequency_hz_5_50_95": [
+      1078.12,
+      1671.88,
+      2515.62
+    ]
+  },
+  "human_acoustic_review": "NOT_PERFORMED_BY_THIS_SCRIPT",
+  "acoustic_isolation_certification": "NOT_DETERMINED",
+  "corpus_admission": "NOT_ADMITTED",
+  "limitations": [
+    "Spectral flatness and visible harmonics cannot prove source isolation.",
+    "No voice/music/traffic classifier is run.",
+    "Input may be transcoded from a lossy preview.",
+    "This script does not verify external licensing or authenticate a recording origin."
+  ]
+}
