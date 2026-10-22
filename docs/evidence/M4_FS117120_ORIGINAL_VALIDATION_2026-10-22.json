@@ -1,0 +1,82 @@
+{
+  "schema_version": "hesychia.m4-original-validation.v1",
+  "date": "2026-10-22",
+  "candidate_id": "FS_117120",
+  "source_page": "https://freesound.org/people/UncleSigmund/sounds/117120/",
+  "creator": "UncleSigmund",
+  "title": "siren_med.wav",
+  "source_category": "Sound effects > Electronic / Design",
+  "rights": {
+    "publisher_page_license": "CC BY 4.0",
+    "license_uri": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required": true,
+    "formal_dataset_license_review": "PENDING"
+  },
+  "original_upload": {
+    "source_filename_reported": "117120__unclesigmund__siren_med.wav",
+    "sha256": "e2cd9938f6b253cddd1e5ade5cd80eadbbc8a64a54606db840181e83ed994362",
+    "bytes": 1982780,
+    "format": "WAV PCM16",
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "duration_s": 11.24,
+    "user_windows_sha256_matched": true,
+    "publisher_signed_hash_available": false
+  },
+  "converted": {
+    "windows_ffmpeg_9_0_2_sha256_user_reported": "ff152606a8296f580febd0948e926bed6cb2f6330bf72890c096360624b180bb",
+    "local_ffmpeg_7_1_5_sha256": "98e46dbe8aa07b8225f230d1c514cd70da0ec0c9f1c396694f71417b8be40450",
+    "format": "WAV PCM16",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "duration_s": 11.24,
+    "rms": 0.10346306697630853,
+    "peak": 0.584228515625,
+    "fraction_near_clip": 0,
+    "warnings": []
+  },
+  "preview_derived_wav": {
+    "sha256": "bdf08584d0db2b8735861fbe08978026d107a36870044715ffc968162431f3ff",
+    "rms": 0.10034277939186707,
+    "peak": 0.56646728515625
+  },
+  "signal_comparison": {
+    "lag_samples": 0,
+    "lag_ms": 0,
+    "pearson_r": 0.9999633667718955,
+    "fitted_gain_original_over_preview": 1.0310585118050253,
+    "signal_error_ratio_db": 41.35102767052288,
+    "original_channel_correlation": 0.9999997588686083,
+    "method": "FFmpeg mono 16 kHz, FFT cross-correlation, amplitude-scaled residual energy"
+  },
+  "spectral_screen": {
+    "method": "Hann STFT nfft 1024 hop 256; >3% max frame energy",
+    "active_frames": 391,
+    "total_frames": 699,
+    "active_interval_s": [
+      1.04,
+      7.44
+    ],
+    "median_active_spectral_flatness": 0.004221824989736796
+  },
+  "perceptual_review": {
+    "previous_preview_user_report": "heard only siren",
+    "original_direct_listening_report": "NOT_REPORTED",
+    "independently_proven_isolation": false
+  },
+  "disposition": {
+    "source_role": "target",
+    "candidate_status": "FAVORABLE",
+    "corpus_admission": "NOT_ADMITTED",
+    "source_group": "freesound:117120",
+    "split": "UNASSIGNED",
+    "gate": "D0_OPEN",
+    "model_training_on_real_audio": "NOT_EXECUTED"
+  },
+  "threats": [
+    "Electronic/design effect may not represent field-recorded emergency sirens",
+    "Only one independent source, cannot claim split diversity",
+    "High correlation is not proof of absolute isolation",
+    "Publisher does not supply a signed SHA-256 for this file"
+  ]
+}
