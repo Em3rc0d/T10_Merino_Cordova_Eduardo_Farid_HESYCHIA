@@ -1,0 +1,24 @@
+{
+  "schema_version": "hesychia.m4-user-reported-QC.v1",
+  "date": "2026-10-22",
+  "origin": "user Windows PowerShell logs; not independently recomputed",
+  "candidate_id": "FS_117120",
+  "source_url": "https://freesound.org/people/UncleSigmund/sounds/117120/",
+  "published_license": "CC-BY-4.0",
+  "preview_sha256": "3acc27af9d2d2533e60c466b311630e9e7aabf27b36eaea43a7b5aa2dbcf0e83",
+  "wav_sha256_user_reported": "bdf08584d0db2b8735861fbe08978026d107a36870044715ffc968162431f3ff",
+  "wav": {
+    "duration_s": 11.24,
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "encoding": "PCM_16",
+    "rms": 0.10034277939186707,
+    "peak": 0.56646728515625,
+    "fraction_near_clip": 0,
+    "warnings": []
+  },
+  "original_uncompressed_file_obtained": false,
+  "human_acoustic_isolation_review": "PENDING",
+  "corpus_admitted": false,
+  "training_started": false
+}

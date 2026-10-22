@@ -23,3 +23,6 @@ _qa/
 UrbanSound8K/
 **/UrbanSound8K/
 04_build/selective_audio_lab/data/
+
+# M4 local third-party acoustic audio and QC evidence
+04_build/selective_audio_lab/outputs/m4_corpus_v1/

@@ -121,8 +121,9 @@ def read_candidates(registry: Path):
     return rows
 
 
-def audio_quality(path: Path, *, min_seconds: float = 4.0) -> dict:
+def audio_quality(path: Path | str, *, min_seconds: float = 4.0) -> dict:
     """Cheap objective QC, not an acoustic source-isolation classifier."""
+    path = Path(path)
     if not path.is_file():
         raise FileNotFoundError(path)
     audio, sr = sf.read(str(path), dtype="float32", always_2d=True)
