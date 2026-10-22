@@ -1,0 +1,29 @@
+{
+  "status": "BLOCKED",
+  "candidate_rows": 6,
+  "reviewed_accepted_rows": 0,
+  "problems": [
+    "test/background: insufficient independent recording groups 0/1",
+    "test/protected: insufficient independent recording groups 0/1",
+    "test/target: insufficient independent recording groups 0/1",
+    "train/background: insufficient independent recording groups 0/1",
+    "train/protected: insufficient independent recording groups 0/1",
+    "train/target: insufficient independent recording groups 0/1",
+    "val/background: insufficient independent recording groups 0/1",
+    "val/protected: insufficient independent recording groups 0/1",
+    "val/target: insufficient independent recording groups 0/1"
+  ],
+  "counts": {
+    "test/background": 0,
+    "test/protected": 0,
+    "test/target": 0,
+    "train/background": 0,
+    "train/protected": 0,
+    "train/target": 0,
+    "val/background": 0,
+    "val/protected": 0,
+    "val/target": 0
+  },
+  "warning": "Manual reviewer confirms isolation; tool only checks declared state and technical audio integrity.",
+  "evidence": []
+}
