@@ -8,15 +8,15 @@ import numpy as np
 ROOT = Path(__file__).parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from audio_core import synthesize
+from audio_core import synthesize, synthesize_drilling
 from attenuation import apply_selective_attenuation
 from evidence_store import EvidenceStore
 from policy import resolve_policy
 
 class ContractV12Tests(unittest.TestCase):
     def test_allow_contract(self):
-        p, t, b = synthesize(seed=42)
-        policy = resolve_policy("siren_synthetic", ["speech_like_synthetic"], 12.0)
+        p, t, b = synthesize_drilling(seed=42)
+        policy = resolve_policy("drilling_synthetic", ["speech_like_synthetic"], 12.0)
         mix, out, _, _, _, mask, gain, metrics = apply_selective_attenuation(p, t, b, policy)
         self.assertEqual(policy.decision, "ALLOW")
         self.assertEqual(metrics["sr"], 16000)
@@ -37,7 +37,7 @@ class ContractV12Tests(unittest.TestCase):
         policy = resolve_policy("speech_like_synthetic", ["speech_like_synthetic"], 12.0)
         mix, out, _, _, _, _, gain, metrics = apply_selective_attenuation(p, t, b, policy)
         self.assertEqual(policy.decision, "BLOCK")
-        self.assertEqual(policy.reason, "target_is_protected")
+        self.assertEqual(policy.reason, "mandatory_protected_signal")
         self.assertTrue(np.allclose(gain, 1.0))
         self.assertTrue(np.allclose(mix, out, atol=1e-5))
         self.assertAlmostEqual(metrics["A_target_db"], 0.0, places=3)
@@ -49,8 +49,8 @@ class ContractV12Tests(unittest.TestCase):
             self.assertTrue(np.array_equal(xa, xb))
 
     def test_sqlite_roundtrip(self):
-        p, t, b = synthesize(seed=42)
-        policy = resolve_policy("siren_synthetic", ["speech_like_synthetic"], 12.0)
+        p, t, b = synthesize_drilling(seed=42)
+        policy = resolve_policy("drilling_synthetic", ["speech_like_synthetic"], 12.0)
         _, _, _, _, _, _, _, metrics = apply_selective_attenuation(p, t, b, policy)
         metrics["wall_time_ms"] = 1.0
         artifacts = [

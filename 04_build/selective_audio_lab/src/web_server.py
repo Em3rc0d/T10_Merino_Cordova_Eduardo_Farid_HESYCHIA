@@ -16,6 +16,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from run_demo import run_demo
+from policy import DEMO_TARGETS
 from latency_benchmark import run_latency_benchmark
 from semantic_benchmark import run_benchmark
 from urbansound8k import validate_contract
@@ -533,6 +534,9 @@ class AppHandler(BaseHTTPRequestHandler):
                 cap_db = _as_float(payload, "cap_db", 12.0, low=0.0, high=120.0)
                 alpha = _as_float(payload, "alpha", 1.0, low=0.0, high=1.0)
                 protect_target = _as_bool(payload, "protect_target", False)
+                target_label = _as_label(payload, "target_label", "drilling_synthetic")
+                if target_label not in DEMO_TARGETS:
+                    raise ValueError("target_label must be a supported synthetic demo target")
             except ValueError as exc:
                 self._send_json(
                     {"error": "invalid_parameters", "message": str(exc)},
@@ -545,11 +549,11 @@ class AppHandler(BaseHTTPRequestHandler):
                 out = self.output_root / run_id
                 protected = ["speech_like_synthetic"]
                 if protect_target:
-                    protected.append("siren_synthetic")
+                    protected.append(target_label)
                 summary = run_demo(
                     out,
                     seed=seed,
-                    target_label="siren_synthetic",
+                    target_label=target_label,
                     protected=protected,
                     cap_db=cap_db,
                     alpha=alpha,

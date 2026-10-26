@@ -201,6 +201,39 @@ class WebConsoleTests(unittest.TestCase):
         self.assertAlmostEqual(run["metrics"]["A_protected_db"], 0.0, places=3)
         self.assertAlmostEqual(run["metrics"]["SI_SDRi_protected_db"], 0.0, places=3)
 
+
+    def test_critical_siren_always_blocks_even_when_not_requested(self):
+        _, job = self.post_json(
+            "/api/jobs/attenuate",
+            {"target_label": "siren_synthetic", "protect_target": False, "seed": 42},
+        )
+        final = self.wait_job(job["jobId"])
+        self.assertEqual(final["status"], "completed", final.get("error"))
+        _, run = self.get_json(final["resultRef"])
+        self.assertEqual(run["policy"]["decision"], "BLOCK")
+        self.assertEqual(run["policy"]["reason"], "mandatory_protected_signal")
+        self.assertEqual(run["config"]["safety_policy_version"], "S10A-1.0")
+        self.assertEqual(run["config"]["source_scope"], "synthetic_procedural_fixture_only")
+        import soundfile as sf
+        import numpy as np
+        run_dir = Path(self.tmp.name) / "outputs" / run["run_id"]
+        mix, sr1 = sf.read(run_dir / "mixture.wav", dtype="float32")
+        out, sr2 = sf.read(run_dir / "output_selective.wav", dtype="float32")
+        self.assertEqual(sr1, sr2)
+        self.assertTrue(np.array_equal(mix, out))
+        code, integrity = self.get_json(f"/api/runs/{run['run_id']}/integrity")
+        self.assertEqual(code, 200)
+        self.assertTrue(integrity["validated"])
+
+    def test_unrecognized_target_is_rejected_before_job(self):
+        for invalid in ("unknown_audio", "fire_alarm", "", "DRILLING_SYNTHETIC"):
+            with self.subTest(target=invalid):
+                code, body = self.post_error(
+                    "/api/jobs/attenuate", {"target_label": invalid},
+                )
+                self.assertEqual(code, 400)
+                self.assertEqual(body["error"], "invalid_parameters")
+
     def test_invalid_attenuation_parameters_are_rejected(self):
         cases = [
             {"alpha": 1.2},

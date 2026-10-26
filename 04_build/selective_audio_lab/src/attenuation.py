@@ -31,14 +31,17 @@ def apply_selective_attenuation(
 
     if policy.decision == "BLOCK":
         gain = np.ones_like(irm, dtype=np.float32)
-    else:
+        # True digital bypass: no STFT/iSTFT roundtrip on blocked audio.
+        output = mixture.copy()
+        p_out, tg_out = p.copy(), tg.copy()
+    elif policy.decision == "ALLOW":
         g_min = 10 ** (-policy.cap_db / 20.0)
         gain = np.maximum(1.0 - alpha * irm, g_min).astype(np.float32)
-
-    y = gain * x
-    output = istft_complex(y, len(mixture))
-    p_out = istft_complex(gain * stft_complex(p), len(p))
-    tg_out = istft_complex(gain * stft_complex(tg), len(tg))
+        output = istft_complex(gain * x, len(mixture))
+        p_out = istft_complex(gain * stft_complex(p), len(p))
+        tg_out = istft_complex(gain * stft_complex(tg), len(tg))
+    else:
+        raise ValueError("Invalid policy decision")
 
     metrics = {
         "A_target_db": float(

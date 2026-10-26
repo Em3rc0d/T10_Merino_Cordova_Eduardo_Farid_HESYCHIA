@@ -13,12 +13,12 @@ import numpy as np
 import pandas as pd
 import soundfile as sf
 
-from audio_core import SR, N_FFT, HOP, stft_complex, synthesize
+from audio_core import SR, N_FFT, HOP, stft_complex, synthesize, synthesize_drilling
 from attenuation import apply_selective_attenuation
 from evidence_store import EvidenceStore
-from policy import resolve_policy
+from policy import DEMO_TARGETS, POLICY_VERSION, resolve_policy
 
-RUN_ID = "PI8-DEMO-RUN-001"
+RUN_ID = "S10A-DEMO-RUN-001"
 
 
 def sha256(path: Path) -> str:
@@ -96,10 +96,10 @@ def _save_real_figures(out: Path, mixture: np.ndarray, output: np.ndarray) -> li
 
 
 def run_demo(
-    out_dir: str | Path = "outputs/demo_run",
+    out_dir: str | Path = "outputs/s10a_demo_run",
     *,
     seed: int = 42,
-    target_label: str = "siren_synthetic",
+    target_label: str = "drilling_synthetic",
     protected: list[str] | tuple[str, ...] = ("speech_like_synthetic",),
     cap_db: float = 12.0,
     alpha: float = 1.0,
@@ -108,10 +108,8 @@ def run_demo(
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    if target_label != "siren_synthetic":
-        raise ValueError(
-            "The current controlled generator only supports target_label='siren_synthetic'."
-        )
+    if target_label not in DEMO_TARGETS:
+        raise ValueError("Only explicit synthetic demo targets are supported")
     if not isinstance(seed, int) or isinstance(seed, bool) or not 0 <= seed <= 2**32 - 1:
         raise ValueError("seed must be an integer within [0, 2^32-1]")
     if not np.isfinite(cap_db) or not 0.0 <= cap_db <= 120.0:
@@ -123,7 +121,8 @@ def run_demo(
         raise ValueError("protected set must not be empty")
 
     policy = resolve_policy(target_label, protected, cap_db)
-    protected_audio, target, background = synthesize(seed)
+    generator = synthesize_drilling if target_label == "drilling_synthetic" else synthesize
+    protected_audio, target, background = generator(seed)
 
     start = time.perf_counter()
     (
@@ -180,6 +179,8 @@ def run_demo(
         "cap_db": cap_db,
         "alpha": alpha,
         "baseline": "oracle_IRM_stem_demo",
+        "safety_policy_version": POLICY_VERSION,
+        "source_scope": "synthetic_procedural_fixture_only",
     }
     policy_dict = {
         "target_label": policy.target_label,
@@ -187,6 +188,7 @@ def run_demo(
         "cap_db": policy.cap_db,
         "decision": policy.decision,
         "reason": policy.reason,
+        "version": POLICY_VERSION,
     }
 
     store = EvidenceStore(out / "evidence.sqlite")
@@ -203,7 +205,7 @@ def run_demo(
     summary = {
         "run_id": run_id,
         "scope": "incremento_funcional_local_reproducible",
-        "warning": "No clinical claim. Synthetic/stem-controlled demo only.",
+        "warning": "Oracle on procedural stems; protected signal is tonal speech-like surrogate, NOT intelligible speech or scientific RNF-04 evidence.",
         "config": config,
         "policy": policy_dict,
         "metrics": metrics,
@@ -223,9 +225,9 @@ def run_demo(
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default="outputs/demo_run")
+    ap.add_argument("--out", default="outputs/s10a_demo_run")
     ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--target-label", default="siren_synthetic")
+    ap.add_argument("--target-label", default="drilling_synthetic")
     ap.add_argument("--protected", nargs="*", default=["speech_like_synthetic"])
     ap.add_argument("--cap-db", type=float, default=12.0)
     ap.add_argument("--alpha", type=float, default=1.0)
