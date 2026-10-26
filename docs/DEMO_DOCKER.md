@@ -139,3 +139,7 @@ measurement_scope = whole_clip_processing_only
 ```
 
 Esta medición es útil como evidencia S8 ejecutada en el dispositivo objetivo, pero no sustituye RNF-05 final: p95 por hop, latencia E2E de captura/salida, streaming ni Android.
+
+## Actualización S10-A (25-10-2026)
+
+Para la configuración actualizada de imagen, rama, QA, smoke e instrucciones de Windows, consultar **[DOCKER_S10A_RUNBOOK.md](DOCKER_S10A_RUNBOOK.md)**. La imagen falla el build si el contrato de seguridad básico S10-A no supera las pruebas. La prueba posterior de servicio verifica ambos escenarios y la integridad real.

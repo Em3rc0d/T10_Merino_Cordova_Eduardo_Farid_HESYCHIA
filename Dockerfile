@@ -20,6 +20,11 @@ COPY 03_architecture ./03_architecture
 COPY 04_build/selective_audio_lab ./04_build/selective_audio_lab
 
 WORKDIR /workspace/04_build/selective_audio_lab
+
+# Fail the image build if the S10-A safety policy is absent/regressed.
+# This is an isolated, fast core check; full QA runs via the Compose qa profile.
+RUN python -m unittest -v test_s10a_safety
+
 EXPOSE 8080
 
 HEALTHCHECK --interval=15s --timeout=3s --start-period=10s --retries=4 \
