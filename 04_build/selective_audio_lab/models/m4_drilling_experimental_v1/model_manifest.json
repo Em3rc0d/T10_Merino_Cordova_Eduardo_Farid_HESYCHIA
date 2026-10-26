@@ -1,0 +1,48 @@
+{
+  "contract": "pi9-pi10-drilling-offline-v1",
+  "model_id": "M4-DRILLING-EXPERIMENTAL-V1",
+  "target_label": "drilling_synthetic",
+  "target_id": 4,
+  "checkpoint_sha256": "92f897a77d498f81670b3727f8ad59007297fb5325721ea7c891543b817bcb6e",
+  "format": "pytorch_state_dict",
+  "parameters": 236833,
+  "architecture": "Embedding 10x16; Conv1D causal 128 kernel3 dilation1/2/4; Dense257 sigmoid",
+  "frontend": {
+    "sr": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "feature": "log1p(20*abs(STFT))",
+    "mode": "offline_centered"
+  },
+  "seed": 42,
+  "epochs": 8,
+  "train_scenes": 24,
+  "val_scenes": 8,
+  "loss": "mask_MSE_engineering_only_not_PI7_L0",
+  "initial_train_loss": 0.19440467655658722,
+  "weights_changed": true,
+  "selected_epoch": 8,
+  "selection": "minimum validation MSE; no scientific test used",
+  "training_artifacts": {
+    "training_history.json": "ad0fc8380b293b2163beefe3d795266416392915966b231905414b9432bd223f",
+    "training_sources.json": "06da017a729a09e12b77176dbb753e311484f4308b99799a67a0e95e4befdbdf"
+  },
+  "generator_sha256": "9f9b17f280f74cf6ad688bc923ba0429dcd472d0f445221e38c30392eafe0feb",
+  "trainer_sha256": "869ef9ba0109137b89433e730d01a4727825ddb2655d00a1b873335d30e2e9c5",
+  "runtime_source_sha256": "a2e2add051f6e02edd475515c6693d259367485e6d3c098e13aa2e5821c2175c",
+  "environment": {
+    "python": "3.12.14",
+    "torch": "2.10.0+cpu",
+    "numpy": "2.3.5",
+    "device": "cpu"
+  },
+  "scientific_validation": "pending",
+  "limitations": [
+    "synthetic procedural drilling and tonal protected surrogate; no real speech",
+    "same generator for train/val/demo; seeds disjoint do not establish scientific independence",
+    "single trained target; no demonstrated multiclass conditioning",
+    "offline centered STFT and clip normalization; not streaming",
+    "new PyTorch weights; not a conversion of prior Keras checkpoints",
+    "MSE smoke loss; D0-D5, RNF-04, TFLite, hardware and clinical validation pending"
+  ]
+}

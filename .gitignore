@@ -26,3 +26,6 @@ UrbanSound8K/
 
 # M4 local third-party acoustic audio and QC evidence
 04_build/selective_audio_lab/outputs/m4_corpus_v1/
+
+# PI9/PI10 generated evidence is archived separately; frozen summaries live in 05_evidence.
+04_build/selective_audio_lab/outputs/pi9_pi10_*/

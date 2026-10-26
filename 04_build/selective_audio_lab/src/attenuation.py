@@ -15,7 +15,11 @@ def apply_selective_attenuation(
     background: np.ndarray,
     policy: PolicyDecision,
     alpha: float = 1.0,
+    engine: str = "oracle",
+    predictor=None,
 ):
+    if engine not in ("oracle", "cnn_experimental"):
+        raise ValueError("Unknown mask engine")
     if not 0.0 <= alpha <= 1.0:
         raise ValueError("alpha must be within [0, 1]")
 
@@ -37,7 +41,15 @@ def apply_selective_attenuation(
         p_out, tg_out = p.copy(), tg.copy()
     elif policy.decision == "ALLOW":
         x = stft_complex(mixture)
-        irm = oracle_irm(tg, p + bg)
+        if engine == "oracle":
+            irm = oracle_irm(tg, p + bg)
+        else:
+            if predictor is None:
+                raise ValueError("CNN predictor required; Oracle fallback is prohibited")
+            # No clean stems are passed to inference.
+            irm = np.asarray(predictor(mixture, 4), dtype=np.float32)
+            if irm.shape != x.shape or not np.isfinite(irm).all() or np.min(irm) < 0 or np.max(irm) > 1:
+                raise ValueError("Invalid learned mask")
         g_min = 10 ** (-policy.cap_db / 20.0)
         gain = np.maximum(1.0 - alpha * irm, g_min).astype(np.float32)
         output = istft_complex(gain * x, len(mixture))
@@ -67,7 +79,8 @@ def apply_selective_attenuation(
         "policy_reason": policy.reason,
         "target_label": policy.target_label,
         "protected_set": list(policy.protected_set),
-        "baseline_type": "oracle_IRM_stem_demo",
+        "baseline_type": "oracle_IRM_stem_demo" if engine == "oracle" else "M4_CNN_experimental_synthetic",
+        "executed_engine": "bypass" if policy.decision == "BLOCK" else engine,
     }
     return (
         mixture.astype(np.float32),

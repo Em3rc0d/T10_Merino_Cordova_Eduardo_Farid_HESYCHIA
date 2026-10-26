@@ -8,6 +8,8 @@ import os
 import threading
 import traceback
 import uuid
+import re
+import hashlib
 from dataclasses import asdict
 from datetime import datetime, timezone
 from http import HTTPStatus
@@ -16,11 +18,13 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from run_demo import run_demo
-from policy import DEMO_TARGETS
 from latency_benchmark import run_latency_benchmark
 from semantic_benchmark import run_benchmark
 from urbansound8k import validate_contract
 from validate_artifacts import validate_run
+from policy import DEMO_TARGETS
+from m4_experimental import MODEL_ROOT, inspect_model
+from compare_demo import run_comparison, validate_comparison
 
 LAB_ROOT = Path(__file__).resolve().parents[1]
 WEB_ROOT = LAB_ROOT / "web"
@@ -43,6 +47,7 @@ class JobManager:
     def __init__(self):
         self._jobs: dict[str, dict] = {}
         self._lock = threading.Lock()
+        self._worker_lock = threading.Lock()  # Matplotlib/model jobs execute serially.
 
     def start(self, kind: str, worker) -> dict:
         job_id = f"{kind.upper()}-{uuid.uuid4().hex[:10]}"
@@ -65,7 +70,8 @@ class JobManager:
                 job["status"] = "running"
                 job["startedAt"] = utc_now()
             try:
-                result, result_ref = worker(job_id)
+                with self._worker_lock:
+                    result, result_ref = worker(job_id)
                 with self._lock:
                     job["status"] = "completed"
                     job["result"] = result
@@ -174,6 +180,7 @@ def list_demo_runs(output_root: Path) -> list[dict]:
                     "A_protected_db": metrics.get("A_protected_db"),
                     "SI_SDRi_protected_db": metrics.get("SI_SDRi_protected_db"),
                     "path": summary_path.parent.name,
+                    "engine": summary.get("config", {}).get("executed_engine", "oracle"),
                     "mtime": summary_path.stat().st_mtime,
                 }
             )
@@ -198,6 +205,7 @@ def load_run(output_root: Path, run_id: str) -> dict:
         artifacts.append(copy)
     summary["artifacts"] = artifacts
     summary["figures"] = {
+        "mask": f"/artifacts/{run_id}/mask.png",
         "waveform": f"/artifacts/{run_id}/waveform_comparison.png",
         "spectrogram": f"/artifacts/{run_id}/spectrogram_comparison.png",
     }
@@ -239,6 +247,21 @@ def discover_m2_evidence(evidence_root: Path) -> dict | None:
     return _latest_json(root, "**/semantic_summary.json")
 
 
+def documented_m2_reference():
+    """Historical text evidence is visibly distinct from mounted raw results."""
+    path = LAB_ROOT.parents[1] / "docs" / "M2_REAL_RESULT_2026-10-12.md"
+    if not path.exists():
+        return None
+    raw = path.read_bytes()
+    match = re.search(r"\| Macro-F1 \| \*\*([0-9.]+)\*\*", raw.decode("utf-8"))
+    if not match:
+        return None
+    return {"scope": "documented_historical_result_raw_artifacts_not_mounted",
+            "macro_f1": float(match.group(1)), "rnf03_met": float(match.group(1)) >= .85,
+            "source": "docs/M2_REAL_RESULT_2026-10-12.md",
+            "source_sha256": hashlib.sha256(raw).hexdigest()}
+
+
 def discover_latency_evidence(evidence_root: Path) -> dict | None:
     return _latest_json(evidence_root / "latency", "**/latency_summary.json")
 
@@ -250,7 +273,9 @@ def discover_latency_campaign(evidence_root: Path) -> dict | None:
     )
 
 
-def system_status(dataset_root: Path, evidence_root: Path) -> dict:
+def system_status(dataset_root: Path, evidence_root: Path, model_root=MODEL_ROOT) -> dict:
+    m4 = inspect_model(model_root)
+    m2_reference = documented_m2_reference()
     metadata = dataset_root / "metadata" / "UrbanSound8K.csv"
     fold1 = dataset_root / "audio" / "fold1"
     fold10 = dataset_root / "audio" / "fold10"
@@ -277,20 +302,22 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
         and int(latency_campaign.get("batch_count", 0)) >= 2
     )
     pending = [
-        "learned target-conditioned M4",
+        "M4 final scientific validation: real corpus, preservation and independent test",
         "blockwise laptop streaming",
         "TFLite export/parity",
         "physical Honor X8c profiling",
         "10-minute stability validation",
     ]
     if not m2_measured:
-        pending.insert(0, "UrbanSound8K full benchmark evidence")
+        pending.insert(0, "M2 raw benchmark artifacts not mounted; historical result documented" if m2_reference else "UrbanSound8K full benchmark evidence")
     elif not m2_met:
         pending.insert(0, "RNF-03 semantic target >= 0.85 not met by current M2 baseline")
 
     return {
         "service": "ok",
-        "scope": "PI8+ technical prototype",
+        "scope": "PI9/PI10 experimental integration; scientific validation pending",
+        "m4": m4,
+        "m2_reference": m2_reference,
         "clinicalClaim": False,
         "physicalANC": False,
         "dataset": {
@@ -316,6 +343,8 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
                     if m2_met
                     else "measured_not_met"
                     if m2_measured
+                    else "reported_not_met"
+                    if m2_reference and not m2_reference["rnf03_met"]
                     else "software_ready_evidence_pending"
                 ),
                 "evidence": (
@@ -323,7 +352,9 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
                     f"Macro-F1 test={float(m2['test']['macro_f1']):.4f} · "
                     f"RNF-03={'CUMPLE' if m2_met else 'NO CUMPLE'}"
                     if m2_measured
-                    else "pipeline UrbanSound8K + SVM/RF + fixture CI"
+                    else (f"Resultado histórico documentado Macro-F1={m2_reference['macro_f1']:.4f}; RNF-03 NO CUMPLE. Artefactos crudos no montados."
+                          if m2_reference and not m2_reference["rnf03_met"]
+                          else "pipeline UrbanSound8K + SVM/RF + fixture CI")
                 ),
             },
             {
@@ -341,8 +372,9 @@ def system_status(dataset_root: Path, evidence_root: Path) -> dict:
             {
                 "id": "M4",
                 "name": "Máscara T-F + reconstrucción",
-                "state": "baseline",
-                "evidence": "IRM oracle + gain + iSTFT; learned model pendiente",
+                "state": "experimental" if m4["ready"] else "baseline",
+                "evidence": ("CNN experimental disponible + Oracle; validación científica pendiente"
+                             if m4["ready"] else "Oracle disponible; CNN experimental no disponible en este entorno"),
             },
             {
                 "id": "M5",
@@ -457,7 +489,21 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "ok", "service": "hesychia-web"})
             return
         if path == "/api/status":
-            self._send_json(system_status(self.dataset_root, self.evidence_root))
+            self._send_json(system_status(self.dataset_root, self.evidence_root, self.server.model_root))
+            return
+        if path == "/api/m4":
+            self._send_json(inspect_model(self.server.model_root))
+            return
+        if path.startswith("/api/comparisons/"):
+            ident = unquote(path.removeprefix("/api/comparisons/").removesuffix("/integrity"))
+            try:
+                directory = _safe_child(self.output_root, ident)
+                if path.endswith("/integrity"):
+                    self._send_json(validate_comparison(self.output_root, ident))
+                else:
+                    self._send_json(_load_json(directory / "comparison.json"))
+            except (OSError, ValueError, RuntimeError) as exc:
+                self._send_json({"error": "comparison_unavailable", "message": str(exc)}, HTTPStatus.CONFLICT)
             return
         if path == "/api/jobs":
             self._send_json({"jobs": self.jobs.list()})
@@ -528,13 +574,16 @@ class AppHandler(BaseHTTPRequestHandler):
             )
             return
 
-        if path == "/api/jobs/attenuate":
+        if path in ("/api/jobs/attenuate", "/api/jobs/compare"):
             try:
                 seed = _as_int(payload, "seed", 42, low=0, high=2**32 - 1)
                 cap_db = _as_float(payload, "cap_db", 12.0, low=0.0, high=120.0)
                 alpha = _as_float(payload, "alpha", 1.0, low=0.0, high=1.0)
                 protect_target = _as_bool(payload, "protect_target", False)
                 target_label = _as_label(payload, "target_label", "drilling_synthetic")
+                engine = _as_label(payload, "engine", "oracle")
+                if engine not in ("oracle", "cnn_experimental"):
+                    raise ValueError("engine must be oracle or cnn_experimental; final validated model is pending")
                 if target_label not in DEMO_TARGETS:
                     raise ValueError("target_label must be a supported synthetic demo target")
             except ValueError as exc:
@@ -550,6 +599,11 @@ class AppHandler(BaseHTTPRequestHandler):
                 protected = ["speech_like_synthetic"]
                 if protect_target:
                     protected.append(target_label)
+                if path == "/api/jobs/compare":
+                    result = run_comparison(self.output_root, job_id, model_root=self.server.model_root,
+                                            seed=seed, target_label=target_label, protected=protected,
+                                            cap_db=cap_db, alpha=alpha)
+                    return result, f"/api/comparisons/{job_id}"
                 summary = run_demo(
                     out,
                     seed=seed,
@@ -558,10 +612,12 @@ class AppHandler(BaseHTTPRequestHandler):
                     cap_db=cap_db,
                     alpha=alpha,
                     run_id=run_id,
+                    engine=engine,
+                    model_root=self.server.model_root,
                 )
                 return summary, f"/api/runs/{run_id}"
 
-            job = self.jobs.start("attenuate", worker)
+            job = self.jobs.start("compare" if path.endswith("compare") else "attenuate", worker)
             self._send_json(job, HTTPStatus.ACCEPTED)
             return
 
@@ -681,12 +737,14 @@ class AppServer(ThreadingHTTPServer):
         output_root: Path,
         dataset_root: Path,
         evidence_root: Path,
+        model_root: Path = MODEL_ROOT,
     ):
         super().__init__(address, handler)
         self.output_root = output_root
         self.output_root.mkdir(parents=True, exist_ok=True)
         self.dataset_root = dataset_root
         self.evidence_root = evidence_root
+        self.model_root = model_root
         self.evidence_root.mkdir(parents=True, exist_ok=True)
         self.jobs = JobManager()
 
@@ -698,6 +756,7 @@ def create_server(
     output_root: str | Path | None = None,
     dataset_root: str | Path | None = None,
     evidence_root: str | Path | None = None,
+    model_root: str | Path | None = None,
 ) -> AppServer:
     return AppServer(
         (host, port),
@@ -705,6 +764,7 @@ def create_server(
         output_root=Path(output_root or DEFAULT_OUTPUT_ROOT),
         dataset_root=Path(dataset_root or DEFAULT_DATASET_ROOT),
         evidence_root=Path(evidence_root or DEFAULT_EVIDENCE_ROOT),
+        model_root=Path(model_root or MODEL_ROOT),
     )
 
 

@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import time
+import shutil
 from pathlib import Path
 
 import matplotlib
@@ -95,6 +96,19 @@ def _save_real_figures(out: Path, mixture: np.ndarray, output: np.ndarray) -> li
     return [waveform_path, spec_path]
 
 
+def _save_mask_figure(out, mask):
+    path = out / "mask.png"
+    fig, ax = plt.subplots(figsize=(10, 3))
+    im = ax.imshow(mask, origin="lower", aspect="auto", vmin=0, vmax=1,
+                   extent=[0, 4, 0, SR / 2])
+    ax.set(xlabel="Tiempo (s)", ylabel="Frecuencia (Hz)", title="Máscara del motor ejecutado; BLOCK = placeholder cero")
+    fig.colorbar(im, ax=ax)
+    fig.tight_layout()
+    fig.savefig(path, dpi=120)
+    plt.close(fig)
+    return path
+
+
 def run_demo(
     out_dir: str | Path = "outputs/s10a_demo_run",
     *,
@@ -104,6 +118,8 @@ def run_demo(
     cap_db: float = 12.0,
     alpha: float = 1.0,
     run_id: str = RUN_ID,
+    engine: str = "oracle",
+    model_root=None,
 ) -> dict:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -121,6 +137,13 @@ def run_demo(
         raise ValueError("protected set must not be empty")
 
     policy = resolve_policy(target_label, protected, cap_db)
+    if engine not in ("oracle", "cnn_experimental"):
+        raise ValueError("Unsupported mask engine")
+    predictor, model_info = None, None
+    if engine == "cnn_experimental" and policy.decision == "ALLOW":
+        from m4_experimental import ExperimentalPredictor, MODEL_ROOT
+        predictor = ExperimentalPredictor(model_root or MODEL_ROOT)
+        model_info = predictor.info
     generator = synthesize_drilling if target_label == "drilling_synthetic" else synthesize
     protected_audio, target, background = generator(seed)
 
@@ -140,6 +163,8 @@ def run_demo(
         background,
         policy=policy,
         alpha=alpha,
+        engine=engine,
+        predictor=predictor.predict if predictor else None,
     )
     metrics["wall_time_ms"] = float((time.perf_counter() - start) * 1000)
 
@@ -156,7 +181,7 @@ def run_demo(
         sf.write(path, data, SR)
         _register_artifact(artifact_rows, path, "audio")
 
-    mask_path = out / "mask_irm.npy"
+    mask_path = out / ("mask_predicted.npy" if engine == "cnn_experimental" else "mask_irm.npy")
     gain_path = out / "gain.npy"
     np.save(mask_path, mask)
     np.save(gain_path, gain)
@@ -165,6 +190,18 @@ def run_demo(
 
     for figure_path in _save_real_figures(out, mixture, output):
         _register_artifact(artifact_rows, figure_path, "report")
+    _register_artifact(artifact_rows, _save_mask_figure(out, mask), "report")
+
+    if model_info:
+        # Every run is self-contained even when the installed model later changes.
+        for name in ("checkpoint.pt", "model_manifest.json", "training_history.json", "training_sources.json"):
+            dest = out / name
+            shutil.copyfile(predictor.root / name, dest)
+            _register_artifact(artifact_rows, dest, "model" if name == "checkpoint.pt" else "config")
+        from m4_experimental import inspect_model
+        copied = inspect_model(out)
+        if not copied["ready"] or copied["checkpoint_sha256"] != model_info["checkpoint_sha256"]:
+            raise ValueError("Checkpoint snapshot is inconsistent")
 
     pd.DataFrame([metrics]).to_csv(out / "demo_metrics.csv", index=False)
     pd.DataFrame(artifact_rows).to_csv(out / "artifacts_manifest.csv", index=False)
@@ -178,7 +215,16 @@ def run_demo(
         "protected_set": list(policy.protected_set),
         "cap_db": cap_db,
         "alpha": alpha,
-        "baseline": "oracle_IRM_stem_demo",
+        "baseline": metrics["baseline_type"],
+        "requested_engine": engine,
+        "executed_engine": metrics["executed_engine"],
+        "model": ({"id": model_info["model_id"], "format": "pytorch",
+                   "sha256": model_info["checkpoint_sha256"],
+                   "manifest_sha256": model_info["manifest_sha256"],
+                   "checkpoint": "checkpoint.pt", "status": "candidate"} if model_info else None),
+        "measurement_scope": "offline_synthetic_engineering_demo_not_scientific_validation",
+        "wall_time_scope": "DSP_and_inference_excludes_model_load_and_artifact_IO_not_E2E",
+        "mask_role": "bypass_placeholder" if policy.decision == "BLOCK" else "learned" if model_info else "oracle_privileged",
         "safety_policy_version": POLICY_VERSION,
         "source_scope": "synthetic_procedural_fixture_only",
     }
@@ -205,7 +251,7 @@ def run_demo(
     summary = {
         "run_id": run_id,
         "scope": "incremento_funcional_local_reproducible",
-        "warning": "Oracle on procedural stems; protected signal is tonal speech-like surrogate, NOT intelligible speech or scientific RNF-04 evidence.",
+        "warning": "Procedural synthetic engineering demo. Oracle uses stems; CNN uses mixture+target only. Protected surrogate is NOT intelligible speech; no scientific RNF-04 evidence or streaming.",
         "config": config,
         "policy": policy_dict,
         "metrics": metrics,

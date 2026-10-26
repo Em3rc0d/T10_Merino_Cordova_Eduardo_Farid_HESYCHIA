@@ -1,0 +1,48 @@
+{
+  "duration_seconds": 429.42961451247163,
+  "narration": "synthetic eSpeak Spanish; not tesista voice",
+  "capture": "actual automated Chromium UI interaction; no mock measurements",
+  "chapters": [
+    {
+      "id": "overview",
+      "title": "Estado y alcance",
+      "start_seconds": 0.19002267573696144
+    },
+    {
+      "id": "deep",
+      "title": "Arquitectura y entrenamiento",
+      "start_seconds": 45.368752834467124
+    },
+    {
+      "id": "cnn",
+      "title": "E1 Inferencia real de la CNN",
+      "start_seconds": 98.3051247165533
+    },
+    {
+      "id": "comparison",
+      "title": "E2 Comparación pareada con Oracle",
+      "start_seconds": 158.41755102040815
+    },
+    {
+      "id": "block",
+      "title": "E3 Sirena protegida",
+      "start_seconds": 221.8275283446712
+    },
+    {
+      "id": "evidence",
+      "title": "E4 Trazabilidad e integridad",
+      "start_seconds": 271.7316553287982
+    },
+    {
+      "id": "benchmark",
+      "title": "M2 y observaciones abiertas",
+      "start_seconds": 325.4201360544218
+    },
+    {
+      "id": "edge",
+      "title": "Cierre del incremento y límites",
+      "start_seconds": 373.85115646258504
+    }
+  ],
+  "scope": "technical support video; tesista/advisor review pending"
+}

@@ -7,7 +7,7 @@ from typing import Iterable
 
 
 def schema_path() -> Path:
-    return Path(__file__).resolve().parents[3] / "03_architecture" / "schema_v12.sql"
+    return Path(__file__).resolve().parents[3] / "03_architecture" / "schema_v13.sql"
 
 
 class EvidenceStore:
@@ -65,6 +65,15 @@ class EvidenceStore:
             }
 
         experiment_id = f"EXP-{run_id}"
+        model = config.get("model")
+        executed = config.get("executed_engine", "oracle")
+        if model:
+            model_row = (model["id"] + "-" + model["sha256"], "mask", model["format"],
+                         "experimental-v1", model["sha256"], "candidate")
+        elif executed == "bypass":
+            model_row = ("POLICY-BYPASS", "mask", "baseline", "1.0", "no-model-bypass", "frozen")
+        else:
+            model_row = ("BASELINE-IRM-ORACLE", "mask", "baseline", "1.0", "oracle-no-model", "frozen")
 
         with self.connect() as con:
             con.execute(
@@ -94,14 +103,7 @@ class EvidenceStore:
                 """INSERT OR IGNORE INTO model_version
                 (id,task,format,version,checksum,status)
                 VALUES(?,?,?,?,?,?)""",
-                (
-                    "BASELINE-IRM-ORACLE",
-                    "mask",
-                    "baseline",
-                    "1.0",
-                    "oracle-no-model",
-                    "frozen",
-                ),
+                model_row,
             )
             con.execute(
                 """INSERT INTO experiment
@@ -130,7 +132,7 @@ class EvidenceStore:
                 (
                     run_id,
                     experiment_id,
-                    "BASELINE-IRM-ORACLE",
+                    model_row[0],
                     "local_python_reference",
                     seed,
                 ),

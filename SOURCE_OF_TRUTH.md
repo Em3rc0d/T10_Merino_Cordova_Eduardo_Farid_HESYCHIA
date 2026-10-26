@@ -47,3 +47,7 @@ Pendientes para completar la tesis:
 - perfil físico Honor X8c;
 - estabilidad de 10 min;
 - validación definitiva congelada.
+
+## Estado técnico PI9 y PI10 al 26 de octubre de 2026
+
+El [contrato de integración](docs/PI9_PI10_INTEGRATION_CONTRACT_2026-10-26.md) y el [cierre técnico](docs/PI9_PI10_CIERRE_TECNICO.md) actualizan el estado de implementación: CNN experimental conectada a backend/UI, checkpoint procedural drilling-only, comparación con Oracle, bypass previo a carga y M6 con modelo real. No cambian los objetivos oficiales, el título, los RNF ni los gates científicos. Las menciones PI8 a M4 completamente pendiente quedan como estado histórico; la validación científica del M4 final continúa pendiente.

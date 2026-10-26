@@ -1,0 +1,184 @@
+{
+  "run_id": "COMPARE-478d010ad5-CNN",
+  "scope": "incremento_funcional_local_reproducible",
+  "warning": "Procedural synthetic engineering demo. Oracle uses stems; CNN uses mixture+target only. Protected surrogate is NOT intelligible speech; no scientific RNF-04 evidence or streaming.",
+  "config": {
+    "seed": 42,
+    "sr": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "target_label": "drilling_synthetic",
+    "protected_set": [
+      "car_horn",
+      "emergency_siren",
+      "evacuation_alarm",
+      "fire_alarm",
+      "siren",
+      "siren_synthetic",
+      "speech",
+      "speech_like_synthetic",
+      "vehicle_horn",
+      "warning_horn"
+    ],
+    "cap_db": 12.0,
+    "alpha": 1.0,
+    "baseline": "M4_CNN_experimental_synthetic",
+    "requested_engine": "cnn_experimental",
+    "executed_engine": "cnn_experimental",
+    "model": {
+      "id": "M4-DRILLING-EXPERIMENTAL-V1",
+      "format": "pytorch",
+      "sha256": "92f897a77d498f81670b3727f8ad59007297fb5325721ea7c891543b817bcb6e",
+      "manifest_sha256": "4dfcece277172191ace42ce7d6393c123f4cdd06c6307973fe6a1487f3354184",
+      "checkpoint": "checkpoint.pt",
+      "status": "candidate"
+    },
+    "measurement_scope": "offline_synthetic_engineering_demo_not_scientific_validation",
+    "wall_time_scope": "DSP_and_inference_excludes_model_load_and_artifact_IO_not_E2E",
+    "mask_role": "learned",
+    "safety_policy_version": "S10A-1.0",
+    "source_scope": "synthetic_procedural_fixture_only"
+  },
+  "policy": {
+    "target_label": "drilling_synthetic",
+    "protected_set": [
+      "car_horn",
+      "emergency_siren",
+      "evacuation_alarm",
+      "fire_alarm",
+      "siren",
+      "siren_synthetic",
+      "speech",
+      "speech_like_synthetic",
+      "vehicle_horn",
+      "warning_horn"
+    ],
+    "cap_db": 12.0,
+    "decision": "ALLOW",
+    "reason": "approved_attenuable_target",
+    "version": "S10A-1.0"
+  },
+  "metrics": {
+    "A_target_db": 11.921875,
+    "A_protected_db": 0.00041208506445400417,
+    "SI_SDRi_protected_db": 11.78449559211731,
+    "SI_SDRi_target_db": -11.95787525177002,
+    "mask_mean": 0.9042561650276184,
+    "mask_max": 1.0,
+    "gain_min": 0.25118863582611084,
+    "gain_max": 1.0,
+    "duration_s": 4.0,
+    "sr": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "policy_decision": "ALLOW",
+    "policy_reason": "approved_attenuable_target",
+    "target_label": "drilling_synthetic",
+    "protected_set": [
+      "car_horn",
+      "emergency_siren",
+      "evacuation_alarm",
+      "fire_alarm",
+      "siren",
+      "siren_synthetic",
+      "speech",
+      "speech_like_synthetic",
+      "vehicle_horn",
+      "warning_horn"
+    ],
+    "baseline_type": "M4_CNN_experimental_synthetic",
+    "executed_engine": "cnn_experimental",
+    "wall_time_ms": 19.27111000009063
+  },
+  "artifacts": [
+    {
+      "artifact": "protected.wav",
+      "kind": "audio",
+      "path": "protected.wav",
+      "sha256": "69f4759d0cc794111338a0d1d7f45a2e8782a0561411a3ac672bb6f6b437cf4b"
+    },
+    {
+      "artifact": "target.wav",
+      "kind": "audio",
+      "path": "target.wav",
+      "sha256": "7cd81960a93091276ecfb1287216d07cd82f2c0d89a53ed4e8be86a81858a7c5"
+    },
+    {
+      "artifact": "background.wav",
+      "kind": "audio",
+      "path": "background.wav",
+      "sha256": "2ec7e1c978cfdea4ae0fc41c295733e60c7f727fcdc662aee7a8264bc68488b6"
+    },
+    {
+      "artifact": "mixture.wav",
+      "kind": "audio",
+      "path": "mixture.wav",
+      "sha256": "155707188e96aadb8fb037c509ecfb4a10832004b54a0b36730ca6fc4f98b134"
+    },
+    {
+      "artifact": "output_selective.wav",
+      "kind": "audio",
+      "path": "output_selective.wav",
+      "sha256": "a22931854018b016ee1f20219891d7227ef58d4992ad1adf2dce046b36235309"
+    },
+    {
+      "artifact": "mask_predicted.npy",
+      "kind": "mask",
+      "path": "mask_predicted.npy",
+      "sha256": "bebd4362447dfc86cc86ae4c017e88fba7fddda97f617773ac58c7d8e9767f6f"
+    },
+    {
+      "artifact": "gain.npy",
+      "kind": "mask",
+      "path": "gain.npy",
+      "sha256": "d0a02d23fda7e87b888f0b1a26ceff614b0c231b49a3362d1edcac868a8c4334"
+    },
+    {
+      "artifact": "waveform_comparison.png",
+      "kind": "report",
+      "path": "waveform_comparison.png",
+      "sha256": "4454fd55e627aa069046f08a78220dc05ad64f9e8593a39803c1373b0007c727"
+    },
+    {
+      "artifact": "spectrogram_comparison.png",
+      "kind": "report",
+      "path": "spectrogram_comparison.png",
+      "sha256": "4a7fbf96f8ec6e4d74bc8cbb12e316543399293cc762e6e29445c296f80538a9"
+    },
+    {
+      "artifact": "mask.png",
+      "kind": "report",
+      "path": "mask.png",
+      "sha256": "05874a1dd137f94826def3bf81836b2af09805d9a79a05dac39c502351aded21"
+    },
+    {
+      "artifact": "checkpoint.pt",
+      "kind": "model",
+      "path": "checkpoint.pt",
+      "sha256": "92f897a77d498f81670b3727f8ad59007297fb5325721ea7c891543b817bcb6e"
+    },
+    {
+      "artifact": "model_manifest.json",
+      "kind": "config",
+      "path": "model_manifest.json",
+      "sha256": "4dfcece277172191ace42ce7d6393c123f4cdd06c6307973fe6a1487f3354184"
+    },
+    {
+      "artifact": "training_history.json",
+      "kind": "config",
+      "path": "training_history.json",
+      "sha256": "ad0fc8380b293b2163beefe3d795266416392915966b231905414b9432bd223f"
+    },
+    {
+      "artifact": "training_sources.json",
+      "kind": "config",
+      "path": "training_sources.json",
+      "sha256": "06da017a729a09e12b77176dbb753e311484f4308b99799a67a0e95e4befdbdf"
+    }
+  ],
+  "evidence_store": {
+    "path": "evidence.sqlite",
+    "status": "completed",
+    "artifact_count": 14
+  }
+}

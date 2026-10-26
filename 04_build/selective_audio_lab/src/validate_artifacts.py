@@ -56,6 +56,8 @@ def validate_run(run_dir: str | Path, run_id: str = "PI8-DEMO-RUN-001") -> dict:
             _fail(f"duplicate artifact path in manifest: {rel}")
         seen_paths.add(rel)
         path = run_dir / rel
+        if path.resolve().parent != run_dir.resolve():
+            _fail("unsafe artifact path")
         if not path.exists():
             _fail(f"missing artifact: {path}")
         actual = sha256(path)
@@ -103,6 +105,17 @@ def validate_run(run_dir: str | Path, run_id: str = "PI8-DEMO-RUN-001") -> dict:
 
     if summary.get("config") != snap["experiment"]["config"]:
         _fail("experiment config mismatch between summary and SQLite")
+
+    model = summary.get("config", {}).get("model")
+    if model:
+        if snap["model"]["checksum"] != model["sha256"] or snap["model"]["format"] != model["format"]:
+            _fail("checkpoint model mismatch between summary and SQLite")
+        if model["checkpoint"] != "checkpoint.pt" or sha256(run_dir / "checkpoint.pt") != model["sha256"]:
+            _fail("checkpoint SHA mismatch")
+        if sha256(run_dir / "model_manifest.json") != model["manifest_sha256"]:
+            _fail("model manifest SHA mismatch")
+    if summary.get("config", {}).get("executed_engine") == "bypass" and snap["model"]["id"] != "POLICY-BYPASS":
+        _fail("bypass must not claim a model was executed")
 
     summary_metrics = summary.get("metrics", {})
     expected_metrics = (

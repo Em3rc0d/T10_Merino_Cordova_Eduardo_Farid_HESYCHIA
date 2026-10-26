@@ -16,7 +16,12 @@ COPY 04_build/selective_audio_lab/requirements-lock.txt /tmp/requirements-lock.t
 RUN python -m pip install --no-cache-dir --upgrade pip \
     && python -m pip install --no-cache-dir -r /tmp/requirements-lock.txt
 
+ARG WITH_M4=1
+COPY 04_build/selective_audio_lab/requirements-m4.txt /tmp/requirements-m4.txt
+RUN if [ "$WITH_M4" = "1" ]; then python -m pip install --no-cache-dir -r /tmp/requirements-m4.txt; fi
+
 COPY 03_architecture ./03_architecture
+COPY docs/M2_REAL_RESULT_2026-10-12.md ./docs/
 COPY 04_build/selective_audio_lab ./04_build/selective_audio_lab
 
 WORKDIR /workspace/04_build/selective_audio_lab
