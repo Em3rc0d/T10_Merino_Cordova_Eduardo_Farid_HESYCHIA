@@ -21,7 +21,7 @@ Se evita el patrón del prototipo PI7 antiguo, donde valores ilustrativos estaba
 1. **Evidence-first:** un KPI solo aparece después de recibir un resultado del backend.
 2. **Progressive disclosure:** primero estado general; luego ejecución; luego evidencia técnica.
 3. **Affordance honesta:** botones de streaming/TFLite quedan deshabilitados o responden 501 mientras no exista implementación.
-4. **Error prevention:** target/protected de la baseline sintética están congelados a lo que realmente genera el código.
+4. **Error prevention:** dos generadores sintéticos explícitos; sirena obligatoriamente protegida, imposible de desproteger desde UI/API.
 5. **Traceability:** Run ID, política y SHA-256 visibles desde la misma demo.
 6. **Responsive:** la consola puede proyectarse en laptop y seguir siendo utilizable en viewport reducido.
 7. **No clinical framing:** el disclaimer permanece visible en navegación.
@@ -58,11 +58,12 @@ Entrada configurable:
 - alpha;
 - escenario de política: ALLOW o BLOCK.
 
-Entradas acústicas congeladas en esta baseline:
-- target generado = `siren_synthetic`;
-- stem protegido generado = `speech_like_synthetic`.
+Escenarios explícitos:
+- `drilling_synthetic`: sonido mecánico procedural, permitido como target de demostración;
+- `siren_synthetic`: generador histórico conservado, siempre bloqueado;
+- `speech_like_synthetic`: referencia tonal, NO es habla real ni evalúa RNF-04.
 
-El escenario BLOCK añade `siren_synthetic` al conjunto semántico protegido. La regla M3b fuerza `g=1`; no cambia el generador ni inventa una nueva clase de audio.
+La política M3b aplica protección obligatoria, catálogos cerrados y precedencia antes de procesar. En BLOCK la salida es una copia digital de la mezcla sin STFT/IRM/iSTFT. El operador puede añadir protección manual pero nunca retirarla. Un target desconocido se rechaza.
 
 Salida visible solo tras el run:
 - A_target;

@@ -26,15 +26,18 @@ def apply_selective_attenuation(
     bg = background / scale
     mixture = p + tg + bg
 
-    x = stft_complex(mixture)
-    irm = oracle_irm(tg, p + bg)
-
     if policy.decision == "BLOCK":
+        # Bypass M4 entirely; mask is a zero placeholder for evidence.
+        irm = np.zeros(
+            (N_FFT // 2 + 1, (len(mixture) + HOP - 1) // HOP + 1),
+            dtype=np.float32,
+        )
         gain = np.ones_like(irm, dtype=np.float32)
-        # True digital bypass: no STFT/iSTFT roundtrip on blocked audio.
         output = mixture.copy()
         p_out, tg_out = p.copy(), tg.copy()
     elif policy.decision == "ALLOW":
+        x = stft_complex(mixture)
+        irm = oracle_irm(tg, p + bg)
         g_min = 10 ** (-policy.cap_db / 20.0)
         gain = np.maximum(1.0 - alpha * irm, g_min).astype(np.float32)
         output = istft_complex(gain * x, len(mixture))

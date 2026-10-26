@@ -34,7 +34,12 @@ def synthesize_drilling(seed: int = 42):
     """Procedural mechanical drilling-like sound. NOT real acoustic or clinical evidence."""
     rng = np.random.default_rng(seed)
     t = np.arange(int(SR * DURATION)) / SR
-    protected, _, _ = synthesize(seed)
+    envelope = 0.45 + 0.35 * np.sin(2 * np.pi * 2.2 * t) ** 2
+    protected = envelope * (
+        0.30 * np.sin(2 * np.pi * 180 * t)
+        + 0.15 * np.sin(2 * np.pi * 360 * t)
+        + 0.07 * np.sin(2 * np.pi * 720 * t)
+    )
     raw = rng.normal(size=len(t))
     texture = raw - np.convolve(raw, np.ones(9) / 9, mode="same")
     motor = 0.26 * np.sin(2 * np.pi * 950 * t) + 0.11 * np.sin(2 * np.pi * 1900 * t)

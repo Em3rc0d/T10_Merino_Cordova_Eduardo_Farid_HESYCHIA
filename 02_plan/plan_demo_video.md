@@ -1,9 +1,9 @@
-# Plan de video de demostración de 2–3 minutos
+# Plan de video narrado de aproximadamente 5 minutos (S10-A; NO grabado)
 
-1. Mostrar estructura del repositorio y README.
-2. Ejecutar `python src/run_demo.py --out outputs/demo_run`.
-3. Mostrar `mixture.wav` y `output_selective.wav`.
-4. Mostrar `demo_metrics.csv`: A_target, A_protected y SI-SDRi.
-5. Ejecutar o mostrar `latency_summary.json`.
-6. Trazar RF-06/RNF-04 -> M4 -> A5 -> evidencia.
-7. Cerrar indicando que Android real se perfilará físicamente con TFLite; no afirmar resultados no medidos.
+1. (0:00–0:40) HESYCHIA: mostrar estado, baseline IRM oracle, no atribuir CNN M4 validada ni beneficio clínico.
+2. (0:40–2:10) Ejecutar perforación sintética en ALLOW por Docker/UI y escuchar mezcla/salida.
+3. (2:10–3:15) Ejecutar sirena sintética con BLOCK obligatorio y comparar mezcla/salida.
+4. (3:15–4:15) Mostrar métricas de los runs; protected es sustituto tonal, no voz humana real.
+5. (4:15–4:45) Comprobar política, JSON/SQLite, checksums y figuras producidas.
+6. (4:45–5:00) Señalar M4 científico, voz real, streaming/E2E y Android como pendientes.
+Nota: la narración, grabación y entrega del video siguen pendientes; este plan no acredita su realización.
