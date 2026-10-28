@@ -9,7 +9,7 @@
   "weight_decay": 0.001,
   "loss": "selective_v2",
   "conditioning": "class",
-  "architecture": "spectral",
+  "architecture": "temporal",
   "mask_weight": 0.1,
   "target_weight": 1,
   "speech_weight": 2,
