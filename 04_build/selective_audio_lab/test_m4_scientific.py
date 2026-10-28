@@ -422,3 +422,49 @@ def test_v2_class_conditional_training_can_learn_on_controlled_spectra():
         swapped_att = spectral_attenuation_db(model.gain(swapped), batch["target"])
     assert float(final_loss) < .8 * initial, (initial, float(final_loss))
     assert float((correct_att - swapped_att).mean()) > .5
+
+
+def test_v2_paired_comparator_refuses_test_and_mismatched_scenes(tmp_path):
+    """Comparison must use validation and identical actual mixtures."""
+    import csv
+    import json
+    sys.path.insert(0, str(Path(__file__).parent / "experiments"))
+    from compare_m4_validation_only import compare
+
+    folder = tmp_path / "validation"
+    folder.mkdir()
+    report = dict(split="validation_only", test_audio_read=False,
+                  summaries=[dict(run="old"), dict(run="new")])
+    (folder / "validation_report.json").write_text(json.dumps(report))
+    base = dict(scene_id="val-00001", mixture_pcm_sha256="same-mixture",
+                target_class="chainsaw", target_present="True",
+                speech_present="True", alert_present="False",
+                target_group="t1", speaker_group="v1")
+    rows = [{**base, "method":"old", "both_ok":"False",
+             "A_target_db":"2.", "A_protected_db":"1.2"},
+            {**base, "method":"new", "both_ok":"True",
+             "A_target_db":"7.", "A_protected_db":"0.8"}]
+    path = folder / "per_scene.csv"
+    with path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    result = compare(folder, "old", "new")
+    assert result["eligible_pairs"] == 1
+    assert result["target_delta_db"]["mean_equal_group"] == pytest.approx(5.)
+    assert result["protected_delta_db"]["mean_equal_group"] == pytest.approx(-.4)
+    assert result["candidate_joint_pass"] == 1
+    assert result["test_used"] is False
+    report["split"] = "test"
+    (folder / "validation_report.json").write_text(json.dumps(report))
+    with pytest.raises(ValueError, match="validation-only"):
+        compare(folder, "old", "new")
+    report["split"] = "validation_only"
+    (folder / "validation_report.json").write_text(json.dumps(report))
+    rows[1]["mixture_pcm_sha256"] = "different-mixture"
+    with path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    with pytest.raises(ValueError, match="Unpaired"):
+        compare(folder, "old", "new")
