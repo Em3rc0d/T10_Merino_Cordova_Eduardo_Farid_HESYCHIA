@@ -1,0 +1,32 @@
+{
+  "status": "SELECTED_BY_VALIDATION_FOR_HELDOUT_EVALUATION",
+  "scientific_GO": false,
+  "source_run": "seed61",
+  "checkpoint": "selected/candidate.pt",
+  "checkpoint_sha256": "c0b34027fe1d4165b062f4145ca7173b3d547cedc39846e17298295e99fb1966",
+  "seed": 61,
+  "configuration": {
+    "seed": 61,
+    "epochs": 30,
+    "patience": 8,
+    "batch_size": 16,
+    "channels": 96,
+    "threads": 2,
+    "learning_rate": 0.0007,
+    "weight_decay": 0.001,
+    "loss": "composite",
+    "reconstruction_weight": 0.5,
+    "speech_weight": 0.5,
+    "conditioning": "class"
+  },
+  "eligible_candidates": [
+    "seed61",
+    "seed62",
+    "seed63"
+  ],
+  "criterion": "highest joint success fraction; ties prefer smaller violation of protected<=1 dB, then higher target attenuation",
+  "validation_joint_pass": 0,
+  "validation_joint_eligible": 48,
+  "validation_report_sha256": "05e2f666f559ff10da5dbd987459859c7efb435e6694018416f7474c1618e23b",
+  "test_used_for_selection": false
+}

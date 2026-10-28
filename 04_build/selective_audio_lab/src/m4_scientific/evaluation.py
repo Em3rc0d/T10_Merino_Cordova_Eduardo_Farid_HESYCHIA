@@ -16,7 +16,7 @@ from pystoi import stoi
 from .common import canonical_hash, create_json, read_json, sha256, write_json
 from .corpus import TARGETS, SR, load_registry
 from .model import features, frontend_contract, load_checkpoint, spectrum, synthesize
-from .scenes import build_scene, load_recipes
+from .scenes import build_scene, load_recipes, condition_key, coverage
 from .policy import resolve, POLICY_VERSION
 
 THRESHOLDS = {"A_target_min_db": 6., "A_protected_max_db": 1.}
@@ -37,7 +37,7 @@ def runtime_versions():
                 soundfile=soundfile.__version__, pystoi=pystoi.__version__)
 
 
-def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibration=None):
+def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibration=None, selection_path=None):
     if bool(event_checkpoint) != bool(event_calibration) or not checkpoints:
         raise ValueError("Need CNN checkpoints and a complete optional M2 checkpoint/calibration pair")
     root = Path(root).resolve()
@@ -55,11 +55,16 @@ def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibratio
         manifest_path = path.parent / "training_manifest.json"
         if obj["training_manifest_sha256"] != sha256(manifest_path):
             raise ValueError("Training manifest/checkpoint mismatch")
-        if obj["corpus_sha256"] != canonical_hash(registry) or obj["scene_contract_sha256"] != canonical_hash(scenes):
-            raise ValueError("Checkpoint was not trained on this corpus contract")
+        if obj["corpus_sha256"] != canonical_hash(registry):
+            raise ValueError("Checkpoint was not trained on this source corpus")
+        training_summary = read_json(path.parent / "summary.json")
         models.append(dict(path=os.path.relpath(path, freeze_root), sha256=sha256(path), seed=obj["config"]["seed"],
                            loss=obj["config"]["loss"], conditioning=obj["config"].get("conditioning", "class"),
-                           architecture=obj["model_config"].get("architecture", "temporal")))
+                           architecture=obj["model_config"].get("architecture", "temporal"),
+                           training_scene_contract_sha256=obj["scene_contract_sha256"],
+                           training_status=training_summary["status"],
+                           epochs_logged=training_summary.get("epochs_run", training_summary.get("epochs_logged")),
+                           best_epoch=obj["epoch"]))
     event_info = None
     if event_checkpoint is not None:
         from .events import load_events
@@ -70,6 +75,13 @@ def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibratio
                           calibration=os.path.relpath(Path(event_calibration).resolve(), freeze_root),
                           checkpoint_sha256=sha256(event_checkpoint),
                           calibration_sha256=sha256(event_calibration))
+    selection = None
+    if selection_path is not None:
+        selected = read_json(selection_path)
+        if selected["checkpoint_sha256"] not in {m["sha256"] for m in models}:
+            raise ValueError("Validation-selected checkpoint is not in the frozen comparison")
+        selection = dict(path=os.path.relpath(Path(selection_path).resolve(), freeze_root),
+                         sha256=sha256(selection_path), checkpoint_sha256=selected["checkpoint_sha256"])
     value = dict(schema="m4-sci-test-freeze-v1", corpus_sha256=canonical_hash(registry),
                  scene_contract_sha256=canonical_hash(scenes),
                  test_recipe_sha256=scenes["recipe_hashes"]["test"], checkpoints=models,
@@ -79,6 +91,7 @@ def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibratio
                  thresholds_source="docs/PROTOCOLO_POST_PARCIAL_S9_S13.md and docs/M4_METRICS_AUDIT.md",
                  predictor_inputs="mixture features and requested target class only",
                  event_model=event_info,
+                 validation_selection=selection,
                  policy_version=POLICY_VERSION,
                  mode="ASSISTED_TARGET_WITH_ANNOTATED_ALERT_POLICY plus estimated M2 gate if frozen",
                  policy="BLOCK if protected alert annotation supplied; bypass before model inference",
@@ -146,11 +159,12 @@ def group_ci(rows, metric, group_key):
 def _row(method, seed, recipe, mix, stems, spec, gain, *, decision=None, mode="assisted"):
     n = len(mix)
     # Use the SAME mask estimated from the mixture on every stem.
-    waves = torch.from_numpy(np.stack([mix, stems[TARGETS[recipe["target_id"]]], stems["speech"], stems["alert"]]))
+    waves = torch.from_numpy(np.stack([mix, stems[TARGETS[recipe["target_id"]]], stems["speech"], stems["alert"],
+                                       stems[TARGETS[1 - recipe["target_id"]]]]))
     stem_specs = spectrum(waves)
     with torch.no_grad():
         processed = synthesize(stem_specs * gain[None], n).numpy()
-    out, target_out, speech_out, alert_out = processed
+    out, target_out, speech_out, alert_out, nontarget_out = processed
     decision = decision or ("BLOCK" if recipe["alert_present"] else "ALLOW")
     target = stems[TARGETS[recipe["target_id"]]]
     speech = stems["speech"]
@@ -170,9 +184,11 @@ def _row(method, seed, recipe, mix, stems, spec, gain, *, decision=None, mode="a
                 speech_present=recipe["speech_present"], alert_present=recipe["alert_present"],
                 decision=decision, mode=mode,
                 target_group=recipe["parts"].get(TARGETS[recipe["target_id"]], {}).get("source_group", ""),
+                nontarget_group=recipe["parts"].get(TARGETS[1 - recipe["target_id"]], {}).get("source_group", ""),
                 speaker_group=recipe["parts"].get("speech", {}).get("source_group", ""),
                 mixture_pcm_sha256=hashlib.sha256(mix.astype("<f4").tobytes()).hexdigest(),
                 A_target_db=at, A_protected_db=ap, A_alert_db=attenuation(stems["alert"], alert_out),
+                A_nontarget_db=attenuation(stems[TARGETS[1 - recipe["target_id"]]], nontarget_out),
                 SI_SDRi_protected_db=after - before if before is not None and after is not None else None,
                 SI_SDR_desired_db=desired_score, STOI_input=stoi_in, STOI_output=stoi_out,
                 STOI_delta=stoi_out - stoi_in if stoi_in is not None else None,
@@ -192,6 +208,8 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
         raise ValueError("Thresholds/policy differ from the frozen implementation")
     if frozen.get("runtime_versions") != runtime_versions():
         raise ValueError("Metric/model library versions changed after freeze")
+    if frozen.get("validation_selection") and sha256(resolve_frozen(frozen["validation_selection"]["path"])) != frozen["validation_selection"]["sha256"]:
+        raise ValueError("Validation selection changed after freeze")
     # Exclusive attempt marker is written BEFORE decoding the first test sample.
     output.mkdir(parents=True, exist_ok=False)
     receipt_path = freeze_path.with_suffix(".test_attempt.json")
@@ -206,6 +224,17 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
     recipes = load_recipes(root, "test")
     if canonical_hash(recipes) != frozen["test_recipe_sha256"]:
         raise ValueError("Test recipes changed after freeze")
+    # Representative examples are chosen from annotations BEFORE inference,
+    # including clean speech and alert-only cases, never from favorable scores.
+    patterns = [(0, 0, 0, 1, 0), (0, 1, 0, 1, 0), (1, 1, 0, 1, 0),
+                (0, 1, 1, 1, 0), (0, 0, 1, 1, 0), (0, 0, 0, 1, 1),
+                (0, 1, 0, 1, 1), (0, 0, 0, 0, 0)]
+    audio_ids = []
+    for pattern in patterns:
+        match = next((r["scene_id"] for r in recipes if condition_key(r) == pattern), None)
+        if match is not None and match not in audio_ids:
+            audio_ids.append(match)
+    audio_ids = set((audio_ids + [r["scene_id"] for r in recipes if r["scene_id"] not in audio_ids])[:save_audio])
     models = []
     for item in frozen["checkpoints"]:
         path = resolve_frozen(item["path"])
@@ -275,11 +304,11 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
                 gain = torch.ones_like(spec.real)
             row, out = _row(method, seed, recipe, mix, stems, spec, gain, decision=decision, mode=mode)
             rows.append(row)
-            if idx < save_audio and "class_swapped" not in method:
+            if recipe["scene_id"] in audio_ids and "class_swapped" not in method:
                 path = output / "audio" / f"{recipe['scene_id']}_{method}_{seed}.wav"
                 path.parent.mkdir(exist_ok=True)
                 sf.write(path, out, SR, subtype="FLOAT")
-        if idx < save_audio:
+        if recipe["scene_id"] in audio_ids:
             sf.write(output / "audio" / f"{recipe['scene_id']}_input.wav", mix, SR, subtype="FLOAT")
             sf.write(output / "audio" / f"{recipe['scene_id']}_speech_reference.wav", stems["speech"], SR, subtype="FLOAT")
         if (idx + 1) % 20 == 0:
@@ -289,6 +318,7 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
         writer.writeheader()
         writer.writerows(rows)
     summaries = []
+    training_meta = {(f"cnn_{m['architecture']}_{m['loss']}_{m['conditioning']}", m["seed"]): m for m in frozen["checkpoints"]}
     for method, seed in sorted({(r["method"], r["seed"]) for r in rows}, key=str):
         subset = [r for r in rows if r["method"] == method and r["seed"] == seed]
         eligible = [r for r in subset if r["both_ok"] is not None]
@@ -302,9 +332,21 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
                     target_absent_false_attenuations=sum(r["target_absent_false_attenuation"] is True for r in active),
                     target_absent_with_speech=sum(not r["target_present"] and r["speech_present"] for r in active),
                     block_max_abs_gain_error=max([abs(r["gain_mean"] - 1) for r in subset if r["decision"] == "BLOCK"] or [0]))
+        base_method = method.removesuffix("_class_swapped").removesuffix("_M2_gate")
+        if (base_method, seed) in training_meta:
+            item["training_status"] = training_meta[(base_method, seed)]["training_status"]
+            item["training_scene_contract_sha256"] = training_meta[(base_method, seed)]["training_scene_contract_sha256"]
+        item["joint_condition_statistics"] = {}
+        for metric in ("A_target_db", "A_protected_db", "STOI_delta"):
+            values = [r[metric] for r in eligible if r.get(metric) is not None]
+            item["joint_condition_statistics"][metric] = (dict(
+                mean=float(np.mean(values)), median=float(np.median(values)),
+                p5=float(np.quantile(values, .05)), p95=float(np.quantile(values, .95)), n=len(values))
+                if values else None)
         item["protected_alert_attenuations_gt_1db"] = sum(r["A_alert_db"] is not None and r["A_alert_db"] > 1 for r in subset)
         item["estimated_alert_blocks"] = sum(r["decision"] == "BLOCK" for r in subset)
         for metric, grouping in (("A_target_db", "target_group"), ("A_protected_db", "speaker_group"),
+                                  ("A_nontarget_db", "nontarget_group"),
                                   ("SI_SDRi_protected_db", "speaker_group"), ("STOI_delta", "speaker_group")):
             item[metric] = group_ci(active, metric, grouping)
         item["by_class"] = {}
@@ -352,11 +394,13 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
             wrong = lookup.get((method + "_class_swapped", seed, r["scene_id"]))
             if wrong is None:
                 continue
-            pairs.append(dict(target_group=r["target_group"], speaker_group=r["speaker_group"],
+            pairs.append(dict(target_group=r["target_group"], speaker_group=r["speaker_group"], nontarget_group=r["nontarget_group"],
                               delta_target_db=r["A_target_db"] - wrong["A_target_db"] if r["A_target_db"] is not None else None,
+                              delta_nontarget_db=r["A_nontarget_db"] - wrong["A_nontarget_db"] if r["A_nontarget_db"] is not None else None,
                               delta_protected_db=r["A_protected_db"] - wrong["A_protected_db"] if r["A_protected_db"] is not None else None))
         conditioning_effect.append(dict(method=method, seed=seed,
                                         correct_minus_swapped_A_target_db=group_ci(pairs, "delta_target_db", "target_group"),
+                                        correct_minus_swapped_A_nontarget_db=group_ci(pairs, "delta_nontarget_db", "nontarget_group"),
                                         correct_minus_swapped_A_protected_db=group_ci(pairs, "delta_protected_db", "speaker_group")))
     write_json(output / "conditioning_effect.json", conditioning_effect)
     event_metrics = None
@@ -369,10 +413,16 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
     # A frozen attempt is a result, including failure. No code path silently issues GO.
     report = dict(status="REWORK", scientific_GO=False, test_used=True,
                   freeze_sha256=sha256(freeze_path), test_scenes=len(recipes),
-                  independent_target_groups=len({a["source_group"] for a in registry["assets"]
+                  condition_coverage=coverage(recipes),
+                  silence_control_scenes=sum(not r["parts"] for r in recipes),
+                  real_recording_mixture_scenes=sum(bool(r["parts"]) for r in recipes),
+                  distinct_mixture_hashes=len({r["mixture_pcm_sha256"] for r in rows}),
+                  registered_test_target_groups=len({a["source_group"] for a in registry["assets"]
                                                   if a["split"] == "test" and a["role"] == "target"}),
-                  independent_test_speakers=len({a["speaker_id"] for a in registry["assets"]
+                  registered_test_speakers=len({a["speaker_id"] for a in registry["assets"]
                                                   if a["split"] == "test" and a["role"] == "speech"}),
+                  observed_target_groups=len({r["target_group"] for r in rows if r["target_group"]}),
+                  observed_speakers=len({r["speaker_group"] for r in rows if r["speaker_group"]}),
                   summaries=summaries, M2_test_metrics=event_metrics,
                   open_gates=["Human isolation/listening review", "Perceptual/cropped duplicate review",
                               "Independent field-domain evaluation", "M2 multilabel integration and protection recall",

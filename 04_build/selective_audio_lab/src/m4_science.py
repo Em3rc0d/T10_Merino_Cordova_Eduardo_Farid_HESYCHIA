@@ -17,9 +17,10 @@ def main():
     prep.add_argument("--counts", nargs=3, type=int, default=[1600, 160, 160])
     prep.add_argument("--seconds", type=float, default=2.)
     prep.add_argument("--workers", type=int, default=6)
+    prep.add_argument("--conditions", choices=("legacy-v1", "full-factorial-v2"), default="full-factorial-v2")
     train = sub.add_parser("train")
     train.add_argument("--root", default="data/m4_sci")
-    train.add_argument("--config", default="configs/m4_sci_candidate.json")
+    train.add_argument("--config", default="configs/m4_sci_fullcoverage.json")
     train.add_argument("--out", required=True)
     train.add_argument("--seed", type=int)
     train.add_argument("--loss", choices=("composite", "mask_mse"))
@@ -31,6 +32,7 @@ def main():
     freeze.add_argument("--out", required=True)
     freeze.add_argument("--event-checkpoint")
     freeze.add_argument("--event-calibration")
+    freeze.add_argument("--selection")
     events = sub.add_parser("train-events")
     events.add_argument("--root", default="data/m4_sci")
     events.add_argument("--out", required=True)
@@ -40,6 +42,7 @@ def main():
     validation.add_argument("--root", default="data/m4_sci")
     validation.add_argument("--checkpoints", nargs="+", required=True)
     validation.add_argument("--out", required=True)
+    validation.add_argument("--candidate-runs", nargs="+")
     evaluate = sub.add_parser("evaluate")
     evaluate.add_argument("--root", default="data/m4_sci")
     evaluate.add_argument("--freeze", required=True)
@@ -52,13 +55,18 @@ def main():
     predict.add_argument("--block-protected", action="store_true")
     predict.add_argument("--event-checkpoint")
     predict.add_argument("--event-calibration")
+    restore = sub.add_parser("restore-frozen-corpus")
+    restore.add_argument("--root", required=True)
+    restore.add_argument("--registry", required=True)
+    restore.add_argument("--containers", required=True)
     args = p.parse_args()
     if args.action == "prepare":
         from m4_scientific.corpus import prepare, load_registry
         from m4_scientific.scenes import save_recipes
         audit = prepare(args.root, speech_per_speaker=args.speech_per_speaker, workers=args.workers)
         registry = load_registry(args.root, allow_unreviewed=True)
-        recipes = save_recipes(args.root, registry, counts=tuple(args.counts), seconds=args.seconds)
+        recipes = save_recipes(args.root, registry, counts=tuple(args.counts), seconds=args.seconds,
+                                condition_version=args.conditions)
         result = dict(audit=audit, recipes=recipes)
     elif args.action == "train":
         from m4_scientific.training import fit
@@ -70,16 +78,20 @@ def main():
     elif args.action == "freeze":
         from m4_scientific.evaluation import freeze
         result = freeze(args.root, args.checkpoints, args.out,
-                        event_checkpoint=args.event_checkpoint, event_calibration=args.event_calibration)
+                        event_checkpoint=args.event_checkpoint, event_calibration=args.event_calibration,
+                        selection_path=args.selection)
     elif args.action == "train-events":
         from m4_scientific.events import fit_events
         result = fit_events(args.root, args.out, epochs=args.epochs, pilot_unreviewed=args.pilot_unreviewed)
     elif args.action == "validate":
         from m4_scientific.validation import validate_candidates
-        result = validate_candidates(args.root, args.checkpoints, args.out)
+        result = validate_candidates(args.root, args.checkpoints, args.out, candidate_runs=args.candidate_runs)
     elif args.action == "evaluate":
         from m4_scientific.evaluation import evaluate
         result = evaluate(args.root, args.freeze, args.out)
+    elif args.action == "restore-frozen-corpus":
+        from m4_scientific.reproduction import restore
+        result = restore(args.root, args.registry, args.containers)
     else:
         from m4_scientific.inference import predict_file
         result = predict_file(args.checkpoint, args.input, args.out, args.target,

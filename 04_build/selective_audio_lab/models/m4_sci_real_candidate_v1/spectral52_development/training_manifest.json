@@ -1,0 +1,49 @@
+{
+  "schema": "m4-sci-training-v1",
+  "config": {
+    "seed": 52,
+    "epochs": 20,
+    "patience": 7,
+    "batch_size": 8,
+    "channels": 12,
+    "architecture": "spectral",
+    "threads": 3,
+    "learning_rate": 0.001,
+    "weight_decay": 0.001,
+    "loss": "composite",
+    "reconstruction_weight": 0.5,
+    "speech_weight": 0.5,
+    "conditioning": "class",
+    "training_frames": 80,
+    "warmup_frames": 30
+  },
+  "registry_sha256": "ca9f983a0bc3c024ba10273f7698e696526d38ecdd80c1ef4af1c667826f799e",
+  "scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+  "code_sha256": "3de80cd54bdc5cba76ce339aa18e1ad0f4df44d1c9a1b21c3df53abaaad40614",
+  "frontend": {
+    "sample_rate": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "bins": 257,
+    "window": "sqrt-periodic-Hann",
+    "left_padding": 352,
+    "tail_hops": 3,
+    "feature": "log1p(20*abs(STFT))",
+    "normalization": "fixed-pointwise",
+    "model_lookahead_frames": 0,
+    "synthesis": "normalized-WOLA-offline-reference"
+  },
+  "corpus_review": "PENDING_HUMAN_REVIEW",
+  "pilot_unreviewed": true,
+  "test_audio_read": false,
+  "selection": "minimum fixed-validation loss; no test selection",
+  "targets": [
+    "vacuum_cleaner",
+    "chainsaw"
+  ],
+  "torch_version": "2.10.0+cpu",
+  "numpy_version": "2.3.5",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "cpu_threads": 3,
+  "deterministic_algorithms": true
+}

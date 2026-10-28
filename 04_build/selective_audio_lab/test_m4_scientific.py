@@ -174,6 +174,48 @@ def test_pcm_conversion_has_stable_container_and_exact_samples(tmp_path):
     assert np.array_equal(a, b)
 
 
+def test_full_factorial_design_covers_clean_speech_alert_negatives_and_silence(tmp_path):
+    import soundfile as sf
+    from m4_scientific.scenes import make_recipes, coverage
+    rows = []
+    for split in ("train", "val", "test"):
+        for cls in ("vacuum_cleaner", "chainsaw", "speech", "background", "alert"):
+            path = tmp_path / f"{split}_{cls}.wav"
+            sf.write(path, np.ones(16000, dtype=np.float32) * .1, 16000)
+            rows.append(dict(asset_id=path.stem, split=split, **{"class": cls},
+                             role=cls, path=path.name, source_group=path.stem))
+    result = make_recipes(tmp_path, {"assets": rows}, counts=(160, 160, 160), seconds=.5,
+                          condition_version="full-factorial-v2")
+    for recipes in result.values():
+        audit = coverage(recipes)
+        assert audit["status"] == "PASS" and audit["observed_conditions"] == 32
+        assert audit["pure_speech_scenes"] > 0 and audit["silence_scenes"] > 0
+        assert any(r["alert_present"] and not r["target_present"] for r in recipes)
+
+
+def test_reproduced_containers_match_frozen_hash_without_audio_distribution(tmp_path):
+    import soundfile as sf
+    from m4_scientific.reproduction import export_containers, restore
+    from m4_scientific.corpus import _convert
+    from m4_scientific.common import sha256, write_json
+    original, rebuilt = tmp_path / "frozen", tmp_path / "rebuilt"
+    for root in (original, rebuilt):
+        (root / "pcm").mkdir(parents=True)
+    x = np.random.default_rng(9).normal(0, .1, 16000).astype(np.float32)
+    frozen_pcm = original / "pcm/a.wav"
+    sf.write(frozen_pcm, x, 16000, subtype="FLOAT")
+    row = dict(asset_id="a", path="pcm/a.wav", pcm_sha256=sha256(frozen_pcm))
+    write_json(original / "registry.json", dict(assets=[row]))
+    containers = tmp_path / "containers.json"
+    export_containers(original, containers)
+    _convert(frozen_pcm, rebuilt / "pcm/a.wav")
+    assert sha256(rebuilt / "pcm/a.wav") != row["pcm_sha256"]
+    write_json(rebuilt / "registry.json", dict(assets=[]))
+    report = restore(rebuilt, original / "registry.json", containers)
+    assert report["samples_changed"] is False
+    assert sha256(rebuilt / "pcm/a.wav") == row["pcm_sha256"]
+
+
 def test_pipeline_trains_freezes_evaluates_once_without_test_tuning(tmp_path):
     import soundfile as sf
     from m4_scientific.common import sha256, write_json, read_json
@@ -205,7 +247,9 @@ def test_pipeline_trains_freezes_evaluates_once_without_test_tuning(tmp_path):
     summary = fit(root, tmp_path / "run", config, pilot_unreviewed=True)
     assert summary["test_audio_read"] is False
     frozen = tmp_path / "freeze.json"
-    freeze(root, [tmp_path / "run" / "candidate.pt"], frozen)
+    selection = tmp_path / "validation_selection.json"
+    create_json(selection, dict(checkpoint_sha256=summary["checkpoint_sha256"], selection="fixture-validation-only"))
+    freeze(root, [tmp_path / "run" / "candidate.pt"], frozen, selection_path=selection)
     report = evaluate(root, frozen, tmp_path / "result", save_audio=0)
     assert report["test_scenes"] == 4
     assert report["scientific_GO"] is False

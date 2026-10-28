@@ -1,0 +1,32 @@
+{
+  "schema": "m4-sci-mixtures-v1",
+  "recipe_hashes": {
+    "train": "a8221aac61c2ad250305af8cb6bbf1c12535bd715878ee277c26b1bef9fdffc1",
+    "val": "f006b6ddfe76b1501ea3d05a21dfdd4038289837296ddf4453d221d11b786ce8",
+    "test": "04e693c47b75e080864ce0d42d494f76a9f89af34f7e829fc2ac8dbd1f5335d1"
+  },
+  "targets": [
+    "vacuum_cleaner",
+    "chainsaw"
+  ],
+  "registry_sha256": "ca9f983a0bc3c024ba10273f7698e696526d38ecdd80c1ef4af1c667826f799e",
+  "counts": {
+    "train": 1600,
+    "val": 160,
+    "test": 160
+  },
+  "description": "Real recordings mixed digitally, with known candidate pseudo-stems; relative_db is component RMS relative to common reference, not total-mixture SNR",
+  "reference_gain_floor_db": 12.0,
+  "sample_rate": 16000,
+  "test_sealed": true,
+  "generation_config": {
+    "counts": [
+      1600,
+      160,
+      160
+    ],
+    "seconds": 2.0,
+    "seed": 2710,
+    "condition_version": "full-factorial-v2"
+  }
+}

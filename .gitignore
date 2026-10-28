@@ -33,3 +33,4 @@ UrbanSound8K/
 # Scientific runs contain third-party audio replays and regenerable tensor caches.
 # Only reviewed code, model candidates and frozen evidence summaries are promoted.
 04_build/selective_audio_lab/outputs/m4_sci/
+04_build/selective_audio_lab/outputs/m4_sci*/

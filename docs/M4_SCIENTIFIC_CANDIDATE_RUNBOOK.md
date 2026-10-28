@@ -97,13 +97,13 @@ El flag siguiente permite ejecutar un **piloto declarado con revisión pendiente
 no transforma los pseudo-stems en fuentes aisladas aprobadas.
 
 ```bash
-python src/m4_science.py train --out outputs/m4_sci/seed41 --seed 41 --pilot-unreviewed
-python src/m4_science.py train --out outputs/m4_sci/seed42 --seed 42 --pilot-unreviewed
-python src/m4_science.py train --out outputs/m4_sci/seed43 --seed 43 --pilot-unreviewed
-python src/m4_science.py train --out outputs/m4_sci/mask_mse --loss mask_mse --pilot-unreviewed
-python src/m4_science.py train --out outputs/m4_sci/no_class --conditioning none --pilot-unreviewed
+python src/m4_science.py train --out outputs/m4_sci/seed61 --seed 61 --pilot-unreviewed
+python src/m4_science.py train --out outputs/m4_sci/seed62 --seed 62 --pilot-unreviewed
+python src/m4_science.py train --out outputs/m4_sci/seed63 --seed 63 --pilot-unreviewed
+python src/m4_science.py train --out outputs/m4_sci/mask_mse61 --seed 61 --loss mask_mse --pilot-unreviewed
+python src/m4_science.py train --out outputs/m4_sci/no_class61 --seed 61 --conditioning none --pilot-unreviewed
 python src/m4_science.py train --config configs/m4_sci_spectral.json --out outputs/m4_sci/spectral51 --pilot-unreviewed
-python src/m4_science.py train-events --out outputs/m4_sci/events141 --pilot-unreviewed
+python src/m4_science.py train-events --out outputs/m4_sci/events_v2 --pilot-unreviewed
 ```
 
 Ejecutar secuencialmente en máquinas de RAM limitada. La caché de tensores está
@@ -115,7 +115,7 @@ Para comparar funciones de pérdida se usan las mismas métricas acústicas,
 **no se comparan numéricamente escalas de pérdida distintas**:
 
 ```bash
-python src/m4_science.py validate --checkpoints outputs/m4_sci/seed41/candidate.pt outputs/m4_sci/seed42/candidate.pt outputs/m4_sci/seed43/candidate.pt --out outputs/m4_sci/validation
+python src/m4_science.py validate --checkpoints outputs/m4_sci/seed61/candidate.pt outputs/m4_sci/seed62/candidate.pt outputs/m4_sci/seed63/candidate.pt --out outputs/m4_sci/validation
 ```
 
 La selección usa cumplimiento conjunto por escena en validación, luego menor
@@ -125,7 +125,7 @@ añadidas después de observar validación son exploración declarada.
 ## Congelar y evaluar una sola vez
 
 ```bash
-python src/m4_science.py freeze --checkpoints outputs/m4_sci/seed41/candidate.pt outputs/m4_sci/seed42/candidate.pt outputs/m4_sci/seed43/candidate.pt --event-checkpoint outputs/m4_sci/events141/events.pt --event-calibration outputs/m4_sci/events141/calibration.json --out outputs/m4_sci/freeze_test.json
+python src/m4_science.py freeze --checkpoints outputs/m4_sci/seed61/candidate.pt outputs/m4_sci/seed62/candidate.pt outputs/m4_sci/seed63/candidate.pt --event-checkpoint outputs/m4_sci/events_v2/events.pt --event-calibration outputs/m4_sci/events_v2/calibration.json --out outputs/m4_sci/freeze_test.json
 python src/m4_science.py evaluate --freeze outputs/m4_sci/freeze_test.json --out outputs/m4_sci/test
 ```
 
@@ -148,7 +148,7 @@ y fuentes; se informa ese límite y el número efectivo de grupos.
 ## Probar un audio propio
 
 ```bash
-python src/m4_science.py predict --checkpoint outputs/m4_sci/seed42/candidate.pt --input /ruta/mezcla.wav --target vacuum_cleaner --out outputs/prueba.wav
+python src/m4_science.py predict --checkpoint outputs/m4_sci/seed62/candidate.pt --input /ruta/mezcla.wav --target vacuum_cleaner --out outputs/prueba.wav
 ```
 
 Para el gate M2 estimado añadir `--event-checkpoint .../events.pt` y
@@ -167,3 +167,30 @@ identifican como candidatos; el reporte no emite GO automático.
 
 No se ha implementado P2 en este incremento. El framing causal de entrenamiento
 y el WOLA offline no prueban p95/hop, latencia física, captura en vivo ni Android.
+
+## Revisión de cobertura V2 y conservación del desarrollo
+
+La cohorte inicial se conserva como desarrollo: su diseño omitía voz sin ambos
+ruidos y alertas con objetivo ausente. La auditoría `legacy_condition_gaps.json`
+registra esas ausencias. Dos corridas espectrales se detuvieron por esa revisión
+de datos; sus resúmenes lo declaran y no se presentan como repeticiones completas.
+
+La cohorte V2 utiliza un diseño factorial de 32 combinaciones por partición
+(clase solicitada × presencia de objetivo × otro ruido × habla × alerta).
+Incluye voz limpia y silencio. Cada test de 160 escenas contiene 8 controles de
+silencio; el reporte diferencia esas escenas de las mezclas de grabaciones reales.
+Las semillas 61, 62 y 63 son los candidatos elegibles del entrenamiento corregido;
+los otros modelos y las ablaciones permanecen en la comparación como controles.
+La selección se hace antes del test, exclusivamente con validación.
+
+Para reproducir exactamente los contenedores del corpus archivado, preparar los
+audios en una carpeta física nueva y ejecutar:
+
+```bash
+python src/m4_science.py restore-frozen-corpus --root data/m4_sci --registry ../../05_evidence/m4_sci_real_2026-10-27/v2/registry.json --containers ../../05_evidence/m4_sci_real_2026-10-27/pcm_containers.json
+```
+
+Se preservan los registros previos, se verifican las muestras reconstruidas contra
+los SHA-256 originales y se restauran las recetas archivadas. El recibo conserva
+la fecha real de reproducción; los encabezados retienen únicamente los metadatos
+del contenedor original. El archivo de encabezados no contiene muestras de audio.

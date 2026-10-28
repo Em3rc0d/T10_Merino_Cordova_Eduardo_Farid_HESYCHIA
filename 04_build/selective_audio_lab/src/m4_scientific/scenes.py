@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import math
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 
@@ -20,7 +21,27 @@ def read_pcm(path):
     return x
 
 
-def make_recipes(root, registry, *, counts=(1600, 160, 160), seconds=2., seed=2710):
+def condition_key(recipe):
+    other = TARGETS[1 - recipe["target_id"]] in recipe["parts"]
+    return (recipe["target_id"], int(recipe["target_present"]), int(other),
+            int(recipe["speech_present"]), int(recipe["alert_present"]))
+
+
+def coverage(recipes):
+    import itertools
+    counts = Counter(condition_key(r) for r in recipes)
+    expected = list(itertools.product(range(2), range(2), range(2), range(2), range(2)))
+    missing = [list(k) for k in expected if not counts[k]]
+    return dict(status="PASS" if not missing else "GAPS", required_conditions=32,
+                observed_conditions=len(counts), missing=missing,
+                fields=["requested_class", "target_present", "other_present", "speech_present", "alert_present"],
+                counts={"/".join(map(str, k)): v for k, v in sorted(counts.items())},
+                pure_speech_scenes=sum(r["speech_present"] and set(r["parts"]) == {"speech"} for r in recipes),
+                silence_scenes=sum(not r["parts"] for r in recipes))
+
+
+def make_recipes(root, registry, *, counts=(1600, 160, 160), seconds=2., seed=2710,
+                 condition_version="legacy-v1"):
     if len(counts) != 3 or min(counts) < 2 or seconds <= 0 or round(seconds * SR) % 160:
         raise ValueError("Invalid scene counts/duration")
     result = {}
@@ -34,13 +55,25 @@ def make_recipes(root, registry, *, counts=(1600, 160, 160), seconds=2., seed=27
         for i in range(count):
             target_id = i % 2
             # Explicit negatives, concurrent targets, no-voice and alert controls.
-            target_present = i % 5 != 0
-            other_present = i % 3 == 0 or not target_present
-            speech_present = i % 13 != 0
-            alert_present = i % 10 == 3
+            if condition_version == "legacy-v1":
+                target_present = i % 5 != 0
+                other_present = i % 3 == 0 or not target_present
+                speech_present = i % 13 != 0
+                alert_present = i % 10 == 3
+                background_present = True
+            elif condition_version == "full-factorial-v2":
+                combo = (i // 2) % 4
+                target_present = combo in (1, 3)
+                other_present = combo in (2, 3)
+                speech_present = (i // 8) % 4 != 0
+                alert_present = (i // 32) % 5 == 3
+                background_present = not (not target_present and not other_present and
+                    not alert_present and (i // 8) % 2 == 0)
+            else:
+                raise ValueError("Unknown scene condition design")
             present = {TARGETS[target_id]: target_present,
                        TARGETS[1 - target_id]: other_present,
-                       "speech": speech_present, "background": True, "alert": alert_present}
+                       "speech": speech_present, "background": background_present, "alert": alert_present}
             parts = {}
             for cls, active in present.items():
                 if not active:
@@ -99,6 +132,9 @@ def save_recipes(root, registry, **kwargs):
     resolved = dict(counts=(1600, 160, 160), seconds=2., seed=2710)
     resolved.update(kwargs)
     result = make_recipes(root, registry, **resolved)
+    audits = {s: coverage(r) for s, r in result.items()}
+    if resolved.get("condition_version") == "full-factorial-v2" and any(a["status"] != "PASS" for a in audits.values()):
+        raise ValueError("Full-factorial design needs all 32 class/presence conditions in each split")
     hashes = {}
     for split, recipes in result.items():
         write_json(root / f"recipes_{split}.json", recipes)
@@ -111,6 +147,7 @@ def save_recipes(root, registry, **kwargs):
                     "relative_db is component RMS relative to common reference, not total-mixture SNR",
         reference_gain_floor_db=12., sample_rate=SR,
         test_sealed=True, generation_config=resolved))
+    write_json(root / "condition_coverage.json", audits)
     return hashes
 
 

@@ -1,0 +1,63 @@
+{
+  "events": [
+    "vacuum_cleaner",
+    "chainsaw",
+    "speech",
+    "alert"
+  ],
+  "thresholds": [
+    0.25,
+    0.35000000000000003,
+    0.5,
+    0.38384963393211363
+  ],
+  "selection": "target/speech maximum validation F1; alert additionally capped below minimum validation-positive score; no test tuning",
+  "validation": {
+    "macro_f1": 0.7263634408672576,
+    "per_class": [
+      {
+        "event": "vacuum_cleaner",
+        "tp": 76,
+        "fp": 29,
+        "fn": 4,
+        "precision": 0.7238095238095238,
+        "recall": 0.95,
+        "f1": 0.8216216216216217
+      },
+      {
+        "event": "chainsaw",
+        "tp": 74,
+        "fp": 35,
+        "fn": 6,
+        "precision": 0.6788990825688074,
+        "recall": 0.925,
+        "f1": 0.783068783068783
+      },
+      {
+        "event": "speech",
+        "tp": 118,
+        "fp": 24,
+        "fn": 2,
+        "precision": 0.8309859154929577,
+        "recall": 0.9833333333333333,
+        "f1": 0.9007633587786259
+      },
+      {
+        "event": "alert",
+        "tp": 32,
+        "fp": 96,
+        "fn": 0,
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1": 0.4
+      }
+    ]
+  },
+  "checkpoint_sha256": "df6b570e218ae5087cc5db58eafdcb8723dbd9ecda25afa505df0f5f2680487d",
+  "corpus_sha256": "ca9f983a0bc3c024ba10273f7698e696526d38ecdd80c1ef4af1c667826f799e",
+  "scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+  "test_audio_read": false,
+  "mode": "experimental_offline_clip_multilabel",
+  "streaming_compatible": false,
+  "automatic_safety_validated": false
+}

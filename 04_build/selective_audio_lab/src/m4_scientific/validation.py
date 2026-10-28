@@ -14,7 +14,7 @@ from .model import features, load_checkpoint, spectrum
 from .scenes import build_scene, load_recipes
 
 
-def validate_candidates(root, checkpoints, output):
+def validate_candidates(root, checkpoints, output, *, candidate_runs=None):
     root, output = Path(root), Path(output)
     output.mkdir(parents=True, exist_ok=False)
     reg = load_registry(root, allow_unreviewed=True, splits=("val",))
@@ -55,12 +55,16 @@ def validate_candidates(root, checkpoints, output):
         print(f"validation {path.parent.name}: joint={score['joint_pass']}/{len(eligible)} "
               f"A_target={score['mean_A_target_db']:.2f} voice_loss={score['mean_A_protected_db']:.2f}", flush=True)
     # Predeclared selection ordering. Never compare MSE loss with composite loss numerically.
-    ranked = sorted(summaries, key=lambda r: (r["joint_pass_rate"],
+    candidates = [r for r in summaries if candidate_runs is None or r["run"] in candidate_runs]
+    if not candidates or (candidate_runs is not None and set(candidate_runs) - {r["run"] for r in summaries}):
+        raise ValueError("Validation candidate eligibility is empty or names an unknown run")
+    ranked = sorted(candidates, key=lambda r: (r["joint_pass_rate"],
                     -max(0., r["mean_A_protected_db"] - 1.), r["mean_A_target_db"]), reverse=True)
     report = dict(split="validation_only", test_audio_read=False,
                   selection="highest joint success fraction; ties prefer smaller violation "
                             "of protected<=1 dB, then higher target attenuation",
                   best_checkpoint=ranked[0]["checkpoint"], best_run=ranked[0]["run"],
+                  eligible_candidates=[r["run"] for r in candidates],
                   summaries=summaries, scientific_GO=False)
     write_json(output / "validation_report.json", report)
     with (output / "per_scene.csv").open("w", newline="") as f:

@@ -4,13 +4,20 @@ Estos pesos se entrenaron sobre grabaciones reales, mezcladas digitalmente con
 referencias conocidas. No sustituyen los checkpoints históricos PI9/PI10.
 La condición de candidato no equivale a aprobación científica de selectividad.
 
-## Familias de modelos
+## Candidatos de cobertura completa
+
+`seed61`, `seed62` y `seed63` repiten el entrenamiento con las 32 combinaciones
+acústicas. `mask_mse61` y `no_class61` son sus controles. `selection.json` fija
+el candidato elegido por validación; `selected/` conserva exactamente esos pesos.
+El detector corregido y su calibración están en `events_v2`.
+
+## Desarrollo anterior conservado
 
 - `seed41`, `seed42`, `seed43`: CNN temporal causal, pérdida compuesta y etiqueta
   condicionante; tres inicializaciones y órdenes de minibatches independientes.
 - `mask_mse`: control de pérdida MSE, seed 41.
 - `no_class`: control sin información de clase; el predictor fuerza etiqueta 0.
-- `spectral*_final`: variante con convoluciones separables en frecuencia/tiempo;
+- `spectral*_development`: variante con convoluciones separables en frecuencia/tiempo;
   contextos de entrenamiento con calentamiento causal y tres semillas.
 - `events141`: detector multietiqueta experimental offline y calibración exclusiva
   en validación. No es un detector streaming ni una garantía de protección.
@@ -38,14 +45,16 @@ audios de terceros en Git; reconstruir los datos mediante el runbook.
 Desde `04_build/selective_audio_lab`, con `requirements-scientific.txt`:
 
 ```bash
-python src/m4_science.py predict --checkpoint models/m4_sci_real_candidate_v1/seed43/candidate.pt --input /ruta/mezcla.wav --target vacuum_cleaner --out outputs/prueba.wav
+python src/m4_science.py predict --checkpoint models/m4_sci_real_candidate_v1/selected/candidate.pt --input /ruta/mezcla.wav --target vacuum_cleaner --out outputs/prueba.wav
 ```
 
 El objetivo se configura explícitamente. Para probar el gate M2, añadir
-`--event-checkpoint models/m4_sci_real_candidate_v1/events141/events.pt` y
-`--event-calibration models/m4_sci_real_candidate_v1/events141/calibration.json`.
+`--event-checkpoint models/m4_sci_real_candidate_v1/events_v2/events.pt` y
+`--event-calibration models/m4_sci_real_candidate_v1/events_v2/calibration.json`.
 `--block-protected` fuerza bypass antes de cargar los pesos M4.
 
 Protocolo y comandos completos: `docs/M4_SCIENTIFIC_CANDIDATE_RUNBOOK.md` desde
 la raíz del repositorio. La salida es procesamiento offline de referencia;
 no constituye captura/reproducción en vivo ni prueba de latencia física.
+
+Dos variantes espectrales se detuvieron al detectarse el hueco de cobertura V1. Sus resúmenes y estados distinguen esa interrupción de un entrenamiento completado. Los controles antiguos se evalúan en el mismo test V2, registrando su contrato de entrenamiento distinto.
