@@ -1,0 +1,55 @@
+name: M4 V3 spectral CNN + counterfactual VAL (unreviewed experiment)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/m4-v3-spectral-validation-pilot.yml'
+      - '04_build/selective_audio_lab/experiments/m4_v3_spectral_pilot.py'
+      - '04_build/selective_audio_lab/src/m4_scientific/counterfactual.py'
+      - '04_build/selective_audio_lab/configs/m4_sci_v3_spectral_pilot.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  spectral-train-val-exploration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    defaults:
+      run:
+        working-directory: 04_build/selective_audio_lab
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 04_build/selective_audio_lab/requirements-scientific.txt
+      - name: Install pinned scientific dependencies
+        run: python -m pip install -r requirements-scientific.txt
+      - name: Run scientific and V3 behavior gates
+        run: python -m pytest -q test_m4_scientific.py
+      - name: Reproduce archived real audio and evaluate spectral architecture on TRAIN VAL ONLY
+        run: python experiments/m4_v3_spectral_pilot.py
+      - name: Upload validation-only pilot artefacts, no licensed audio
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m4-v3-spectral-val-counterfactual-not-scientific-go
+          path: |
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/intent.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/pilot_result.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/spectral_seed81/candidate.pt
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/spectral_seed81/history.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/spectral_seed81/summary.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/spectral_seed81/training_manifest.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/validation/validation_report.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/validation/per_scene.csv
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/counterfactual_*/counterfactual_report.json
+            04_build/selective_audio_lab/runs/m4-v3-spectral-pilot/counterfactual_*/counterfactual_per_scene.csv
+          if-no-files-found: warn
+          retention-days: 7
