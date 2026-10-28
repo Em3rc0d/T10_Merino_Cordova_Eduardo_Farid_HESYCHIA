@@ -29,3 +29,7 @@ UrbanSound8K/
 
 # PI9/PI10 generated evidence is archived separately; frozen summaries live in 05_evidence.
 04_build/selective_audio_lab/outputs/pi9_pi10_*/
+
+# Scientific runs contain third-party audio replays and regenerable tensor caches.
+# Only reviewed code, model candidates and frozen evidence summaries are promoted.
+04_build/selective_audio_lab/outputs/m4_sci/
