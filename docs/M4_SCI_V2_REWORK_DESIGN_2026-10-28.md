@@ -8,7 +8,7 @@ En test V1 el modelo seleccionado alcanzó 2.529 dB de reducción del objetivo, 
 
 ## Implementación V2
 - M4 es una CNN profunda PyTorch entrenada por retropropagación. Los filtros clásicos y Oracle son baselines, NO reemplazan el estimador aprendido.
-- Modalidad selectiva_v2 conectada al entrenador y CLI, utilizable con arquitecturas convolucionales temporal/espectral. Configuración inicial documentada en configs/m4_sci_v2_selective.json.
+- Modalidad selective_v2 conectada al entrenador y CLI, utilizable con CNN temporal/espectral. La primera configuración usa la misma arquitectura CNN temporal causal V1 para aislar el efecto de la nueva función de pérdida; la CNN espectral queda como ablación posterior. Configuración inicial: configs/m4_sci_v2_selective.json.
 - Nuevo cache explícito: mezcla, fuente objetivo, habla protegida y fuente de ruido no solicitada. Los stems SOLO entran en entrenamiento/validación, jamás en inferencia.
 - Pérdida de entrenamiento con proxies diferenciables de A_target, A_protected y A_nontarget; identidad cuando falta el objetivo; contraste de clase correcta vs intercambiada sobre la misma mezcla; error de máscara auxiliar.
 - Los ejemplos con alerta etiquetada quedan fuera de la pérdida de M4 porque M3b aplica BLOCK y bypass antes de cargar el modelo. La política debe verificarse por separado.
@@ -23,6 +23,8 @@ Directorio de trabajo: 04_build/selective_audio_lab
 
     python -m pytest -q test_m4_scientific.py
     python src/m4_science.py prepare --root data/m4_sci_v2 --conditions full-factorial-v2
+    # ATENCIÓN: el corpus descargado es la misma población original que V1.
+    # Es útil para desarrollo, NO proporciona un nuevo test independiente.
     # Antes de entrenar: completar revisión humana, procedencia y licencia.
     python src/m4_science.py train --root data/m4_sci_v2 --config configs/m4_sci_v2_selective.json --out runs/v2-seed71
 
@@ -35,6 +37,9 @@ La bandera --pilot-unreviewed permite exclusivamente entrenamiento piloto etique
 4. Congelar código, checkpoint, fuentes nuevas, recetas, política, umbrales y evaluador antes del siguiente test.
 5. Test nuevo genuinamente reservado: no reutilizar las 160 escenas ya observadas de PR #4 para entrenar, seleccionar o confirmar V2.
 6. Exigir cumplimiento simultáneo de ambos RNF por escena elegible y reportar intervalos de incertidumbre y fallas. Sin GO, P2 streaming continúa bloqueado.
+
+## Restricción crucial del test final
+La orden prepare reutiliza exactamente la población ESC-50/SLR31 fijada en V1. Cambiar carpeta o semillas NO genera fuentes independientes. El sistema aún NO cuenta con un importador de una cohorte adicional de evaluación externa. El siguiente gate científico exige adquirir y registrar grabaciones realmente nuevas, separadas por fuente/hablante y nunca usadas en el test publicado. Hasta entonces, no ejecutar evaluate presentándolo como confirmación V2.
 
 ## Limitaciones no resueltas
 Todavía no se ha entrenado V2 con un nuevo corpus. ESC-50 aporta pseudo-stems pendientes de escucha; la voz previa es lectura en inglés; M2 genera falsos positivos de alerta; no hay validación en campo, streaming, hardware ni eficacia clínica TEA. No se modifican título ni objetivos oficiales.
