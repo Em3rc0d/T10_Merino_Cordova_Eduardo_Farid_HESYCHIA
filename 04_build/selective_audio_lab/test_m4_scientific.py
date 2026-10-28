@@ -468,3 +468,50 @@ def test_v2_paired_comparator_refuses_test_and_mismatched_scenes(tmp_path):
         writer.writerows(rows)
     with pytest.raises(ValueError, match="Unpaired"):
         compare(folder, "old", "new")
+
+
+def test_spectral_cnn_v3_causal_class_conditioning_and_gradient():
+    """Spectral estimator must be genuinely learnable and strictly causal."""
+    from m4_scientific.model import build_model
+    torch.manual_seed(81)
+    model = build_model(ModelConfig(architecture="spectral", channels=12)).eval()
+    x = torch.rand(2, 45, 257)
+    x_changed = x.clone()
+    x_changed[:, 31:] = torch.rand_like(x_changed[:, 31:]) * 10.
+    label = torch.tensor([0, 1])
+    pred = model(x, label)
+    later = model(x_changed, label)
+    assert pred.shape == (2, 45, 257)
+    assert torch.allclose(pred[:, :31], later[:, :31], atol=1e-6)
+    other_label = model(x, 1-label)
+    assert (pred-other_label).abs().mean() > 1e-7
+    pred.mean().backward()
+    assert model.embedding.weight.grad is not None
+    assert torch.isfinite(model.embedding.weight.grad).all()
+    assert model.embedding.weight.grad.abs().sum() > 0
+
+
+def test_counterfactual_v3_metrics_diagnose_correct_and_swapped_classes():
+    from m4_scientific.counterfactual import summarize_counterfactual
+    rows = [
+        dict(target_group="original_a", target_contrast_db=3., other_contrast_db=2.,
+             correct_target_db=6., swapped_target_db=3.,
+             correct_other_db=1., swapped_other_db=3.,mask_l1_difference=.2),
+        dict(target_group="original_a", target_contrast_db=-1., other_contrast_db=-.5,
+             correct_target_db=1., swapped_target_db=2.,
+             correct_other_db=1.5, swapped_other_db=1.,mask_l1_difference=.1),
+        dict(target_group="original_b", target_contrast_db=2., other_contrast_db=2.5,
+             correct_target_db=5., swapped_target_db=3.,
+             correct_other_db=0., swapped_other_db=2.5,mask_l1_difference=.3),
+    ]
+    summary = summarize_counterfactual(rows)
+    assert summary["scene_count"] == 3 and summary["source_group_count"] == 2
+    assert summary["both_contrasts_positive_scenes"] == 2
+    assert summary["target_contrast_db_equal_group_mean"] == pytest.approx(1.5)
+    assert summary["other_contrast_db_equal_group_mean"] == pytest.approx(1.625)
+    with pytest.raises(ValueError, match="No informative"):
+        summarize_counterfactual([])
+    broken = copy.deepcopy(rows)
+    broken[0]["correct_target_db"] = None
+    with pytest.raises(ValueError, match="must be present"):
+        summarize_counterfactual(broken)
