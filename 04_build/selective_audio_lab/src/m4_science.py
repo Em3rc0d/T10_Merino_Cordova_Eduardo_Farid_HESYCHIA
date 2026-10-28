@@ -23,7 +23,7 @@ def main():
     train.add_argument("--config", default="configs/m4_sci_fullcoverage.json")
     train.add_argument("--out", required=True)
     train.add_argument("--seed", type=int)
-    train.add_argument("--loss", choices=("composite", "mask_mse"))
+    train.add_argument("--loss", choices=("composite", "mask_mse", "selective_v2"))
     train.add_argument("--conditioning", choices=("class", "none"))
     train.add_argument("--pilot-unreviewed", action="store_true")
     freeze = sub.add_parser("freeze")
