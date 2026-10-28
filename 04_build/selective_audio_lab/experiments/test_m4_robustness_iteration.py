@@ -7,7 +7,7 @@ import unittest
 import numpy as np
 sys.path.insert(0, str(Path(__file__).parent))
 from m4_robustness_iteration import scene, scene_features, dataset, TRAIN_CASES, EVAL_CASES, safe_training_loss
-from stress_m4_keras_torch import BINS
+from m4_procedural_core import BINS
 
 
 class SyntheticTest(unittest.TestCase):

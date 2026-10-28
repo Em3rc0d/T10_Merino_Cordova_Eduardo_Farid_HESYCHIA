@@ -1,0 +1,13 @@
+{
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "python": "3.12.14",
+  "torch": "2.10.0+cpu",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "soundfile": "0.13.1",
+  "pystoi": "0.4.1",
+  "device": "CPU",
+  "gpu_used": false,
+  "hardware_cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "execution_scope": "cloud CPU environment; not the thesis laptop, not E2E latency"
+}

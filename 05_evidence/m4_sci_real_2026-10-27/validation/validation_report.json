@@ -1,0 +1,700 @@
+{
+  "split": "validation_only",
+  "test_audio_read": false,
+  "selection": "highest joint success fraction; ties prefer smaller violation of protected<=1 dB, then higher target attenuation",
+  "best_checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed61/candidate.pt",
+  "best_run": "seed61",
+  "eligible_candidates": [
+    "seed61",
+    "seed62",
+    "seed63"
+  ],
+  "summaries": [
+    {
+      "run": "seed41",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed41/candidate.pt",
+      "checkpoint_sha256": "ad4b82658a8027f7492e7c8f59c31a6c2f0c485f534b85c79a1bd55ebf1af319",
+      "seed": 41,
+      "configuration": {
+        "seed": 41,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 2.657436571901112,
+      "mean_A_protected_db": 2.275528124952372,
+      "A_target_db": {
+        "group_mean": 2.7290819113631986,
+        "ci95": [
+          2.385158948590357,
+          3.051348657189169
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 2.1905905719278334,
+        "ci95": [
+          1.322280760941748,
+          3.0773209050969053
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.0014964059278920947,
+        "ci95": [
+          0.00025227790989052824,
+          0.0025002392335843563
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "seed42",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed42/candidate.pt",
+      "checkpoint_sha256": "db70e5f055275c5e9422f1b2f18c1850b4ca23635fcb9483348f95da7c8b0c9f",
+      "seed": 42,
+      "configuration": {
+        "seed": 42,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 2.8988959764274593,
+      "mean_A_protected_db": 1.1399811002185232,
+      "A_target_db": {
+        "group_mean": 3.0558052443732078,
+        "ci95": [
+          2.68423270184269,
+          3.408481188743234
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 1.112777015956202,
+        "ci95": [
+          0.8686978653100967,
+          1.3568561666023073
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.011046924052967786,
+        "ci95": [
+          0.006715354073865676,
+          0.015378494032069893
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "seed43",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed43/candidate.pt",
+      "checkpoint_sha256": "e9ca81b5aa98a36ec9a8ec32716d5adf7f177ef9e998ca4aa7af660a9bf43ef9",
+      "seed": 43,
+      "configuration": {
+        "seed": 43,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 3.1835478159621067,
+      "mean_A_protected_db": 0.9958790960954218,
+      "A_target_db": {
+        "group_mean": 3.39505729695919,
+        "ci95": [
+          2.4253225232979583,
+          4.235948798309254
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.9690315005382225,
+        "ci95": [
+          0.7027245276209548,
+          1.1250683822499827
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.005276671190412048,
+        "ci95": [
+          0.00032911250222731345,
+          0.008975351792635667
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "mask_mse",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse/candidate.pt",
+      "checkpoint_sha256": "8470573d787b4fbbe86e1085a3e0b25544f8034b1d90bfebb442f0353e9e744e",
+      "seed": 41,
+      "configuration": {
+        "seed": 41,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "mask_mse",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 4.9930879661052145,
+      "mean_A_protected_db": 4.768693519622276,
+      "A_target_db": {
+        "group_mean": 5.003634795033856,
+        "ci95": [
+          4.82925314484671,
+          5.158847817994827
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 4.737184267044061,
+        "ci95": [
+          4.370615246457801,
+          5.103753287630321
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": -0.002405827253110641,
+        "ci95": [
+          -0.004240467601823566,
+          -0.0014453447003990793
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "no_class",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class/candidate.pt",
+      "checkpoint_sha256": "3b6f8351531ae22d449b73ca5793fa9d39172f4818eb744093ff4268ea367e8b",
+      "seed": 41,
+      "configuration": {
+        "seed": 41,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "none"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 3.923662554246658,
+      "mean_A_protected_db": 1.071742943158265,
+      "A_target_db": {
+        "group_mean": 3.9892658152503397,
+        "ci95": [
+          3.5232558462995027,
+          4.412657332011555
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 1.0618976301784633,
+        "ci95": [
+          0.7830064383751923,
+          1.3407888219817343
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.021397307727990846,
+        "ci95": [
+          0.014866844031423292,
+          0.03015678164191999
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "spectral51_development",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/spectral51_development/candidate.pt",
+      "checkpoint_sha256": "1968e7238287bb1ac65cd75825bbf8d9d15621dbb6bed90849c86a235a0e425f",
+      "seed": 51,
+      "configuration": {
+        "seed": 51,
+        "epochs": 20,
+        "patience": 7,
+        "batch_size": 8,
+        "channels": 12,
+        "architecture": "spectral",
+        "threads": 3,
+        "learning_rate": 0.001,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class",
+        "training_frames": 80,
+        "warmup_frames": 30
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 2.751701218551943,
+      "mean_A_protected_db": 0.6034599477214667,
+      "A_target_db": {
+        "group_mean": 2.7257078097354226,
+        "ci95": [
+          2.178957806656188,
+          3.2949936078600026
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.6080181526318376,
+        "ci95": [
+          0.5310825645796812,
+          0.6607960815843147
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.0032963113355411987,
+        "ci95": [
+          0.0011986909261417632,
+          0.005393931744940635
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "spectral52_development",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/spectral52_development/candidate.pt",
+      "checkpoint_sha256": "e666326be4be72dc107908d6e7e026eea7cb0be0253511545cacb6ede91c2f8b",
+      "seed": 52,
+      "configuration": {
+        "seed": 52,
+        "epochs": 20,
+        "patience": 7,
+        "batch_size": 8,
+        "channels": 12,
+        "architecture": "spectral",
+        "threads": 3,
+        "learning_rate": 0.001,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class",
+        "training_frames": 80,
+        "warmup_frames": 30
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 2.5180198447963695,
+      "mean_A_protected_db": 0.5337339885224263,
+      "A_target_db": {
+        "group_mean": 2.723929976284929,
+        "ci95": [
+          2.3710366366364894,
+          3.0444266558431377
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.5358366359399545,
+        "ci95": [
+          0.45690100781926113,
+          0.6147722640606479
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.006741108145339676,
+        "ci95": [
+          0.0059245991852947995,
+          0.007523932001401208
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "spectral53_development",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/spectral53_development/candidate.pt",
+      "checkpoint_sha256": "297ccfcdb520b400a207935ec7a5c4727d473f4bf07f1144225f03f454e41f19",
+      "seed": 53,
+      "configuration": {
+        "seed": 53,
+        "epochs": 20,
+        "patience": 7,
+        "batch_size": 8,
+        "channels": 12,
+        "architecture": "spectral",
+        "threads": 3,
+        "learning_rate": 0.001,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class",
+        "training_frames": 80,
+        "warmup_frames": 30
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 3.1666346647629404,
+      "mean_A_protected_db": 0.758533748158475,
+      "A_target_db": {
+        "group_mean": 3.3312537561682847,
+        "ci95": [
+          2.979242647310525,
+          3.670094144997276
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.7616199783695841,
+        "ci95": [
+          0.6247711022630138,
+          0.8984688544761544
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.006724837065920998,
+        "ci95": [
+          0.005997191882584718,
+          0.007452482249257277
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "seed61",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed61/candidate.pt",
+      "checkpoint_sha256": "c0b34027fe1d4165b062f4145ca7173b3d547cedc39846e17298295e99fb1966",
+      "seed": 61,
+      "configuration": {
+        "seed": 61,
+        "epochs": 30,
+        "patience": 8,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 2,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 2.0496060190105774,
+      "mean_A_protected_db": 0.5800675301089039,
+      "A_target_db": {
+        "group_mean": 2.2605509007771114,
+        "ci95": [
+          1.6414386387686024,
+          2.9078087060930984
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.5740876013587728,
+        "ci95": [
+          0.485795709887587,
+          0.6531102662719062
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.004106290194981405,
+        "ci95": [
+          0.0017409198891612772,
+          0.006471660500801531
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "seed62",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed62/candidate.pt",
+      "checkpoint_sha256": "aef5d232bc4d076f9294ad6099078abd3054b78dfb88f3ffc12d545728cbf5a7",
+      "seed": 62,
+      "configuration": {
+        "seed": 62,
+        "epochs": 30,
+        "patience": 8,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 2,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 1.7231938632134955,
+      "mean_A_protected_db": 0.6556356339578512,
+      "A_target_db": {
+        "group_mean": 1.716792914796308,
+        "ci95": [
+          1.3221219326431868,
+          2.0609656008016946
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.6688419686235527,
+        "ci95": [
+          0.5102433556613996,
+          0.8658316793931705
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.003754279263654966,
+        "ci95": [
+          0.0016846816947557375,
+          0.005063402390389386
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "seed63",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed63/candidate.pt",
+      "checkpoint_sha256": "aeebbed3672663332a72448184b914d7a1dc8dc03067d13e0bdd558a1125fde5",
+      "seed": 63,
+      "configuration": {
+        "seed": 63,
+        "epochs": 30,
+        "patience": 8,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 2,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 1.637869206633078,
+      "mean_A_protected_db": 0.40459442209042296,
+      "A_target_db": {
+        "group_mean": 1.7492798032323393,
+        "ci95": [
+          1.301608658095159,
+          2.240617525605071
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.40186611287531837,
+        "ci95": [
+          0.3292341501674969,
+          0.47449807558313983
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.003406484244717997,
+        "ci95": [
+          0.0024469497721804814,
+          0.004366018717255512
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "mask_mse61",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse61/candidate.pt",
+      "checkpoint_sha256": "da738c17f2fa32d9ddb0dabeb8b4b30dfabc0df71fac2f1b7d455cfbe4c94fed",
+      "seed": 61,
+      "configuration": {
+        "seed": 61,
+        "epochs": 30,
+        "patience": 8,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 2,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.001,
+        "loss": "mask_mse",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 3.743575867706477,
+      "mean_A_protected_db": 2.802166198259591,
+      "A_target_db": {
+        "group_mean": 3.9003342868636297,
+        "ci95": [
+          3.4570261874664294,
+          4.371608201173929
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 2.830341305683676,
+        "ci95": [
+          2.5616331094263813,
+          3.012068910553513
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": -0.0027743064979369103,
+        "ci95": [
+          -0.003661734635978117,
+          -0.002016262649012779
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    },
+    {
+      "run": "no_class61",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class61/candidate.pt",
+      "checkpoint_sha256": "2779d4094675be7f67ebf1f9dfb91d92691bf53d62234bfc065af01b41b485ca",
+      "seed": 61,
+      "configuration": {
+        "seed": 61,
+        "epochs": 30,
+        "patience": 8,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 2,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.5,
+        "conditioning": "none"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 48,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 1.8824533631064635,
+      "mean_A_protected_db": 0.5756296694358367,
+      "A_target_db": {
+        "group_mean": 1.9184459106098337,
+        "ci95": [
+          1.6523494213469272,
+          2.172945948799688
+        ],
+        "groups": 11,
+        "scenes": 64
+      },
+      "A_protected_db": {
+        "group_mean": 0.5701915194916716,
+        "ci95": [
+          0.4394190091627769,
+          0.7189001526514387
+        ],
+        "groups": 4,
+        "scenes": 96
+      },
+      "STOI_delta": {
+        "group_mean": 0.010703283967079705,
+        "ci95": [
+          0.006529931823725646,
+          0.01511257806476497
+        ],
+        "groups": 4,
+        "scenes": 96
+      }
+    }
+  ],
+  "scientific_GO": false
+}

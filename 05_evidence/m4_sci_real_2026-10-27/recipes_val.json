@@ -1,0 +1,5604 @@
+[
+  {
+    "scene_id": "val-00000",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.06967087003939486,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 47734,
+        "onset": 7614,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 2014,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00001",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07729261471692493,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 5522,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 108713,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 112,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00002",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.055562049597677424,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 41806,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 998,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 46812,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00003",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08337670076457321,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 5854,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 42984,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 86928,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 28335,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      },
+      "alert": {
+        "asset_id": "esc50_4-80761-A-42",
+        "offset": 11457,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:80761"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00004",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07992806099028063,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 22717,
+        "onset": 7015,
+        "relative_db": 6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 57991,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 3244,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00005",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.055938210914693934,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 22442,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 34072,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 46892,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00006",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05608245542670924,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 4007,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 28436,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 5863,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 45850,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00007",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05113630784447502,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 21220,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 143863,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 16355,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00008",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05219624444739428,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 42146,
+        "onset": 7634,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 28628,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 47057,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00009",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09833240081035952,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-A-41",
+        "offset": 35304,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 6241,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 12016,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 23339,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00010",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07835667332858884,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 32523,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 2341,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 22846,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00011",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.058788628396880635,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 31381,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 156665,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 40198,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00012",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05315118403359209,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 46242,
+        "onset": 4778,
+        "relative_db": 6.0,
+        "source_group": "freesound:194680"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 27451,
+        "onset": 1149,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 1548,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 28068,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00013",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.08271386663002235,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 2776,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 19367,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      },
+      "alert": {
+        "asset_id": "esc50_4-111671-A-42",
+        "offset": 27751,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:111671"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00014",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06644574716641544,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 21165,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:181999"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 187709,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 12663,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00015",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0721730867461319,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 22961,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 3958,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 7095,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00016",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06575312182427784,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 37997,
+        "onset": 3906,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 2736,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 47510,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00017",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07280042161672103,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 31622,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 163735,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 41298,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00018",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.040151485202070764,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 12992,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:181999"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 40093,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 51844,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 23863,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00019",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07770300100097724,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 45272,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 102495,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 5950,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00020",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.044309063875352495,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 32551,
+        "onset": 7228,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 34320,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 4196,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00021",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0525127962732693,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 26520,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 10416,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 44287,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 12567,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00022",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07179472576409937,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 14518,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 61729,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 32309,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00023",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04515772238153406,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 17885,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 27169,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 16924,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      },
+      "alert": {
+        "asset_id": "esc50_4-209536-A-37",
+        "offset": 27003,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:209536"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00024",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.03516532295149157,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 20657,
+        "onset": 267,
+        "relative_db": 0.0,
+        "source_group": "freesound:172732"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 30493,
+        "onset": 1721,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0034",
+        "offset": 34494,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 33656,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00025",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09334128562672857,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 30484,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:181999"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 196138,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 26596,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00026",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.08706807361837744,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 11608,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 2206,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00027",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09824862811505272,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 2448,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 16943,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0007",
+        "offset": 95383,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 36711,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00028",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05243223876044847,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 21774,
+        "onset": 434,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 4312,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 43355,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00029",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.03610580015660346,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 33534,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 142159,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 13050,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00030",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.03967353445688799,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 9909,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 37905,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 6018,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00031",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04564391116809356,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 19412,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 30806,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 20924,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00032",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07659434922504965,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 8970,
+        "onset": 6226,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 36,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 20548,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00033",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04268007659301732,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 4791,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 15698,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 24821,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 1222,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      },
+      "alert": {
+        "asset_id": "esc50_4-90014-A-42",
+        "offset": 19896,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:90014"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00034",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06490686792076202,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 16973,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 51460,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 23145,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00035",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06294845190944627,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 47570,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0034",
+        "offset": 172311,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 25894,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00036",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.040346408982857664,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 30894,
+        "onset": 4142,
+        "relative_db": 6.0,
+        "source_group": "freesound:146200"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 4439,
+        "onset": 1121,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 3971,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 26547,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00037",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06281865519399708,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 40271,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0003",
+        "offset": 3297,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 15515,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00038",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04182634922821219,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 21891,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 180749,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 17629,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00039",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.08698586991677679,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 27844,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 12373,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:146200"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 45558,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00040",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.049507034982122,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 29216,
+        "onset": 846,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 38649,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 9105,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00041",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0802459109433108,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 8727,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 583,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 29040,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00042",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05109664123695325,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 36864,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172732"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 5781,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 17192,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 28407,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00043",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.049255608617833055,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 2859,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 89231,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 9838,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      },
+      "alert": {
+        "asset_id": "esc50_4-204684-A-37",
+        "offset": 20897,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:204684"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00044",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0975183283014381,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 32653,
+        "onset": 3627,
+        "relative_db": 0.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 581,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 44312,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00045",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.037621123274948265,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 42516,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172732"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 13051,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 16852,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00046",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.052188860600074834,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 33795,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 104669,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 17324,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00047",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07176775315160884,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 26869,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0003",
+        "offset": 5465,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 16119,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00048",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06820914273294897,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 21027,
+        "onset": 4924,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 27513,
+        "onset": 7682,
+        "relative_db": 0.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 60304,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 2005,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00049",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0703874965878015,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 8669,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 80042,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 4351,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00050",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07699845347263448,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 41907,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 51573,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 8544,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00051",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0987003294204147,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 30468,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 30779,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 4526,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 859,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00052",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.08769690883583334,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 37029,
+        "onset": 2257,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 34916,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00053",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0677783739443651,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 1288,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 30451,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 33160,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      },
+      "alert": {
+        "asset_id": "esc50_4-209698-A-37",
+        "offset": 23727,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:209698"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00054",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.057712766752883955,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 31071,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:194680"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 24491,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 101319,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 33792,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00055",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05297222962115049,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 3156,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 45631,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 39835,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00056",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09663230179279794,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 24333,
+        "onset": 3460,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 9121,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 10042,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00057",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08854913165323175,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 43008,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 24976,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172732"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 19957,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 28356,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00058",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.042295065543766774,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 7554,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 58652,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 17946,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00059",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0365536411998009,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 12392,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 74278,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 22940,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00060",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05776526846294906,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-A-41",
+        "offset": 24972,
+        "onset": 715,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 79097,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 29111,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00061",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06436013217497127,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 12173,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 6558,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 22139,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00062",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09212665371679253,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 31219,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 97040,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 17944,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00063",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0368189065281064,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 23451,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 14260,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 48675,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 25457,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      },
+      "alert": {
+        "asset_id": "esc50_4-198841-A-37",
+        "offset": 18247,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:198841"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00064",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06115327045051278,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 38859,
+        "onset": 4587,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 45368,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 10825,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00065",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.0752928776799168,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 40463,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 15889,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00066",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09330129491990888,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 11935,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172734"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 1058,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 40418,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 2118,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00067",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.037880460448022055,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 47621,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 1509,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 44973,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00068",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0727253084900045,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 40707,
+        "onset": 4668,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 99301,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 22285,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00069",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04680202917267494,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 38002,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 27772,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:181999"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 166823,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 8604,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00070",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09578920050335095,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 2038,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 37764,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 1924,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00071",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09812730290471795,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 44212,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 508,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 37398,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00072",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.037972885578857786,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 1326,
+        "onset": 2935,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 40173,
+        "onset": 3875,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 136517,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 28152,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00073",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08828632100852674,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 1055,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0034",
+        "offset": 1467,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 1440,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      },
+      "alert": {
+        "asset_id": "esc50_4-111671-B-42",
+        "offset": 30689,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:111671"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00074",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07681748595166457,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 32756,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172732"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 170674,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 22319,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00075",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06861332963471349,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 9452,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 153944,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 15880,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00076",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05495916467475351,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 24779,
+        "onset": 878,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 77522,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 38551,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00077",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06799531380254742,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 23829,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 374,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 18432,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00078",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.08744901938467606,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 10058,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:181999"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 15254,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 12839,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00079",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0774812131888162,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 12609,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 20341,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 39414,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00080",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05762952314016122,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 41626,
+        "onset": 5410,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 173172,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 20531,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00081",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.042237087014233995,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 46708,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 35587,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 174635,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 47316,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00082",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08416481809927909,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 14282,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 62151,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 22332,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00083",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.039361973856415676,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 38353,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 1700,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 33170,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      },
+      "alert": {
+        "asset_id": "esc50_4-209536-A-37",
+        "offset": 10,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:209536"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00084",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05166594728375737,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 3241,
+        "onset": 5907,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 19974,
+        "onset": 1853,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 154011,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 9107,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00085",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07611074345632166,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 18704,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 1521,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 6993,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00086",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09081508190542095,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 13260,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172732"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 83381,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 28185,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00087",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07681149755219505,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 3750,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 41973,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:181999"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 53601,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 32248,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00088",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.03701564265237371,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 43906,
+        "onset": 4253,
+        "relative_db": 0.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 45753,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 5195,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00089",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08010078767956011,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 284,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 635,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 42473,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00090",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0734550292089273,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 31873,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 201381,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 11019,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00091",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.055177887035547615,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 24953,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 18571,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00092",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05810826440391769,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 45484,
+        "onset": 319,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0007",
+        "offset": 159627,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 37946,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00093",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08394510164473319,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 27957,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 19484,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 380,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 33136,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      },
+      "alert": {
+        "asset_id": "esc50_4-90014-A-42",
+        "offset": 20191,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:90014"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00094",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09659245720439039,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 2199,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 58165,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 20633,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00095",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08770539880581087,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 4095,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172732"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 16736,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 13847,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00096",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08962079902957457,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 18884,
+        "onset": 7925,
+        "relative_db": 0.0,
+        "source_group": "freesound:172732"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 4821,
+        "onset": 7556,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 104883,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 8941,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00097",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05811537838743229,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 6511,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0007",
+        "offset": 174989,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 38359,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00098",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09151794528243348,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 22775,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 45969,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 25871,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00099",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09374451592956781,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 2423,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:157611"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 40218,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0003",
+        "offset": 28940,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 35223,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00100",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09428089562508671,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 82,
+        "onset": 964,
+        "relative_db": 0.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 82798,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 5027,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00101",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07001083093660516,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 16208,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 94466,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 24616,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00102",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08671276619926273,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 34073,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 44188,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0007",
+        "offset": 161136,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 4573,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00103",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07456965586460779,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 15525,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 189397,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 35537,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      },
+      "alert": {
+        "asset_id": "esc50_4-90014-B-42",
+        "offset": 8577,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:90014"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00104",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.07630596802924045,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 28472,
+        "onset": 2663,
+        "relative_db": 0.0,
+        "source_group": "freesound:172736"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 35283,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00105",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.048776796187308,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 9653,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 200675,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 18314,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00106",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08935784917071693,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 38133,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 131776,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 1790,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00107",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.056109007868198335,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 43643,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 142983,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 32829,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00108",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06370290917764773,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 38020,
+        "onset": 4585,
+        "relative_db": 6.0,
+        "source_group": "freesound:172732"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 46268,
+        "onset": 2079,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 139600,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 14511,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00109",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08403632342984815,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-A-41",
+        "offset": 41272,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 54589,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 47263,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00110",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09456913377690188,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-A-41",
+        "offset": 6463,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 127407,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 26116,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00111",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.03819584551784556,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-B-41",
+        "offset": 4694,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:169127"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 36825,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 99996,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 36390,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00112",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08344507556340458,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 15567,
+        "onset": 5465,
+        "relative_db": 0.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0003",
+        "offset": 37276,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 34094,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00113",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04202240440546161,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 40831,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0020",
+        "offset": 13476,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 47669,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      },
+      "alert": {
+        "asset_id": "esc50_4-172366-A-37",
+        "offset": 42990,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:172366"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00114",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08390452725979242,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 5895,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 39212,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 55241,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 8936,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00115",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04622851164295501,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 47877,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 15474,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 41461,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00116",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07258638401080661,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 4633,
+        "onset": 2213,
+        "relative_db": 0.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 14034,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 28819,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00117",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.0991035835823122,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 26810,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:149294"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 31387,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 46239,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00118",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04209666868958593,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 22527,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 350,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 29346,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00119",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.061347230204048135,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 41224,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 46270,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 24604,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00120",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06304117423032816,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 22170,
+        "onset": 5427,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 64463,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 45259,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00121",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06769625391119868,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 21614,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 55569,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 36867,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00122",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06374134261096553,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 41764,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 115278,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 25161,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00123",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07198633685294707,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 6468,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 34670,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 160174,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163264-A-10",
+        "offset": 37287,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163264"
+      },
+      "alert": {
+        "asset_id": "esc50_4-172366-A-37",
+        "offset": 9526,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:172366"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00124",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07453008136316194,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 15495,
+        "onset": 6903,
+        "relative_db": 0.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 3738,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 20977,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00125",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.052381191430650245,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-B-36",
+        "offset": 18442,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 3246,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 29208,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00126",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08841674744110324,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 41128,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172732"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 10124,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 5861,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 7128,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00127",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.049769795456920084,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-A-41",
+        "offset": 47347,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 57215,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 16441,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00128",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07070007433958837,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 7367,
+        "onset": 6580,
+        "relative_db": -6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 58516,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 40036,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00129",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0627096677162634,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 34271,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 33968,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 16644,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 35175,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00130",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.08912702358099911,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 4032,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 38825,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00131",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07262789029945277,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-A-41",
+        "offset": 27326,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 200656,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 9876,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00132",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0840843236526552,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172732-A-36",
+        "offset": 42138,
+        "onset": 1106,
+        "relative_db": -6.0,
+        "source_group": "freesound:172732"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 2249,
+        "onset": 7860,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 26154,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-181286-A-10",
+        "offset": 20057,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:181286"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00133",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.052518551126545576,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 17607,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 38011,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 16732,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      },
+      "alert": {
+        "asset_id": "esc50_4-80761-A-42",
+        "offset": 15044,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:80761"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00134",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06451316588598201,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 11224,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 227930,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-161127-A-10",
+        "offset": 28808,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:161127"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00135",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0629996157052084,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 30832,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 178402,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 43315,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00136",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09243623867143488,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 14646,
+        "onset": 7065,
+        "relative_db": -6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 84215,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 34790,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00137",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04031522042388606,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 12194,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0028",
+        "offset": 27132,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-C-16",
+        "offset": 14448,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00138",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07112741348273707,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 25955,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:146200"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 869,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 2516,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 9148,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00139",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08624926742138457,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 14564,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0024",
+        "offset": 149810,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 1851,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00140",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05646276232008646,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 924,
+        "onset": 2417,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 7777,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 10547,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00141",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.05139879436632598,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-A-41",
+        "offset": 18543,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 37816,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:181999"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0008",
+        "offset": 76505,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 24555,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00142",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09510797385620087,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 13917,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 88215,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-A-16",
+        "offset": 17341,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00143",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.03966058099077134,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 27474,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:149294"
+      },
+      "background": {
+        "asset_id": "esc50_4-160999-A-10",
+        "offset": 4052,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:160999"
+      },
+      "alert": {
+        "asset_id": "esc50_4-67358-A-42",
+        "offset": 14251,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:67358"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00144",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.037763302513743775,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 24906,
+        "onset": 695,
+        "relative_db": 6.0,
+        "source_group": "freesound:172733"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 39472,
+        "onset": 4414,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0034",
+        "offset": 157980,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 28007,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00145",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08265462294701328,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 21141,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 345,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 47498,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00146",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07579940888099268,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172733-A-36",
+        "offset": 6409,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172733"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 60563,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-166661-A-10",
+        "offset": 45167,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:166661"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00147",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.06931525170045216,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 25281,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:165823"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 33576,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_4640-19188-0039",
+        "offset": 123419,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:4640"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 42909,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00148",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08139952851504795,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 37027,
+        "onset": 2843,
+        "relative_db": 6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0016",
+        "offset": 9922,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144083-B-16",
+        "offset": 46632,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144083"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00149",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.03775217027548053,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-A-41",
+        "offset": 44309,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 478,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 20580,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00150",
+    "split": "val",
+    "target_id": 0,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08975376584710912,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 42307,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "freesound:169127"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 1023,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 43211,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00151",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.082551692172529,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-149294-B-41",
+        "offset": 13069,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:149294"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0017",
+        "offset": 1950,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-180380-A-10",
+        "offset": 44023,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:180380"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00152",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.04456523835936033,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 41042,
+        "onset": 2354,
+        "relative_db": 6.0,
+        "source_group": "freesound:181999"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0021",
+        "offset": 136346,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-B-16",
+        "offset": 328,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00153",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": true,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.044001672343218376,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 19522,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:157611"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172734-A-36",
+        "offset": 12688,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:172734"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 124128,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-177250-A-10",
+        "offset": 34353,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:177250"
+      },
+      "alert": {
+        "asset_id": "esc50_4-209536-A-37",
+        "offset": 33630,
+        "onset": 0,
+        "relative_db": -3.0,
+        "source_group": "freesound:209536"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00154",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.08895317272126364,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-172736-A-36",
+        "offset": 43838,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:172736"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0015",
+        "offset": 40639,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 36496,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00155",
+    "split": "val",
+    "target_id": 1,
+    "target_present": false,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.09347692961479981,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 17873,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0009",
+        "offset": 1849,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-163609-A-16",
+        "offset": 44341,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163609"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00156",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": false,
+    "seconds": 2.0,
+    "global_rms": 0.059874337699627675,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-181999-A-36",
+        "offset": 41868,
+        "onset": 4142,
+        "relative_db": 0.0,
+        "source_group": "freesound:181999"
+      },
+      "chainsaw": {
+        "asset_id": "esc50_4-165823-B-41",
+        "offset": 47715,
+        "onset": 1902,
+        "relative_db": 0.0,
+        "source_group": "freesound:165823"
+      },
+      "background": {
+        "asset_id": "esc50_4-163608-B-16",
+        "offset": 10521,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163608"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00157",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07600235460038576,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-157611-B-41",
+        "offset": 28338,
+        "onset": 0,
+        "relative_db": 6.0,
+        "source_group": "freesound:157611"
+      },
+      "speech": {
+        "asset_id": "slr31_3664-178355-0007",
+        "offset": 174732,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3664"
+      },
+      "background": {
+        "asset_id": "esc50_4-144085-A-16",
+        "offset": 37715,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:144085"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00158",
+    "split": "val",
+    "target_id": 0,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.0976681545967637,
+    "parts": {
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-194680-A-36",
+        "offset": 6359,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:194680"
+      },
+      "speech": {
+        "asset_id": "slr31_3526-176653-0008",
+        "offset": 117489,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:3526"
+      },
+      "background": {
+        "asset_id": "esc50_4-163606-A-16",
+        "offset": 21783,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:163606"
+      }
+    }
+  },
+  {
+    "scene_id": "val-00159",
+    "split": "val",
+    "target_id": 1,
+    "target_present": true,
+    "alert_present": false,
+    "speech_present": true,
+    "seconds": 2.0,
+    "global_rms": 0.07853365524125686,
+    "parts": {
+      "chainsaw": {
+        "asset_id": "esc50_4-169127-A-41",
+        "offset": 7651,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:169127"
+      },
+      "vacuum_cleaner": {
+        "asset_id": "esc50_4-146200-A-36",
+        "offset": 25623,
+        "onset": 0,
+        "relative_db": -6.0,
+        "source_group": "freesound:146200"
+      },
+      "speech": {
+        "asset_id": "slr31_1737-146161-0005",
+        "offset": 114274,
+        "onset": 0,
+        "relative_db": 0.0,
+        "source_group": "librispeech:1737"
+      },
+      "background": {
+        "asset_id": "esc50_4-164206-A-10",
+        "offset": 14173,
+        "onset": 0,
+        "relative_db": -12.0,
+        "source_group": "freesound:164206"
+      }
+    }
+  }
+]

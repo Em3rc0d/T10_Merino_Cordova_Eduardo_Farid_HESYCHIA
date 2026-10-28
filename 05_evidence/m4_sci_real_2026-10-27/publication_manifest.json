@@ -1,0 +1,33 @@
+{
+  "base_commit": "0a47015426617cebbc2ce8ee24af0c77f9267745",
+  "scope": "Post-test reporting and replication; no training or evaluator changes",
+  "artifacts_sha256": {
+    "04_build/selective_audio_lab/experiments/plot_m4_scientific.py": "c04ed7857768e3e3c4023a11469af543f8902f36c44964b60e5e42473bd164c6",
+    "04_build/selective_audio_lab/experiments/reproduce_m4_frozen_run.py": "5922b261bb7106726674b113b9d30dd742fa7ae4cfbbf67e3c51ddffeb3fa087",
+    "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/README.md": "04993c55eb799b7bbc11b11ab869b279553a1f8248678a27d70be8ffecd0bcfa",
+    "05_evidence/m4_sci_real_2026-10-27/README.md": "9f5b9bb0e7399397c66e58b45e77f32a3e8fff58ae79b937e17f03f33e38d42d",
+    "05_evidence/m4_sci_real_2026-10-27/cli_smoke.json": "e259c29308a51822d291179f1f26a5f8bcd574768b737623b2be09c2605322c7",
+    "05_evidence/m4_sci_real_2026-10-27/figures/joint_success.png": "4362960dacef6975d46181e505b7098643a40c36006636eebda8f384003ddd3c",
+    "05_evidence/m4_sci_real_2026-10-27/figures/joint_success.svg": "abf839f9c99e9ef933f31c4fd600a3f3ca3501df7cff60bbd42b5eababae23ce",
+    "05_evidence/m4_sci_real_2026-10-27/figures/selectivity.png": "f0931182c443dfcc0b934ba3577ab00ad4cbd806267d2a3d4a09f3f28cb03742",
+    "05_evidence/m4_sci_real_2026-10-27/figures/selectivity.svg": "43bdf4084499b53db3fa88a7a58fa55c5f4534f6a7664d301e70b0e6acdf060f",
+    "05_evidence/m4_sci_real_2026-10-27/final_qa.log": "d39a9fbd4cedf46ab0b1692bc124764c1a3af3d0a09ebcd5a1ab9fa45d4c4df5",
+    "05_evidence/m4_sci_real_2026-10-27/freeze_replication.json": "f4ae9b9e7a9fa9a56822f75051b2f73d018f53ccc13ec34373faab4af327f8b0",
+    "05_evidence/m4_sci_real_2026-10-27/freeze_replication.test_attempt.json": "0369947f5ba1e4b2ce6ac3881f7c43dec0f5a8029c505b152a43cce5dfae21fc",
+    "05_evidence/m4_sci_real_2026-10-27/replication_environment.json": "807cde2909c4a868fc19d02e40778559486b9c5150afb589ef7afb3565793fb2",
+    "05_evidence/m4_sci_real_2026-10-27/replication_qa.json": "a2f091f22871142e269f2fbcfc756c2e4d203532e46391e628e6c79d82f1968d",
+    "05_evidence/m4_sci_real_2026-10-27/replication_receipt.json": "a9732df015a0116f378f47a81b3452c69448cb2b37a2c5e4bd14f5fc5662d2aa",
+    "05_evidence/m4_sci_real_2026-10-27/scientific_replication_tests.log": "4c33d531386642c6f932aac6819b6aa5b96c222909bb894b70666de05748dad7",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/M2_predictions.json": "60d290c35e8280d7bd98ab6197f8ea6c5d3e12fbb9305c041b1385b768e31674",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/class_conditioning.json": "8c8cc80b9279565d94be736496cc5f60512bcbf301bb04f65dc7fb2db926a723",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/completed.json": "be400be12711319db4c5ab5102f5b24d3fc38b64df10f5be2858bc76187054b1",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/conditioning_effect.json": "e6c1fe9bdd23dc6be1f60095ac243b2aa324cbd5de5e2c59b8256b7d07933f7e",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/paired_differences.json": "3e38f97fcda0f8d0513837042ab4ed887eb7b95772257fc8be89d1fcebbbb685",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/paired_summary.json": "7373fb5da809fc36df9943ffa141008c54e2e9f4a8a747381d9866da35a23c5f",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/per_scene.csv": "ab89b28690bc03f6aa1d0e6db10394dea3a0579be5930302590088f89b5f93d8",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/report.json": "66fcfca3950a60f544902d29675b9fb00c0bffae6f1da3e2b56776f0fc312e39",
+    "05_evidence/m4_sci_real_2026-10-27/test_replication/selected_failures.csv": "83b306da2cd6bce181e80b50488ce078455b196d977699695f9e5c771308784c",
+    "README.md": "86d5ba67dea33e9a655cf44a4490f9b359808c14930245d72527c05d6d69082c",
+    "docs/M4_SCI_REAL_RESULTS_2026-10-27.md": "c9a0bfeab4df1b8312a6fce26f552eeb2c5281741d17b4e817d05cd5d2416abd"
+  }
+}
