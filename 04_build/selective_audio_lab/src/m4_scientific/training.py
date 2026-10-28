@@ -27,7 +27,7 @@ def code_hash():
 def cache_scenes(root, registry, split):
     """Precompute selected split only. This function never requests test for training."""
     recipes = load_recipes(root, split)
-    cache_key = canonical_hash(dict(cache_schema="v2_stems_nontarget", frontend=frontend_contract(),
+    cache_key = canonical_hash(dict(cache_schema="v2_stems_nontarget_alertgate", frontend=frontend_contract(),
                                     corpus=canonical_hash(registry), recipes=canonical_hash(recipes)))
     cached = Path(root) / "cache" / f"{split}-{cache_key}.pt"
     if cached.exists():
@@ -45,7 +45,8 @@ def cache_scenes(root, registry, split):
             rest = x - target
             ideal = target.abs() / (target.abs() + rest.abs() + 1e-8)
             values = dict(features=features(x), ideal=ideal, mixture=x,
-                          target=target, protected=speech.abs(), nontarget=nontarget)
+                          target=target, protected=speech.abs(), nontarget=nontarget,
+                          alert_flag=torch.tensor(float(recipe["alert_present"]), dtype=torch.float32))
         if arrays is None:
             arrays = {k: np.empty((size,) + tuple(v.shape), dtype=v.numpy().dtype)
                       for k, v in values.items()}
@@ -97,6 +98,8 @@ def fit(root, output, cfg, *, pilot_unreviewed=False):
     seed = int(cfg["seed"])
     if cfg["loss"] not in ("composite", "mask_mse", "selective_v2") or cfg["epochs"] < 1 or cfg["batch_size"] < 1:
         raise ValueError("Invalid training configuration")
+    if cfg["loss"] == "selective_v2" and cfg.get("conditioning", "class") != "class":
+        raise ValueError("V2 class-contrast training requires class conditioning")
     if any(cfg[k] < 0 for k in ("reconstruction_weight", "speech_weight")):
         raise ValueError("Negative loss weight")
     output = Path(output)
