@@ -100,7 +100,7 @@ def fit(root, output, cfg, *, pilot_unreviewed=False):
         raise ValueError("Invalid training configuration")
     if cfg["loss"] == "selective_v2" and cfg.get("conditioning", "class") != "class":
         raise ValueError("V2 class-contrast training requires class conditioning")
-    if any(cfg[k] < 0 for k in ("reconstruction_weight", "speech_weight")):
+    if any(float(cfg.get(k, 0.)) < 0 for k in ("reconstruction_weight", "speech_weight")):
         raise ValueError("Negative loss weight")
     output = Path(output)
     # Never reuse a run directory, even after interruption.
