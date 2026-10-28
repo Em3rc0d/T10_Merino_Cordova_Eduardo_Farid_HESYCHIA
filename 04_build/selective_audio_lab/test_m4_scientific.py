@@ -362,3 +362,63 @@ def test_v2_alerts_are_not_supervised_as_attenuable():
                                              swapped_prediction=swapped)
     assert float(loss) == pytest.approx(0., abs=1e-6)
     assert float(parts["eligible_joint_proxy"]) == pytest.approx(0., abs=1e-6)
+
+
+def test_v2_class_conditional_training_can_learn_on_controlled_spectra():
+    """Numeric trainability smoke only, NOT real-speech or scientific performance.
+
+    The SAME mixture is repeated with two different requested target classes.
+    The learned masks must be able to respond differently without changing
+    acoustic inputs; no test-set recordings or labels are used here.
+    """
+    from m4_scientific.model import MaskCNN, ModelConfig, features
+    from m4_scientific.training import losses
+    from m4_scientific.v2_objective import spectral_attenuation_db
+
+    torch.manual_seed(20261028)
+    torch.set_num_threads(2)
+    b, frames, bins = 8, 12, 257
+    a = torch.zeros(b, frames, bins)
+    b_source = torch.zeros_like(a)
+    speech = torch.zeros_like(a)
+    a[..., 20:27] = .75
+    b_source[..., 140:147] = .75
+    speech[..., 65:74] = .25
+    labels = torch.tensor([0, 1] * 4)
+    is_a = (labels == 0)[:, None, None]
+    target = torch.where(is_a, a, b_source)
+    other = torch.where(is_a, b_source, a)
+    mixture = a + b_source + speech
+    batch = dict(ideal=target / (target + other + speech + 1e-8),
+                 mixture=mixture.to(torch.complex64),
+                 target=target.to(torch.complex64),
+                 nontarget=other.to(torch.complex64),
+                 protected=speech, alert_flag=torch.zeros(b))
+    x = features(batch["mixture"])
+    model = MaskCNN(ModelConfig(channels=12, embedding=12, dilations=(1, 2)))
+    optimizer = torch.optim.AdamW(model.parameters(), lr=.01, weight_decay=0.)
+    cfg = dict(loss="selective_v2", mask_weight=.1,
+               target_weight=1., speech_weight=1., other_weight=1.,
+               absent_weight=1., class_weight=1., temperature_db=.5)
+    history = []
+    for i in range(80):
+        pred = model(x, labels)
+        swapped = model(x, 1 - labels)
+        loss, metrics = losses(model, pred, batch, cfg, swapped_prediction=swapped)
+        if i == 0:
+            initial = float(loss.detach())
+        assert torch.isfinite(loss)
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        optimizer.step()
+        history.append(float(loss.detach()))
+    model.eval()
+    with torch.no_grad():
+        correct = model(x, labels)
+        swapped = model(x, 1 - labels)
+        final_loss, _ = losses(model, correct, batch, cfg,
+                               swapped_prediction=swapped)
+        correct_att = spectral_attenuation_db(model.gain(correct), batch["target"])
+        swapped_att = spectral_attenuation_db(model.gain(swapped), batch["target"])
+    assert float(final_loss) < .8 * initial, (initial, float(final_loss))
+    assert float((correct_att - swapped_att).mean()) > .5
