@@ -1,0 +1,153 @@
+{
+  "run_id": "COMPARE-478d010ad5-ORACLE",
+  "scope": "incremento_funcional_local_reproducible",
+  "warning": "Procedural synthetic engineering demo. Oracle uses stems; CNN uses mixture+target only. Protected surrogate is NOT intelligible speech; no scientific RNF-04 evidence or streaming.",
+  "config": {
+    "seed": 42,
+    "sr": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "target_label": "drilling_synthetic",
+    "protected_set": [
+      "car_horn",
+      "emergency_siren",
+      "evacuation_alarm",
+      "fire_alarm",
+      "siren",
+      "siren_synthetic",
+      "speech",
+      "speech_like_synthetic",
+      "vehicle_horn",
+      "warning_horn"
+    ],
+    "cap_db": 12.0,
+    "alpha": 1.0,
+    "baseline": "oracle_IRM_stem_demo",
+    "requested_engine": "oracle",
+    "executed_engine": "oracle",
+    "model": null,
+    "measurement_scope": "offline_synthetic_engineering_demo_not_scientific_validation",
+    "wall_time_scope": "DSP_and_inference_excludes_model_load_and_artifact_IO_not_E2E",
+    "mask_role": "oracle_privileged",
+    "safety_policy_version": "S10A-1.0",
+    "source_scope": "synthetic_procedural_fixture_only"
+  },
+  "policy": {
+    "target_label": "drilling_synthetic",
+    "protected_set": [
+      "car_horn",
+      "emergency_siren",
+      "evacuation_alarm",
+      "fire_alarm",
+      "siren",
+      "siren_synthetic",
+      "speech",
+      "speech_like_synthetic",
+      "vehicle_horn",
+      "warning_horn"
+    ],
+    "cap_db": 12.0,
+    "decision": "ALLOW",
+    "reason": "approved_attenuable_target",
+    "version": "S10A-1.0"
+  },
+  "metrics": {
+    "A_target_db": 11.965507507324219,
+    "A_protected_db": 0.09629052132368088,
+    "SI_SDRi_protected_db": 11.723330736160278,
+    "SI_SDRi_target_db": -11.873291015625,
+    "mask_mean": 0.8609490394592285,
+    "mask_max": 0.9999648332595825,
+    "gain_min": 0.25118863582611084,
+    "gain_max": 0.999993085861206,
+    "duration_s": 4.0,
+    "sr": 16000,
+    "n_fft": 512,
+    "hop": 160,
+    "policy_decision": "ALLOW",
+    "policy_reason": "approved_attenuable_target",
+    "target_label": "drilling_synthetic",
+    "protected_set": [
+      "car_horn",
+      "emergency_siren",
+      "evacuation_alarm",
+      "fire_alarm",
+      "siren",
+      "siren_synthetic",
+      "speech",
+      "speech_like_synthetic",
+      "vehicle_horn",
+      "warning_horn"
+    ],
+    "baseline_type": "oracle_IRM_stem_demo",
+    "executed_engine": "oracle",
+    "wall_time_ms": 21.027021000008972
+  },
+  "artifacts": [
+    {
+      "artifact": "protected.wav",
+      "kind": "audio",
+      "path": "protected.wav",
+      "sha256": "69f4759d0cc794111338a0d1d7f45a2e8782a0561411a3ac672bb6f6b437cf4b"
+    },
+    {
+      "artifact": "target.wav",
+      "kind": "audio",
+      "path": "target.wav",
+      "sha256": "7cd81960a93091276ecfb1287216d07cd82f2c0d89a53ed4e8be86a81858a7c5"
+    },
+    {
+      "artifact": "background.wav",
+      "kind": "audio",
+      "path": "background.wav",
+      "sha256": "2ec7e1c978cfdea4ae0fc41c295733e60c7f727fcdc662aee7a8264bc68488b6"
+    },
+    {
+      "artifact": "mixture.wav",
+      "kind": "audio",
+      "path": "mixture.wav",
+      "sha256": "155707188e96aadb8fb037c509ecfb4a10832004b54a0b36730ca6fc4f98b134"
+    },
+    {
+      "artifact": "output_selective.wav",
+      "kind": "audio",
+      "path": "output_selective.wav",
+      "sha256": "785c49013d16cdd699e0eb3ef7e62b6121eb6246a2d1728b9d05dacba7515fe0"
+    },
+    {
+      "artifact": "mask_irm.npy",
+      "kind": "mask",
+      "path": "mask_irm.npy",
+      "sha256": "8403961dbf9c0f3088836d199c343e2fc5648999418704a0610ce03114858377"
+    },
+    {
+      "artifact": "gain.npy",
+      "kind": "mask",
+      "path": "gain.npy",
+      "sha256": "eba6fb266133811ef71bf6258baf7c764b475392be393daaa0e462f617ee8404"
+    },
+    {
+      "artifact": "waveform_comparison.png",
+      "kind": "report",
+      "path": "waveform_comparison.png",
+      "sha256": "a77d019de957c358553df2617440425d1d06ac1c19d37dccfb3d604eb166e035"
+    },
+    {
+      "artifact": "spectrogram_comparison.png",
+      "kind": "report",
+      "path": "spectrogram_comparison.png",
+      "sha256": "158834816f0389bbf8e291309f3450d20ce2783b477552a6e7897c0dc7f32315"
+    },
+    {
+      "artifact": "mask.png",
+      "kind": "report",
+      "path": "mask.png",
+      "sha256": "afebed5f8b5c389f54bf69e196a606cccca30d344d25fc3ab16a499db808a702"
+    }
+  ],
+  "evidence_store": {
+    "path": "evidence.sqlite",
+    "status": "completed",
+    "artifact_count": 10
+  }
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "overview",
+    "title": "Estado y alcance",
+    "text": "Esta es una demostración técnica de HESYCHIA para los avances PI nueve y PI diez. La narración es sintética y se identifica como material de apoyo, no como la voz del tesista. El cambio principal de este incremento es conectar una red neuronal entrenada al sistema que se puede demostrar. El título institucional se conserva. El alcance sigue siendo computacional: atenuar una fuente en una señal digital, sin generar antirruido físico ni demostrar eficacia clínica. En la consola se distinguen los módulos implementados, el modelo experimental y las validaciones pendientes. El reconocimiento semántico M dos y el estimador de máscara M cuatro tienen funciones distintas."
+  },
+  {
+    "id": "deep",
+    "title": "Arquitectura y entrenamiento",
+    "text": "La sección de aprendizaje profundo muestra el modelo realmente disponible. Tiene doscientas treinta y seis mil ochocientas treinta y tres variables entrenables, un embedding de dieciséis dimensiones y tres convoluciones temporales causales. Sus dilataciones son uno, dos y cuatro; la salida estima doscientos cincuenta y siete valores de máscara por frame. Este checkpoint es nuevo y fue entrenado en CPU con veinticuatro escenas procedurales de entrenamiento y ocho de validación. El historial muestra las pérdidas observadas. Se seleccionó la época ocho usando validación. La pérdida es MSE de máscara para comprobar ingeniería, no la pérdida científica final. Las semillas son distintas, pero todas las escenas proceden del mismo generador. Por eso estos datos no prueban generalización."
+  },
+  {
+    "id": "cnn",
+    "title": "E1 Inferencia real de la CNN",
+    "text": "En el primer escenario seleccionamos perforación sintética y el motor CNN experimental. La política permite este objetivo. El backend carga y verifica los pesos, representa la mezcla con STFT y entrega al modelo únicamente esa mezcla y el identificador configurado del objetivo. No entrega los stems limpios durante la inferencia. La red produce una máscara, se calcula la ganancia y se reconstruye el audio. Los valores y los artefactos visibles pertenecen a este run. El SHA identifica el checkpoint utilizado. La fuente protegida es un sustituto tonal; no es voz humana inteligible y no permite declarar cumplido el requisito de preservación de voz real. A continuación se escucha la mezcla y después la salida de este mismo run."
+  },
+  {
+    "id": "comparison",
+    "title": "E2 Comparación pareada con Oracle",
+    "text": "El segundo escenario compara el motor aprendido contra Oracle. El botón ejecuta ambos con la misma configuración y verifica que el hash de la mezcla sea idéntico. Oracle utiliza información privilegiada de los stems; la CNN utiliza los pesos entrenados y la mezcla. La tabla permite comparar atenuación del objetivo, pérdida de la señal protegida y mejora de SI SDR. También se muestran máscaras y audios separados. El verificador comprueba las evidencias de ambos runs. Si una métrica de la CNN es favorable en esta escena, eso no demuestra superioridad general frente a Oracle: la escena pertenece a la misma familia sintética del entrenamiento. Se necesita un test independiente con fuentes reales para responder esa pregunta. Escuchamos primero la salida Oracle y luego la salida CNN."
+  },
+  {
+    "id": "block",
+    "title": "E3 Sirena protegida",
+    "text": "El tercer escenario cambia el objetivo configurado a sirena sintética y mantiene seleccionado el motor CNN. La política obligatoria produce BLOCK y registra como motivo una señal protegida. El motor solicitado queda identificado, pero el motor ejecutado es bypass. La salida conserva exactamente las muestras digitales de la mezcla. No se carga ni se ejecuta el modelo, y este comportamiento también funciona si el checkpoint falta o está corrupto. La máscara cero que se conserva es un placeholder de evidencia, no una predicción neuronal. Esta protección opera sobre etiquetas configuradas. No significa que el sistema ya pueda detectar autónomamente todas las alarmas concurrentes dentro de una escena ni garantiza audibilidad física."
+  },
+  {
+    "id": "evidence",
+    "title": "E4 Trazabilidad e integridad",
+    "text": "El cuarto escenario revisa la trazabilidad. Cada ejecución tiene un Run ID y conserva audio, máscara, ganancia, configuración, política y métricas. En los runs CNN también se guarda una copia del checkpoint, su manifiesto y el historial de entrenamiento. SQLite enlaza la ejecución con la versión del modelo y sus artefactos. Al pulsar Verificar se recalculan los hashes y se comprueba la coherencia de la base, la configuración y los archivos. Las pruebas incluyen corrupción deliberada de pesos para comprobar que el verificador detecta cambios. Los hashes ayudan a verificar integridad; no sustituyen un protocolo experimental ni convierten una demostración sintética en evidencia clínica. Esta trazabilidad permite señalar archivos y ejecuciones concretas en la revisión del profesor."
+  },
+  {
+    "id": "benchmark",
+    "title": "M2 y observaciones abiertas",
+    "text": "El benchmark M dos sigue separado del aprendizaje de máscaras. El resultado histórico documentado de UrbanSound ocho K es Macro F uno de cero coma siete dos cinco siete, inferior al umbral cero coma ochenta y cinco. Ese requisito no se modifica para aparentar cumplimiento. Cuando los artefactos crudos no están montados, la consola muestra la referencia documental y su hash, diferenciándola de una ejecución recién realizada. M dos no selecciona automáticamente el objetivo de M cuatro en esta versión. La formulación del objetivo debe resolverse con el asesor. Asimismo, la preservación de voz requiere un corpus real y una decisión prospectiva sobre protocolo y pérdida antes del entrenamiento científico definitivo."
+  },
+  {
+    "id": "edge",
+    "title": "Cierre del incremento y límites",
+    "text": "Este incremento deja demostrable una CNN experimental conectada a backend y UI, una comparación pareada, el bloqueo obligatorio y la evidencia verificable. Las ochenta y cinco pruebas locales y el recorrido automatizado de navegador quedaron aprobados. La ejecución aquí fue en Linux y CPU; no debe atribuirse a la laptop objetivo ni al Honor. La configuración Docker está preparada, pero no se ejecutó su build porque este entorno no dispone de Docker. El frontend sigue siendo offline: la causalidad de las convoluciones no convierte toda la cadena en streaming. Continúan pendientes el corpus real, el test independiente, la preservación de voz, TFLite, latencia por hop, extremo a extremo y estabilidad física. El Word se actualizará después de revisar este estado congelado y las decisiones metodológicas con el asesor."
+  }
+]

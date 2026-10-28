@@ -1,0 +1,205 @@
+test_allow_contract (test_contract_v12.ContractV12Tests.test_allow_contract) ... ok
+test_protected_precedence (test_contract_v12.ContractV12Tests.test_protected_precedence) ... ok
+test_reproducible_seed (test_contract_v12.ContractV12Tests.test_reproducible_seed) ... ok
+test_sqlite_roundtrip (test_contract_v12.ContractV12Tests.test_sqlite_roundtrip) ... ok
+test_baseline_smoke (test_demo.DemoSmokeTests.test_baseline_smoke) ... ok
+test_validator_accepts_coherent_run (test_evidence_integrity.EvidenceIntegrityTests.test_validator_accepts_coherent_run) ... ok
+test_validator_detects_artifact_tampering (test_evidence_integrity.EvidenceIntegrityTests.test_validator_detects_artifact_tampering) ... ok
+test_validator_detects_input_asset_hash_tampering (test_evidence_integrity.EvidenceIntegrityTests.test_validator_detects_input_asset_hash_tampering) ... ok
+test_validator_detects_sqlite_metric_tampering (test_evidence_integrity.EvidenceIntegrityTests.test_validator_detects_sqlite_metric_tampering) ... ok
+test_campaign_aggregates_two_matching_batches (test_freeze_latency_campaign.FreezeLatencyCampaignTests.test_campaign_aggregates_two_matching_batches) ... ok
+test_freeze_bundle_is_created_from_real_run_contract (test_freeze_m2_evidence.FreezeM2EvidenceTests.test_freeze_bundle_is_created_from_real_run_contract) ... ok
+test_cross_fold_fsid_across_classes_is_diagnostic_not_blocking (test_m2_semantic.SemanticBenchmarkTests.test_cross_fold_fsid_across_classes_is_diagnostic_not_blocking) ... ok
+test_dataset_contract_and_benchmark_pipeline (test_m2_semantic.SemanticBenchmarkTests.test_dataset_contract_and_benchmark_pipeline) ... [m2] feature cache: /tmp/tmp0zo4r3l1/out/feature_cache_v2_sr16000_soxr_hq | resampler=soxr_hq
+/workspace/scratch/de0896b6bf71/hesychia/.venv/lib/python3.12/site-packages/audioread/rawread.py:16: DeprecationWarning: 'aifc' is deprecated and slated for removal in Python 3.13
+  import aifc
+/workspace/scratch/de0896b6bf71/hesychia/.venv/lib/python3.12/site-packages/audioread/rawread.py:17: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+  import audioop
+/workspace/scratch/de0896b6bf71/hesychia/.venv/lib/python3.12/site-packages/audioread/rawread.py:19: DeprecationWarning: 'sunau' is deprecated and slated for removal in Python 3.13
+  import sunau
+[features:train] 1/16 (6.2%)
+[features:train] 16/16 (100.0%)
+[features:validation] 1/2 (50.0%)
+[features:validation] 2/2 (100.0%)
+[features:test] 1/2 (50.0%)
+[features:test] 2/2 (100.0%)
+ok
+test_same_labeled_occurrence_across_folds_is_blocked (test_m2_semantic.SemanticBenchmarkTests.test_same_labeled_occurrence_across_folds_is_blocked) ... ok
+test_bit_depth_fails (test_m4_audio_review.M4AudioReviewTests.test_bit_depth_fails) ... ok
+test_existing_qc_helper_accepts_string (test_m4_audio_review.M4AudioReviewTests.test_existing_qc_helper_accepts_string) ... ok
+test_qc_pass_but_isolation_pending (test_m4_audio_review.M4AudioReviewTests.test_qc_pass_but_isolation_pending) ... ok
+test_sample_rate_fails (test_m4_audio_review.M4AudioReviewTests.test_sample_rate_fails) ... ok
+test_short_clip_fails (test_m4_audio_review.M4AudioReviewTests.test_short_clip_fails) ... ok
+test_stereo_fails (test_m4_audio_review.M4AudioReviewTests.test_stereo_fails) ... ok
+test_unknown_id_rejected (test_m4_audio_review.M4AudioReviewTests.test_unknown_id_rejected) ... ok
+test_wrong_preview_hash_fails (test_m4_audio_review.M4AudioReviewTests.test_wrong_preview_hash_fails) ... ok
+test_wrong_wav_hash_fails (test_m4_audio_review.M4AudioReviewTests.test_wrong_wav_hash_fails) ... ok
+test_bypass_reconstruction (test_m4_causal_frontend.M4CausalDesignTests.test_bypass_reconstruction) ... ok
+test_future_cannot_change_prior_outputs (test_m4_causal_frontend.M4CausalDesignTests.test_future_cannot_change_prior_outputs) ... ok
+test_invalid_gain_rejected (test_m4_causal_frontend.M4CausalDesignTests.test_invalid_gain_rejected) ... ok
+test_unit_gain_matches_bypass (test_m4_causal_frontend.M4CausalDesignTests.test_unit_gain_matches_bypass) ... ok
+test_zero_gain (test_m4_causal_frontend.M4CausalDesignTests.test_zero_gain) ... ok
+test_block_cross_split_recording (test_m4_data_gate.M4DataGateTests.test_block_cross_split_recording) ... ok
+test_block_pseudo_as_isolated (test_m4_data_gate.M4DataGateTests.test_block_pseudo_as_isolated) ... ok
+test_pass_with_disjoint_sources (test_m4_data_gate.M4DataGateTests.test_pass_with_disjoint_sources) ... ok
+test_reject_changed_sha256 (test_m4_data_gate.M4DataGateTests.test_reject_changed_sha256) ... ok
+test_comparison_api_same_scene (test_m4_integration.M4APITests.test_comparison_api_same_scene) ... ok
+test_missing_model_cnn_fails_and_siren_bypasses (test_m4_integration.M4APITests.test_missing_model_cnn_fails_and_siren_bypasses) ... ok
+test_real_cnn_api_run_and_sqlite (test_m4_integration.M4APITests.test_real_cnn_api_run_and_sqlite) ... ok
+test_unknown_or_final_model_rejected (test_m4_integration.M4APITests.test_unknown_or_final_model_rejected) ... ok
+test_block_skips_predictor_and_is_bit_exact (test_m4_integration.M4IntegrationTests.test_block_skips_predictor_and_is_bit_exact) ... ok
+test_corrupt_checkpoint_fails_explicitly_but_block_still_works (test_m4_integration.M4IntegrationTests.test_corrupt_checkpoint_fails_explicitly_but_block_still_works) ... ok
+test_mixture_only_inference_and_no_oracle_fallback (test_m4_integration.M4IntegrationTests.test_mixture_only_inference_and_no_oracle_fallback) ... ok
+test_nonfinite_and_wrong_shape_masks_rejected (test_m4_integration.M4IntegrationTests.test_nonfinite_and_wrong_shape_masks_rejected) ... ok
+test_paired_metrics_checkpoint_and_integrity (test_m4_integration.M4IntegrationTests.test_paired_metrics_checkpoint_and_integrity) ... ok
+test_default_requires_at_least_100_mixtures (test_m4_oracle_audit.M4OracleAuditTests.test_default_requires_at_least_100_mixtures) ... ok
+test_gate_counts_each_mixture_not_only_means (test_m4_oracle_audit.M4OracleAuditTests.test_gate_counts_each_mixture_not_only_means) ... ok
+test_reject_duplicate_and_missing_cap_and_nan (test_m4_oracle_audit.M4OracleAuditTests.test_reject_duplicate_and_missing_cap_and_nan) ... ok
+test_reject_primary_cap_not_present (test_m4_oracle_audit.M4OracleAuditTests.test_reject_primary_cap_not_present) ... ok
+test_background_no_license_assumption (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_background_no_license_assumption) ... ok
+test_download_without_network_when_cached_hash_mismatch (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_download_without_network_when_cached_hash_mismatch) ... ok
+test_index_speech_no_sealed_test_default (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_index_speech_no_sealed_test_default) ... ok
+test_index_speech_rejects_speaker_overlap (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_index_speech_rejects_speaker_overlap) ... ok
+test_official_archive_name_and_hash (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_official_archive_name_and_hash) ... ok
+test_secure_extract_cached_small_fixture (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_secure_extract_cached_small_fixture) ... ok
+test_tar_blocks_symlink_and_traversal (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_tar_blocks_symlink_and_traversal) ... ok
+test_unapproved_mirror_rejected (test_m4_public_corpus_bootstrap.M4PublicCorpusBootstrapTests.test_unapproved_mirror_rejected) ... ok
+test_deterministic_screen_is_not_admission (test_m4_tonal_screen.TestM4TonalScreen.test_deterministic_screen_is_not_admission) ... ok
+test_matching_pinned_hash (test_m4_tonal_screen.TestM4TonalScreen.test_matching_pinned_hash) ... ok
+test_mismatch_hash_rejected (test_m4_tonal_screen.TestM4TonalScreen.test_mismatch_hash_rejected) ... ok
+test_silence_rejected (test_m4_tonal_screen.TestM4TonalScreen.test_silence_rejected) ... ok
+test_stereo_rejected (test_m4_tonal_screen.TestM4TonalScreen.test_stereo_rejected) ... ok
+test_wrong_samplerate_rejected (test_m4_tonal_screen.TestM4TonalScreen.test_wrong_samplerate_rejected) ... ok
+test_10fold_stats_are_finite (test_review_closure.ReviewClosureTests.test_10fold_stats_are_finite) ... ok
+test_real_mix_rejects_underpowered_batch_before_io (test_review_closure.ReviewClosureTests.test_real_mix_rejects_underpowered_batch_before_io) ... ok
+test_real_mix_stats_are_finite (test_review_closure.ReviewClosureTests.test_real_mix_stats_are_finite) ... ok
+test_drilling_fixture_reproducible_and_distinct_from_siren (test_s10a_safety.S10ASafetyTests.test_drilling_fixture_reproducible_and_distinct_from_siren) ... ok
+test_drilling_stays_oracle_not_neural (test_s10a_safety.S10ASafetyTests.test_drilling_stays_oracle_not_neural) ... ok
+test_mandatory_emergency_signals (test_s10a_safety.S10ASafetyTests.test_mandatory_emergency_signals) ... ok
+test_manual_protection_only_adds (test_s10a_safety.S10ASafetyTests.test_manual_protection_only_adds) ... ok
+test_siren_digital_bypass_exact (test_s10a_safety.S10ASafetyTests.test_siren_digital_bypass_exact) ... ok
+test_unknown_labels_fail_closed (test_s10a_safety.S10ASafetyTests.test_unknown_labels_fail_closed) ... ok
+test_non_16khz_audio_uses_available_soxr_resampler (test_semantic_features.SemanticFeatureTests.test_non_16khz_audio_uses_available_soxr_resampler) ... ok
+test_mobile_overflow_guards_exist (test_ui_truthfulness.UITruthfulnessTests.test_mobile_overflow_guards_exist) ... ok
+test_old_mock_metrics_are_absent (test_ui_truthfulness.UITruthfulnessTests.test_old_mock_metrics_are_absent) ... ok
+test_pending_edge_actions_are_visibly_disabled (test_ui_truthfulness.UITruthfulnessTests.test_pending_edge_actions_are_visibly_disabled) ... ok
+test_allow_job_generates_real_evidence_and_integrity_passes (test_web_server.WebConsoleTests.test_allow_job_generates_real_evidence_and_integrity_passes) ... ok
+test_benchmark_is_blocked_without_dataset (test_web_server.WebConsoleTests.test_benchmark_is_blocked_without_dataset) ... ok
+test_block_job_preserves_mixture (test_web_server.WebConsoleTests.test_block_job_preserves_mixture) ... ok
+test_critical_siren_always_blocks_even_when_not_requested (test_web_server.WebConsoleTests.test_critical_siren_always_blocks_even_when_not_requested) ... ok
+test_dataset_validation_is_blocked_without_metadata (test_web_server.WebConsoleTests.test_dataset_validation_is_blocked_without_metadata) ... ok
+test_health_and_truthful_status (test_web_server.WebConsoleTests.test_health_and_truthful_status) ... ok
+test_historical_m2_reference_is_not_claimed_as_mounted_raw_evidence (test_web_server.WebConsoleTests.test_historical_m2_reference_is_not_claimed_as_mounted_raw_evidence) ... ok
+test_invalid_attenuation_parameters_are_rejected (test_web_server.WebConsoleTests.test_invalid_attenuation_parameters_are_rejected) ... ok
+test_invalid_latency_parameters_are_rejected (test_web_server.WebConsoleTests.test_invalid_latency_parameters_are_rejected) ... ok
+test_latency_job_returns_explicit_whole_clip_scope (test_web_server.WebConsoleTests.test_latency_job_returns_explicit_whole_clip_scope) ... ok
+test_pending_contracts_return_501 (test_web_server.WebConsoleTests.test_pending_contracts_return_501) ... ok
+test_status_discovers_persisted_m2_and_latency_evidence (test_web_server.WebConsoleTests.test_status_discovers_persisted_m2_and_latency_evidence) ... ok
+test_unrecognized_target_is_rejected_before_job (test_web_server.WebConsoleTests.test_unrecognized_target_is_rejected_before_job) ... ok
+
+----------------------------------------------------------------------
+Ran 85 tests in 31.291s
+
+OK
+[web] 127.0.0.1 - "POST /api/jobs/compare HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/comparisons/COMPARE-c1779f5079 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/comparisons/COMPARE-c1779f5079/integrity HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-f855757dab HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0a351a4fba HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/m4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-891241f411 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-891241f411/integrity HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-83349e6ec4 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-83349e6ec4/integrity HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/benchmark HTTP/1.1" 409 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-d7045a2fb8 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/ATTENUATE-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-0d725a59c3 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/runs/RUN-0d725a59c3/integrity HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/dataset/validate HTTP/1.1" 409 -
+[web] 127.0.0.1 - "GET /api/health HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/status HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/status HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/latency HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/latency HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/latency HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/latency HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/latency HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/latency HTTP/1.1" 202 -
+[web] 127.0.0.1 - "GET /api/jobs/LATENCY-181cce6c32 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "GET /api/jobs/LATENCY-181cce6c32 HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/train-mask HTTP/1.1" 501 -
+[web] 127.0.0.1 - "POST /api/jobs/export-tflite HTTP/1.1" 501 -
+[web] 127.0.0.1 - "POST /api/streaming/session HTTP/1.1" 501 -
+[web] 127.0.0.1 - "GET /api/status HTTP/1.1" 200 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -
+[web] 127.0.0.1 - "POST /api/jobs/attenuate HTTP/1.1" 400 -

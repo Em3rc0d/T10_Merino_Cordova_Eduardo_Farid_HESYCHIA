@@ -5,6 +5,16 @@
 **Grupo:** B — aporte práctico / software  
 **Asesor:** Daniel Alfonso Quinto Pazce
 
+## Estado actual de integración PI9 y PI10 al 26 de octubre de 2026
+
+La consola ya ejecuta una **CNN experimental real** y permite compararla con Oracle sobre la misma mezcla. M3b conserva bypass obligatorio y M6 registra modelo, checkpoint y SHA. **85 pruebas locales aprobadas** y recorrido real de Chromium E1–E4; Docker preparado, build no verificado aquí. Datos exclusivamente procedurales: no se acredita validación científica final, voz real, streaming ni TFLite.
+
+- [Cierre técnico y matriz de observaciones](docs/PI9_PI10_CIERRE_TECNICO.md)
+- [Inicio, escenarios y QA](docs/PI9_PI10_RUNBOOK.md)
+- [Evidencia congelada](05_evidence/pi9_pi10_2026-10-26/qa_summary.json)
+
+Los apartados PI8 siguientes conservan contexto histórico; el estado actual se define en los enlaces anteriores.
+
 ## Estado académico
 
 Este repositorio consolida la trazabilidad **PI5 → PI6 → PI7 corregido → PI8 / Examen Parcial**.

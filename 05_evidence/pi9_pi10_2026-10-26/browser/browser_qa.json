@@ -1,0 +1,35 @@
+{
+  "scope": "local browser engineering QA; not scientific validation",
+  "browser": "Chromium",
+  "steps": [
+    {
+      "id": "architecture",
+      "passed": true
+    },
+    {
+      "id": "E1_CNN_UI",
+      "passed": true,
+      "run": "Run ID\tRUN-68df104282\nTarget\tdrilling_synthetic\nProtected\tcar_horn, emergency_siren, evacuation_alarm, fire_alarm, siren, siren_synthetic, speech, speech_like_synthetic, vehicle_horn, warning_horn\nDecisión\tALLOW\nMotivo\tapproved_attenuable_target\nMotor solicitado / ejecutado\tcnn_experimental / cnn_experimental\nCheckpoint SHA\t92f897a77d498f81670b3727f8ad59007297fb5325721ea7c891543b817bcb6e\nMotor\tM4_CNN_experimental_synthetic"
+    },
+    {
+      "id": "E2_PAIRED_UI",
+      "passed": true,
+      "identity": "COMPARE-478d010ad5 · misma mezcla SHA-256: 155707188e96aadb8fb037c509ecfb4a10832004b54a0b36730ca6fc4f98b134",
+      "metrics": "oracle / oracle\t11.966\t0.096\t11.723\tN/A\ncnn_experimental / cnn_experimental\t11.922\t0.000\t11.784\t92f897a77d498f81670b3727f8ad59007297fb5325721ea7c891543b817bcb6e"
+    },
+    {
+      "id": "E3_SIREN_BLOCK_UI",
+      "passed": true
+    },
+    {
+      "id": "E4_INTEGRITY_UI",
+      "passed": true
+    },
+    {
+      "id": "mobile_390_no_page_overflow",
+      "passed": true
+    }
+  ],
+  "page_errors": [],
+  "passed": true
+}

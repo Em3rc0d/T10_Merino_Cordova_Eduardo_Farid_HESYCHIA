@@ -26,6 +26,7 @@ class WebConsoleTests(unittest.TestCase):
             output_root=base / "outputs",
             dataset_root=base / "missing_dataset",
             evidence_root=self.evidence_root,
+            model_root=base / "missing_model",
         )
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
@@ -151,6 +152,15 @@ class WebConsoleTests(unittest.TestCase):
             status["latency_campaign_evidence"]["batch_count"],
             2,
         )
+
+    def test_historical_m2_reference_is_not_claimed_as_mounted_raw_evidence(self):
+        _, status = self.get_json("/api/status")
+        self.assertIsNone(status["m2_evidence"])
+        ref = status["m2_reference"]
+        self.assertEqual(ref["scope"], "documented_historical_result_raw_artifacts_not_mounted")
+        self.assertFalse(ref["rnf03_met"])
+        self.assertAlmostEqual(ref["macro_f1"], .7257233296)
+        self.assertEqual(len(ref["source_sha256"]), 64)
 
     def test_allow_job_generates_real_evidence_and_integrity_passes(self):
         status_code, job = self.post_json(

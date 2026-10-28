@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: hesychia:s10a
+    image: hesychia:pi9-pi10
     container_name: hesychia-demo
     init: true
     ports:
@@ -25,7 +25,7 @@ services:
   # GitHub Actions, background service or external benchmark dataset.
   hesychia-qa:
     profiles: ["qa"]
-    image: hesychia:s10a
+    image: hesychia:pi9-pi10
     pull_policy: never
     working_dir: /workspace/04_build/selective_audio_lab
     command:
@@ -37,3 +37,6 @@ services:
       - test_contract_v12
       - test_demo
       - test_web_server
+      - test_m4_integration
+      - test_evidence_integrity
+      - test_ui_truthfulness
