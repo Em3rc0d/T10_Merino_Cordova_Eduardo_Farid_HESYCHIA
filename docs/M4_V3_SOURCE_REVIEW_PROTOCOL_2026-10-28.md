@@ -28,3 +28,12 @@ Los artefactos de revisión son **datos de evidencia**, no parámetros de entren
 - Hasta completar este registro, la prueba spectral/CNN contrafactual sigue siendo un **piloto de desarrollo con fuentes no auditadas**.
 - Una ablación donde la CNN espectral supere V2 en VAL justificaría replicación con múltiples semillas, no aprobación del título.
 - Sin mejora de selectividad, hacer análisis de representabilidad/Pareto con Oracle restringido y mejorar datos antes de aumentar complejidad o emprender streaming.
+
+
+## Fuentes externas candidatas para la próxima versión (investigadas, NO incorporadas)
+
+1. **FUSS (Google Research / DCASE)**. Está diseñado para experimentos de separación de sonidos y ofrece mezclas y referencias por fuente; sus archivos de origen se seleccionaron por probabilidad de evento dominante. Requiere revisar cada archivo, mapear clases, verificar licencias y detectar coincidencias con Freesound/ESC-50 antes de incorporarlo. Referencias: https://github.com/google-research/sound-separation/blob/master/datasets/fuss/FUSS_license_doc/README.md y https://dcase.community/challenge2021/task-sound-event-detection-and-separation-in-domestic-environments.
+2. **FSD50K-Solo (Yang et al., EUSIPCO 2026)**. Subconjunto de FSD50K seleccionado automáticamente para aproximarse a clips de una sola fuente; la propia técnica de selección depende de clasificadores y no acredita pureza perfecta. Referencia: https://arxiv.org/abs/2605.13931.
+3. **FSD50K general (Fonseca et al., 2022)**. Multietiqueta de fuente Freesound, 51.197 clips: útil para taxonomía y descubrimiento; por sí solo no crea stems aislados. Las licencias son individuales (CC0, CC-BY, CC-BY-NC y otras); la licencia del conjunto no elimina restricciones de cada clip. Fuente: https://zenodo.org/records/4060432.
+
+**Gate obligatorio:** ninguna fuente externa se convierte en test ciego simplemente por provenir de otro dataset. FUSS/FSD50K/FSD50K-Solo pueden compartir grabaciones subyacentes entre sí o con Freesound. Deduplicar IDs originales y huellas acústicas/perceptuales entre TODAS las particiones y versiones V1/V2/V3 antes de congelar la cohorte independiente.
