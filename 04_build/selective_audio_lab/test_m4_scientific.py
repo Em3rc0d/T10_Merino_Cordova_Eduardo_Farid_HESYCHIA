@@ -26,6 +26,15 @@ def test_identity_wola_keeps_edges_and_length(length):
     assert torch.max(torch.abs(y - x)) < 1e-6
 
 
+def test_frozen_mixture_gain_supports_linear_stem_attribution():
+    stems = torch.randn(3, 8000) * .04
+    specs = spectrum(stems)
+    gain = .25 + .75 * torch.rand_like(specs[:1].real)
+    combined = synthesize(spectrum(stems.sum(0)) * gain, 8000)
+    attributed = synthesize(specs * gain, 8000).sum(0)
+    assert torch.max(torch.abs(combined[0] - attributed)) < 1e-6
+
+
 def test_frontend_and_cnn_never_read_future():
     torch.manual_seed(12)
     x = torch.randn(1, 6000)
@@ -67,7 +76,7 @@ def test_block_does_not_load_missing_checkpoint():
     x = np.random.default_rng(1).normal(size=320).astype(np.float32)
     y, meta = predict_wave(x, "/nonexistent.pt", "vacuum_cleaner", block_protected=True)
     assert np.array_equal(x, y)
-    assert meta == {"decision": "BLOCK", "model_called": False}
+    assert meta["decision"] == "BLOCK" and meta["model_called"] is False
     with pytest.raises(FileNotFoundError):
         predict_wave(x, "/nonexistent.pt", "vacuum_cleaner")
 
@@ -86,6 +95,14 @@ def test_estimated_alert_gate_bypasses_before_loading_m4(monkeypatch):
     assert np.array_equal(x, out)
     assert meta["decision"] == "BLOCK"
     assert meta["model_called"] is False
+
+
+@pytest.mark.parametrize("label", ["siren", "speech", "clock_alarm", "car_horn"])
+def test_candidate_catalogue_preserves_legacy_protected_labels(label):
+    x = np.ones(320, dtype=np.float32) * .1
+    out, meta = predict_wave(x, "/missing-m4.pt", label)
+    assert np.array_equal(x, out)
+    assert meta["decision"] == "BLOCK" and meta["model_called"] is False
 
 
 def test_target_absent_speech_absent_loss_has_finite_gradients():
@@ -138,6 +155,23 @@ def test_freeze_file_cannot_be_rewritten(tmp_path):
     create_json(p, {"checkpoint": "a"})
     with pytest.raises(FileExistsError):
         create_json(p, {"checkpoint": "b"})
+
+
+def test_pcm_conversion_has_stable_container_and_exact_samples(tmp_path):
+    import soundfile as sf
+    from m4_scientific.corpus import _convert
+    from m4_scientific.common import sha256
+    original = tmp_path / "source.wav"
+    wave = np.random.default_rng(9).normal(0, .1, 16000).astype(np.float32)
+    sf.write(original, wave, 16000, subtype="PCM_16")
+    first, second = tmp_path / "one.wav", tmp_path / "two.wav"
+    _convert(original, first)
+    _convert(original, second)
+    assert sha256(first) == sha256(second)
+    assert b"PEAK" not in first.read_bytes()[:100]
+    a, _ = sf.read(original, dtype="float32")
+    b, _ = sf.read(first, dtype="float32")
+    assert np.array_equal(a, b)
 
 
 def test_pipeline_trains_freezes_evaluates_once_without_test_tuning(tmp_path):

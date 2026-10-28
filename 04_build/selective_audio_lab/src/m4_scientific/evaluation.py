@@ -17,18 +17,35 @@ from .common import canonical_hash, create_json, read_json, sha256, write_json
 from .corpus import TARGETS, SR, load_registry
 from .model import features, frontend_contract, load_checkpoint, spectrum, synthesize
 from .scenes import build_scene, load_recipes
+from .policy import resolve, POLICY_VERSION
 
 THRESHOLDS = {"A_target_min_db": 6., "A_protected_max_db": 1.}
 
 
 def evaluator_hash():
     # Freeze all code that can affect recipes, predictions and metrics.
-    return canonical_hash({p.name: sha256(p) for p in sorted(Path(__file__).parent.glob("*.py"))})
+    files = {p.name: sha256(p) for p in sorted(Path(__file__).parent.glob("*.py"))}
+    files["legacy_S10A_policy.py"] = sha256(Path(__file__).parent.parent / "policy.py")
+    return canonical_hash(files)
+
+
+def runtime_versions():
+    import scipy
+    import soundfile
+    import pystoi
+    return dict(torch=str(torch.__version__), numpy=np.__version__, scipy=scipy.__version__,
+                soundfile=soundfile.__version__, pystoi=pystoi.__version__)
 
 
 def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibration=None):
+    if bool(event_checkpoint) != bool(event_calibration) or not checkpoints:
+        raise ValueError("Need CNN checkpoints and a complete optional M2 checkpoint/calibration pair")
     root = Path(root).resolve()
     freeze_root = Path(output).resolve().parent
+    repo_root = Path(__file__).resolve().parents[4]
+    protocol_files = ("SOURCE_OF_TRUTH.md", "02_plan/PI11_M4_CNN_FIRST_STREAMING_SECOND.md",
+                      "03_architecture/M4_SCIENTIFIC_TRAINING_CONTRACT.md",
+                      "docs/PROTOCOLO_POST_PARCIAL_S9_S13.md")
     registry = read_json(root / "registry.json")
     scenes = read_json(root / "scene_contract.json")
     models = []
@@ -57,9 +74,12 @@ def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibratio
                  scene_contract_sha256=canonical_hash(scenes),
                  test_recipe_sha256=scenes["recipe_hashes"]["test"], checkpoints=models,
                  evaluation_code_sha256=evaluator_hash(), thresholds=THRESHOLDS,
+                 runtime_versions=runtime_versions(),
+                 protocol_sha256={name: sha256(repo_root / name) for name in protocol_files},
                  thresholds_source="docs/PROTOCOLO_POST_PARCIAL_S9_S13.md and docs/M4_METRICS_AUDIT.md",
                  predictor_inputs="mixture features and requested target class only",
                  event_model=event_info,
+                 policy_version=POLICY_VERSION,
                  mode="ASSISTED_TARGET_WITH_ANNOTATED_ALERT_POLICY plus estimated M2 gate if frozen",
                  policy="BLOCK if protected alert annotation supplied; bypass before model inference",
                  baselines=["unprocessed", "causal_minimum_statistics", "oracle_IRM_privileged"],
@@ -168,6 +188,10 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
     resolve_frozen = lambda path: Path(path) if Path(path).is_absolute() else freeze_path.resolve().parent / path
     if frozen["evaluation_code_sha256"] != evaluator_hash():
         raise ValueError("Evaluation code changed after freeze")
+    if frozen["thresholds"] != THRESHOLDS or frozen.get("policy_version") != POLICY_VERSION:
+        raise ValueError("Thresholds/policy differ from the frozen implementation")
+    if frozen.get("runtime_versions") != runtime_versions():
+        raise ValueError("Metric/model library versions changed after freeze")
     # Exclusive attempt marker is written BEFORE decoding the first test sample.
     output.mkdir(parents=True, exist_ok=False)
     receipt_path = freeze_path.with_suffix(".test_attempt.json")
@@ -203,7 +227,7 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
         spec = spectrum(torch.from_numpy(mix))[0]
         target_spec = spectrum(torch.from_numpy(stems[TARGETS[recipe["target_id"]]]))[0]
         privileged = (1 - target_spec.abs() / (target_spec.abs() + (spec - target_spec).abs() + 1e-8)).clamp_min(10 ** (-12 / 20))
-        assisted_decision = "BLOCK" if recipe["alert_present"] else "ALLOW"
+        assisted_decision = resolve(TARGETS[recipe["target_id"]], alert_detected=recipe["alert_present"])["decision"]
         methods = [("unprocessed", None, torch.ones_like(spec.real), assisted_decision, "assisted"),
                    ("causal_minimum_statistics", None, classic_gain(spec), assisted_decision, "assisted"),
                    ("oracle_IRM_privileged", None, privileged, assisted_decision, "assisted")]
@@ -236,14 +260,12 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
                 methods.append((name + "_class_swapped", item["seed"], wrong, assisted_decision, "assisted"))
             if event_probs is not None:
                 thresholds = event_calibration["thresholds"]
-                if event_probs[3] >= thresholds[3]:
-                    integrated_decision = "BLOCK"
-                    integrated_gain = torch.ones_like(spec.real)
-                elif event_probs[recipe["target_id"]] < thresholds[recipe["target_id"]]:
-                    integrated_decision = "BYPASS_TARGET_NOT_DETECTED"
+                integrated_decision = resolve(TARGETS[recipe["target_id"]],
+                    alert_detected=event_probs[3] >= thresholds[3],
+                    target_detected=event_probs[recipe["target_id"]] >= thresholds[recipe["target_id"]])["decision"]
+                if integrated_decision != "ALLOW":
                     integrated_gain = torch.ones_like(spec.real)
                 else:
-                    integrated_decision = "ALLOW"
                     with torch.no_grad():
                         integrated_gain = model.gain(model(feat, label))[0]
                 methods.append((name + "_M2_gate", item["seed"], integrated_gain,
@@ -316,6 +338,27 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
                                      delta_A_protected_db=group_ci(selected, "delta_A_protected_db", "speaker_group"),
                                      delta_STOI=group_ci(selected, "delta_STOI", "speaker_group")))
     write_json(output / "paired_summary.json", paired_summaries)
+    # A changed embedding response alone does not establish semantic extraction.
+    # Compare acoustic outcomes for correct vs swapped labels on IDENTICAL scenes.
+    lookup = {(r["method"], r["seed"], r["scene_id"]): r for r in rows}
+    conditioning_effect = []
+    for method, seed in sorted({(r["method"], r["seed"]) for r in rows
+                               if r["method"].startswith("cnn_") and r["mode"] == "assisted"
+                               and not r["method"].endswith("_class_swapped")}, key=str):
+        pairs = []
+        for r in rows:
+            if r["method"] != method or r["seed"] != seed or r["decision"] != "ALLOW":
+                continue
+            wrong = lookup.get((method + "_class_swapped", seed, r["scene_id"]))
+            if wrong is None:
+                continue
+            pairs.append(dict(target_group=r["target_group"], speaker_group=r["speaker_group"],
+                              delta_target_db=r["A_target_db"] - wrong["A_target_db"] if r["A_target_db"] is not None else None,
+                              delta_protected_db=r["A_protected_db"] - wrong["A_protected_db"] if r["A_protected_db"] is not None else None))
+        conditioning_effect.append(dict(method=method, seed=seed,
+                                        correct_minus_swapped_A_target_db=group_ci(pairs, "delta_target_db", "target_group"),
+                                        correct_minus_swapped_A_protected_db=group_ci(pairs, "delta_protected_db", "speaker_group")))
+    write_json(output / "conditioning_effect.json", conditioning_effect)
     event_metrics = None
     if event_predictions:
         from .events import classification_metrics

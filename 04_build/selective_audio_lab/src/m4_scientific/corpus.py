@@ -18,6 +18,7 @@ from pathlib import Path
 
 import numpy as np
 import scipy.signal
+import scipy.io.wavfile
 import soundfile as sf
 
 from .common import canonical_hash, read_json, sha256, write_json
@@ -103,7 +104,9 @@ def _convert(original, pcm):
     if rms < 1e-5:
         raise ValueError(f"Silent source: {original}")
     pcm.parent.mkdir(parents=True, exist_ok=True)
-    sf.write(pcm, x, SR, subtype="FLOAT")
+    # libsndfile FLOAT WAV adds a PEAK creation timestamp, making byte hashes
+    # differ on an identical rebuild. scipy's float WAV writer is deterministic.
+    scipy.io.wavfile.write(pcm, SR, x.astype("float32"))
     # Hash a sample-quantized normalized waveform to catch exact gain/format copies.
     normalized = x / max(float(np.max(np.abs(x))), 1e-8)
     fingerprint = hashlib.sha256(np.round(normalized * 4096).astype("<i2").tobytes()).hexdigest()

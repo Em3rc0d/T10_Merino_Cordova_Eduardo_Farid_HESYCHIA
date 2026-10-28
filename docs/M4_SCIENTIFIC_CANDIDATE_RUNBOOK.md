@@ -25,6 +25,9 @@ P2 streaming sigue dependiendo de un GO científico documentado.
   **este M2 no constituye reconocimiento streaming**.
 - Dos modos: objetivo configurado con alertas anotadas y objetivo solicitado con
   gate estimado M2 → política → M4. El segundo mide errores del detector.
+- Política M3b candidata versionada, que incorpora las etiquetas protegidas de
+  S10-A y mantiene las clases nuevas en un catálogo de investigación separado.
+  No se altera el catálogo de la demo histórica para declarar aprobación formal.
 - Inferencia CLI sobre WAV/FLAC sin stems limpios; BLOCK precede la carga de M4.
 - Freeze inmutable y test de un solo intento, comparación pareada con DSP,
   entrada sin procesar y Oracle informado por stems. El CNN histórico solo conoce
@@ -68,11 +71,25 @@ python -m pytest -q test_m4_scientific.py
 python src/m4_science.py prepare --root data/m4_sci --counts 1600 160 160 --seconds 2
 ```
 
+La regresión completa de la demo histórica requiere las dependencias opcionales
+`requirements-scientific-qa.txt`; ejecutar `python -m pytest -q` con backend Keras
+Torch. Dos pruebas históricas dependen de un `paired.csv` local no versionado;
+sus omisiones deben informarse, sin presentarlas como pruebas ejecutadas.
+
 `prepare` descarga 240 clips ESC-50 de seis categorías y el archive SLR31
 train-clean-5. Conserva originales y evidencias. Produce registro, auditoría,
 recetas y plantilla `human_review.csv`. La conversión a PCM no certifica pureza.
 Si el directorio ya contiene un registro, se debe crear una nueva versión;
 el pipeline no sustituye silenciosamente un corpus congelado.
+
+La primera corrida preservada utilizó FLOAT-WAV de libsndfile, cuyo chunk PEAK
+incluye fecha de creación: una reconstrucción puede cambiar el hash del contenedor
+sin cambiar ninguna muestra. Se verificaron por separado audio y recetas; el
+reporte `corpus_reproduction.json` distingue esa igualdad de la identidad de bytes
+del contenedor. El conversor actual usa FLOAT-WAV determinista de scipy. Esto
+produce una revisión nueva del registro, sin reescribir registros o checkpoints
+anteriores. Para repetir el entrenamiento, preparar un corpus nuevo y conservar
+sus propios hashes; no sustituir el registro de una evaluación ya congelada.
 
 ## Entrenar y comparar en validación
 

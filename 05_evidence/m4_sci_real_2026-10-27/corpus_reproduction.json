@@ -1,0 +1,14 @@
+{
+  "status": "PASS_AUDIO_AND_RECIPES",
+  "pcm_sample_arrays_bit_identical": 352,
+  "total_assets": 352,
+  "recipe_matches": {
+    "train": true,
+    "val": true,
+    "test": true
+  },
+  "container_hashes_changed": 352,
+  "registry_byte_identity": false,
+  "reason": "Original libsndfile FLOAT-WAV conversion records a PEAK creation timestamp. Audio samples are bit-identical; original registry/checkpoints are preserved. Future conversion uses deterministic scipy FLOAT-WAV.",
+  "test_inference_performed": false
+}

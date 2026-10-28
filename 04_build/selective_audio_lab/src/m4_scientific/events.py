@@ -142,6 +142,9 @@ def fit_events(root, out, *, seed=141, epochs=20, pilot_unreviewed=False):
 
 def load_events(path, calibration_path):
     calibration = read_json(calibration_path)
+    thresholds = np.asarray(calibration.get("thresholds", []), dtype=float)
+    if thresholds.shape != (len(EVENTS),) or not np.isfinite(thresholds).all() or np.any((thresholds < 0) | (thresholds > 1)):
+        raise ValueError("Invalid event thresholds")
     if sha256(path) != calibration["checkpoint_sha256"]:
         raise ValueError("Event checkpoint/calibration mismatch")
     obj = torch.load(path, map_location="cpu", weights_only=True)

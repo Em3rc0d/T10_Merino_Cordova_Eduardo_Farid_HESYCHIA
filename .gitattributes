@@ -1,6 +1,15 @@
+# Preserve bytes referenced by scientific manifests on Windows and Linux.
+04_build/selective_audio_lab/src/m4_scientific/** text eol=lf
+04_build/selective_audio_lab/src/m4_science.py text eol=lf
+04_build/selective_audio_lab/src/policy.py text eol=lf
+04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/** text eol=lf
+05_evidence/m4_sci_real_2026-10-27/** text eol=lf
+
 *.wav binary
 *.npy binary
 *.pdf binary
 *.pptx binary
 *.docx binary
 *.mp4 binary
+*.pt binary
+*.png binary

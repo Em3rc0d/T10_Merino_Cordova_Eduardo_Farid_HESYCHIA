@@ -96,7 +96,9 @@ def save_recipes(root, registry, **kwargs):
     root = Path(root)
     if (root / "recipes_train.json").exists():
         raise ValueError("Scene recipes already exist; do not overwrite an experiment")
-    result = make_recipes(root, registry, **kwargs)
+    resolved = dict(counts=(1600, 160, 160), seconds=2., seed=2710)
+    resolved.update(kwargs)
+    result = make_recipes(root, registry, **resolved)
     hashes = {}
     for split, recipes in result.items():
         write_json(root / f"recipes_{split}.json", recipes)
@@ -108,7 +110,7 @@ def save_recipes(root, registry, **kwargs):
         description="Real recordings mixed digitally, with known candidate pseudo-stems; "
                     "relative_db is component RMS relative to common reference, not total-mixture SNR",
         reference_gain_floor_db=12., sample_rate=SR,
-        test_sealed=True, generation_config=kwargs))
+        test_sealed=True, generation_config=resolved))
     return hashes
 
 

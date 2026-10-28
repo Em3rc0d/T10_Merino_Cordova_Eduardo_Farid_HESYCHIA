@@ -12,6 +12,7 @@ import torch
 from .common import sha256, write_json
 from .corpus import TARGETS, SR
 from .model import features, load_checkpoint, spectrum, synthesize
+from .policy import resolve
 
 
 def predict_wave(audio, checkpoint, target, *, block_protected=False,
@@ -19,11 +20,10 @@ def predict_wave(audio, checkpoint, target, *, block_protected=False,
     audio = np.asarray(audio, dtype=np.float32)
     if audio.ndim != 1 or not len(audio) or not np.isfinite(audio).all():
         raise ValueError("Expected finite nonempty mono audio")
-    if target not in TARGETS:
-        raise ValueError("Unsupported target class")
+    policy = resolve(target, force_block=block_protected)
     # Precedence is mandatory, including when weights are missing or corrupt.
-    if block_protected:
-        return audio.copy(), {"decision": "BLOCK", "model_called": False}
+    if policy["decision"] == "BLOCK":
+        return audio.copy(), {**policy, "model_called": False}
     event_meta = {}
     if bool(event_checkpoint) != bool(event_calibration):
         raise ValueError("Both event checkpoint and validation calibration are required")
@@ -32,15 +32,17 @@ def predict_wave(audio, checkpoint, target, *, block_protected=False,
         detector, calibration = load_events(event_checkpoint, event_calibration)
         with torch.no_grad():
             probs = torch.sigmoid(detector(features(spectrum(torch.from_numpy(audio)))))[0].numpy()
-        event_meta = dict(event_probabilities=dict(zip(EVENTS, (float(v) for v in probs))),
+        event_meta = dict(event_probabilities=dict(zip(EVENTS, (float(v) if np.isfinite(v) else None for v in probs))),
                           event_thresholds=calibration["thresholds"],
                           event_checkpoint_sha256=sha256(event_checkpoint))
-        if probs[3] >= calibration["thresholds"][3]:
-            return audio.copy(), dict(decision="BLOCK", reason="estimated_protected_alert",
+        if not np.isfinite(probs).all():
+            return audio.copy(), dict(decision="BLOCK", reason="nonfinite_event_prediction",
                                        model_called=False, **event_meta)
         index = TARGETS.index(target)
-        if probs[index] < calibration["thresholds"][index]:
-            return audio.copy(), dict(decision="BYPASS_TARGET_NOT_DETECTED", model_called=False, **event_meta)
+        policy = resolve(target, alert_detected=probs[3] >= calibration["thresholds"][3],
+                         target_detected=probs[index] >= calibration["thresholds"][index])
+        if policy["decision"] != "ALLOW":
+            return audio.copy(), dict(model_called=False, **policy, **event_meta)
     model, obj = load_checkpoint(checkpoint)
     label = 0 if obj["config"].get("conditioning") == "none" else TARGETS.index(target)
     torch.set_num_threads(4)
@@ -52,7 +54,7 @@ def predict_wave(audio, checkpoint, target, *, block_protected=False,
         output = synthesize(spec * gain, len(audio))[0].numpy()
         if not np.isfinite(output).all():
             raise ValueError("Nonfinite reconstructed audio; inference aborted")
-    return output, dict(decision="ALLOW", model_called=True,
+    return output, dict(**policy, model_called=True,
                         checkpoint_sha256=sha256(checkpoint), target=target,
                         mode="offline_integrated_requested_target" if event_checkpoint else "offline_assisted_target",
                         automatic_alert_detection=bool(event_checkpoint),
