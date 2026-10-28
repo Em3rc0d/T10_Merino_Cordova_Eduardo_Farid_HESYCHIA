@@ -256,3 +256,98 @@ def test_pipeline_trains_freezes_evaluates_once_without_test_tuning(tmp_path):
     assert len(report["summaries"]) == 5
     with pytest.raises(FileExistsError):
         evaluate(root, frozen, tmp_path / "second-result", save_audio=0)
+
+
+# V2 deep-learning gates: these test the objective, NOT acoustic scientific GO.
+
+def _v2_fixture():
+    from m4_scientific.model import MaskCNN, ModelConfig
+    model = MaskCNN(ModelConfig(channels=8))
+    labels = torch.tensor([0, 1])
+    feats = torch.rand(2, 40, 257)
+    pred = model(feats, labels)
+    swapped = model(feats, 1 - labels)
+    target = torch.rand(2, 40, 257) * .2
+    target[1] = 0.0  # Explicit target-absent supervision
+    voice = torch.rand(2, 40, 257) * .1
+    voice[0] = 0.0   # Explicit speech-absent supervision
+    other = torch.rand(2, 40, 257) * .1
+    batch = dict(ideal=target / (target + voice + other + 1e-8),
+                 target=target.to(torch.complex64), protected=voice,
+                 nontarget=other.to(torch.complex64),
+                 mixture=(target + voice + other).to(torch.complex64))
+    return model, pred, swapped, batch
+
+
+def test_v2_joint_loss_is_finite_and_updates_deep_cnn():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, swapped, batch = _v2_fixture()
+    loss, details = constrained_selective_loss(model, prediction, batch, {},
+                                               swapped_prediction=swapped)
+    assert torch.isfinite(loss)
+    assert all(torch.isfinite(v) for v in details.values())
+    loss.backward()
+    assert model.embedding.weight.grad is not None
+    assert torch.isfinite(model.embedding.weight.grad).all()
+    assert model.embedding.weight.grad.abs().sum() > 0
+    assert model.mask_head.weight.grad is not None
+
+
+def test_v2_empty_stems_do_not_create_nan_or_false_attenuation():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, swapped, batch = _v2_fixture()
+    for k in ("target", "protected", "nontarget", "mixture"):
+        batch[k] = torch.zeros_like(batch[k])
+    batch["ideal"] = torch.zeros_like(batch["ideal"])
+    loss, metrics = constrained_selective_loss(model, prediction, batch, {},
+                                               swapped_prediction=swapped)
+    assert torch.isfinite(loss)
+    assert all(torch.isfinite(v) for v in metrics.values())
+
+
+def test_v2_counterfactual_rejects_swapped_class_on_same_mixture():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    from m4_scientific.model import MaskCNN, ModelConfig
+    model = MaskCNN(ModelConfig(channels=8))
+    n = (1, 5, 257)
+    target = torch.zeros(n)
+    other = torch.zeros(n)
+    target[..., :40] = 1.0
+    other[..., 100:140] = 1.0
+    data = dict(target=target.to(torch.complex64),
+                nontarget=other.to(torch.complex64),
+                protected=torch.zeros(n), mixture=(target + other).to(torch.complex64),
+                ideal=torch.zeros(n))
+    correct, swapped = torch.zeros(n), torch.zeros(n)
+    correct[..., :40] = 1.0
+    swapped[..., 100:140] = 1.0
+    cfg = dict(mask_weight=0., target_weight=0., speech_weight=0.,
+               other_weight=0., absent_weight=0., class_weight=1.)
+    _, good = constrained_selective_loss(model, correct, data, cfg,
+                                         swapped_prediction=swapped)
+    _, bad = constrained_selective_loss(model, swapped, data, cfg,
+                                        swapped_prediction=correct)
+    assert good["contrast"] < bad["contrast"]
+
+
+def test_v2_target_absent_requires_near_identity():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    from m4_scientific.model import MaskCNN, ModelConfig
+    model = MaskCNN(ModelConfig(channels=8))
+    n = (2, 5, 257)
+    source = torch.ones(n)
+    data = dict(ideal=torch.zeros(n), target=torch.zeros(n, dtype=torch.complex64),
+                nontarget=source.to(torch.complex64), protected=source,
+                mixture=(2*source).to(torch.complex64))
+    cfg = dict(mask_weight=0., target_weight=0., speech_weight=0.,
+               other_weight=0., class_weight=0., absent_weight=1.)
+    _, identity = constrained_selective_loss(model, torch.zeros(n), data, cfg)
+    _, broad = constrained_selective_loss(model, .8 * torch.ones(n), data, cfg)
+    assert broad["absent"] > identity["absent"]
+
+
+def test_v2_requires_counterfactual_if_contrast_enabled():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, _, batch = _v2_fixture()
+    with pytest.raises(ValueError, match="swapped-class"):
+        constrained_selective_loss(model, prediction, batch, {"class_weight": 1.0})
