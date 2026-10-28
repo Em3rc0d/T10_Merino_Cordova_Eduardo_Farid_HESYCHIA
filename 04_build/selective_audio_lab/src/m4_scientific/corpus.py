@@ -157,6 +157,15 @@ def prepare(root, *, speech_per_speaker=4, workers=6):
         download(f"{ESC_ROOT}/{remote}", raw / f"pinned_{name}", 2_000_000)
     download("https://www.openslr.org/31/", raw / "SLR31.html", 1_000_000)
     download("https://www.openslr.org/resources/31/md5sum.txt", raw / "SLR31_md5sum.txt", 10000)
+    # Deterministic aliases preserve the acquisition record of the first pilot.
+    # Do not let unrelated files present in raw/ change the corpus identity.
+    for src, dest in (("pinned_esc50.csv", "esc50.csv"),
+                      ("pinned_ESC50_README.md", "ESC50_README.md"),
+                      ("pinned_LICENSE_ESC50.txt", "LICENSE_ESC50.txt")):
+        (raw / dest).write_bytes((raw / src).read_bytes())
+    evidence_files = ("esc50.csv", "pinned_esc50.csv", "SLR31.html", "SLR31_md5sum.txt",
+                      "pinned_ESC50_README.md", "ESC50_README.md",
+                      "pinned_LICENSE_ESC50.txt", "LICENSE_ESC50.txt")
     checksums = (raw / "SLR31_md5sum.txt").read_text()
     if f"{SPEECH_MD5}  train-clean-5.tar.gz" not in checksums:
         raise ValueError("Publisher speech checksum listing differs")
@@ -219,8 +228,7 @@ def prepare(root, *, speech_per_speaker=4, workers=6):
     manifest = dict(schema="m4-sci-sources-v1", targets=list(TARGETS), assets=assets,
                     esc_revision=ESC_REV, speech_archive_sha256=sha256(archive),
                     academic_research_only=True, review_status="PENDING_HUMAN_REVIEW",
-                    evidence_sha256={p.name: sha256(p) for p in raw.iterdir()
-                                     if p.is_file() and p.suffix in (".txt", ".md", ".csv", ".html")},
+                    evidence_sha256={name: sha256(raw / name) for name in evidence_files},
                     acquisition_scope="real recordings, synthetically mixed; ESC pseudo-stems",
                     limitations=["No source isolation or listening review certified",
                                  "No perceptual/cropped near-duplicate search certified",

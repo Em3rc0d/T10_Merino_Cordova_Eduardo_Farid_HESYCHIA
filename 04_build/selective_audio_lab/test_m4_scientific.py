@@ -123,6 +123,7 @@ def test_metrics_do_not_confuse_scale_invariance_and_attenuation():
     assert abs(attenuation(x, x * .5) - 6.020599913) < 1e-6
     assert si_sdr(x * .5, x) > 100
     assert attenuation(np.zeros_like(x), x) is None
+    assert si_sdr(np.zeros_like(x), x) is None
 
 
 def test_bootstrap_counts_sources_instead_of_copies():

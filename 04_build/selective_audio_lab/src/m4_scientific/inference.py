@@ -47,7 +47,11 @@ def predict_wave(audio, checkpoint, target, *, block_protected=False,
     with torch.no_grad():
         spec = spectrum(torch.from_numpy(audio))
         gain = model.gain(model(features(spec), torch.tensor([label])))
+        if not torch.isfinite(gain).all():
+            raise ValueError("Nonfinite model gain; inference aborted")
         output = synthesize(spec * gain, len(audio))[0].numpy()
+        if not np.isfinite(output).all():
+            raise ValueError("Nonfinite reconstructed audio; inference aborted")
     return output, dict(decision="ALLOW", model_called=True,
                         checkpoint_sha256=sha256(checkpoint), target=target,
                         mode="offline_integrated_requested_target" if event_checkpoint else "offline_assisted_target",

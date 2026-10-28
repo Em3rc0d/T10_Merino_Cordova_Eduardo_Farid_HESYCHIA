@@ -41,7 +41,8 @@ def freeze(root, checkpoints, output, *, event_checkpoint=None, event_calibratio
         if obj["corpus_sha256"] != canonical_hash(registry) or obj["scene_contract_sha256"] != canonical_hash(scenes):
             raise ValueError("Checkpoint was not trained on this corpus contract")
         models.append(dict(path=os.path.relpath(path, freeze_root), sha256=sha256(path), seed=obj["config"]["seed"],
-                           loss=obj["config"]["loss"], conditioning=obj["config"].get("conditioning", "class")))
+                           loss=obj["config"]["loss"], conditioning=obj["config"].get("conditioning", "class"),
+                           architecture=obj["model_config"].get("architecture", "temporal")))
     event_info = None
     if event_checkpoint is not None:
         from .events import load_events
@@ -87,7 +88,7 @@ def si_sdr(estimate, reference):
     r = np.asarray(reference, dtype=np.float64)
     x, r = x - x.mean(), r - r.mean()
     power = float(r @ r)
-    if power < 1e-10:
+    if power < 1e-10 or float(x @ x) < 1e-10:
         return None
     desired = r * float(x @ r) / power
     error = x - desired
@@ -152,7 +153,7 @@ def _row(method, seed, recipe, mix, stems, spec, gain, *, decision=None, mode="a
                 speaker_group=recipe["parts"].get("speech", {}).get("source_group", ""),
                 mixture_pcm_sha256=hashlib.sha256(mix.astype("<f4").tobytes()).hexdigest(),
                 A_target_db=at, A_protected_db=ap, A_alert_db=attenuation(stems["alert"], alert_out),
-                SI_SDRi_protected_db=after - before if before is not None else None,
+                SI_SDRi_protected_db=after - before if before is not None and after is not None else None,
                 SI_SDR_desired_db=desired_score, STOI_input=stoi_in, STOI_output=stoi_out,
                 STOI_delta=stoi_out - stoi_in if stoi_in is not None else None,
                 target_ok=at >= 6 if at is not None and not recipe["alert_present"] else None,
@@ -229,7 +230,7 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
                     differences.append(dict(scene_id=recipe["scene_id"], seed=item["seed"],
                                             loss=item["loss"], conditioning=item["conditioning"],
                                             gain_mean_abs_class_swap=float((gain - wrong).abs().mean())))
-            name = f"cnn_{item['loss']}_{item['conditioning']}"
+            name = f"cnn_{item.get('architecture', 'temporal')}_{item['loss']}_{item['conditioning']}"
             methods.append((name, item["seed"], gain, assisted_decision, "assisted"))
             if not recipe["alert_present"]:
                 methods.append((name + "_class_swapped", item["seed"], wrong, assisted_decision, "assisted"))
@@ -262,7 +263,7 @@ def evaluate(root, freeze_path, output, *, save_audio=8):
         if (idx + 1) % 20 == 0:
             print(f"test {idx + 1}/{len(recipes)}", flush=True)
     with (output / "per_scene.csv").open("w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     summaries = []

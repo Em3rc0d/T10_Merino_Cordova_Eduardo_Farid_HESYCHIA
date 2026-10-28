@@ -64,7 +64,7 @@ def validate_candidates(root, checkpoints, output):
                   summaries=summaries, scientific_GO=False)
     write_json(output / "validation_report.json", report)
     with (output / "per_scene.csv").open("w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=list(all_rows[0]))
+        writer = csv.DictWriter(f, fieldnames=list(all_rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(all_rows)
     return report
