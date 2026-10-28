@@ -256,3 +256,215 @@ def test_pipeline_trains_freezes_evaluates_once_without_test_tuning(tmp_path):
     assert len(report["summaries"]) == 5
     with pytest.raises(FileExistsError):
         evaluate(root, frozen, tmp_path / "second-result", save_audio=0)
+
+
+# V2 deep-learning gates: these test the objective, NOT acoustic scientific GO.
+
+def _v2_fixture():
+    from m4_scientific.model import MaskCNN, ModelConfig
+    model = MaskCNN(ModelConfig(channels=8))
+    labels = torch.tensor([0, 1])
+    feats = torch.rand(2, 40, 257)
+    pred = model(feats, labels)
+    swapped = model(feats, 1 - labels)
+    target = torch.rand(2, 40, 257) * .2
+    target[1] = 0.0  # Explicit target-absent supervision
+    voice = torch.rand(2, 40, 257) * .1
+    voice[0] = 0.0   # Explicit speech-absent supervision
+    other = torch.rand(2, 40, 257) * .1
+    batch = dict(ideal=target / (target + voice + other + 1e-8),
+                 target=target.to(torch.complex64), protected=voice,
+                 nontarget=other.to(torch.complex64),
+                 mixture=(target + voice + other).to(torch.complex64),
+                 alert_flag=torch.zeros(2))
+    return model, pred, swapped, batch
+
+
+def test_v2_joint_loss_is_finite_and_updates_deep_cnn():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, swapped, batch = _v2_fixture()
+    loss, details = constrained_selective_loss(model, prediction, batch, {},
+                                               swapped_prediction=swapped)
+    assert torch.isfinite(loss)
+    assert all(torch.isfinite(v) for v in details.values())
+    loss.backward()
+    assert model.embedding.weight.grad is not None
+    assert torch.isfinite(model.embedding.weight.grad).all()
+    assert model.embedding.weight.grad.abs().sum() > 0
+    assert model.mask_head.weight.grad is not None
+
+
+def test_v2_empty_stems_do_not_create_nan_or_false_attenuation():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, swapped, batch = _v2_fixture()
+    for k in ("target", "protected", "nontarget", "mixture"):
+        batch[k] = torch.zeros_like(batch[k])
+    batch["ideal"] = torch.zeros_like(batch["ideal"])
+    loss, metrics = constrained_selective_loss(model, prediction, batch, {},
+                                               swapped_prediction=swapped)
+    assert torch.isfinite(loss)
+    assert all(torch.isfinite(v) for v in metrics.values())
+
+
+def test_v2_counterfactual_rejects_swapped_class_on_same_mixture():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    from m4_scientific.model import MaskCNN, ModelConfig
+    model = MaskCNN(ModelConfig(channels=8))
+    n = (1, 5, 257)
+    target = torch.zeros(n)
+    other = torch.zeros(n)
+    target[..., :40] = 1.0
+    other[..., 100:140] = 1.0
+    data = dict(target=target.to(torch.complex64),
+                nontarget=other.to(torch.complex64),
+                protected=torch.zeros(n), mixture=(target + other).to(torch.complex64),
+                ideal=torch.zeros(n), alert_flag=torch.zeros(1))
+    correct, swapped = torch.zeros(n), torch.zeros(n)
+    correct[..., :40] = 1.0
+    swapped[..., 100:140] = 1.0
+    cfg = dict(mask_weight=0., target_weight=0., speech_weight=0.,
+               other_weight=0., absent_weight=0., class_weight=1.)
+    _, good = constrained_selective_loss(model, correct, data, cfg,
+                                         swapped_prediction=swapped)
+    _, bad = constrained_selective_loss(model, swapped, data, cfg,
+                                        swapped_prediction=correct)
+    assert good["contrast"] < bad["contrast"]
+
+
+def test_v2_target_absent_requires_near_identity():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    from m4_scientific.model import MaskCNN, ModelConfig
+    model = MaskCNN(ModelConfig(channels=8))
+    n = (2, 5, 257)
+    source = torch.ones(n)
+    data = dict(ideal=torch.zeros(n), target=torch.zeros(n, dtype=torch.complex64),
+                nontarget=source.to(torch.complex64), protected=source,
+                mixture=(2*source).to(torch.complex64), alert_flag=torch.zeros(2))
+    cfg = dict(mask_weight=0., target_weight=0., speech_weight=0.,
+               other_weight=0., class_weight=0., absent_weight=1.)
+    _, identity = constrained_selective_loss(model, torch.zeros(n), data, cfg)
+    _, broad = constrained_selective_loss(model, .8 * torch.ones(n), data, cfg)
+    assert broad["absent"] > identity["absent"]
+
+
+def test_v2_requires_counterfactual_if_contrast_enabled():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, _, batch = _v2_fixture()
+    with pytest.raises(ValueError, match="swapped-class"):
+        constrained_selective_loss(model, prediction, batch, {"class_weight": 1.0})
+
+
+def test_v2_alerts_are_not_supervised_as_attenuable():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, swapped, batch = _v2_fixture()
+    batch["alert_flag"] = torch.ones(2)
+    loss, parts = constrained_selective_loss(model, prediction, batch, {},
+                                             swapped_prediction=swapped)
+    assert float(loss) == pytest.approx(0., abs=1e-6)
+    assert float(parts["eligible_joint_proxy"]) == pytest.approx(0., abs=1e-6)
+
+
+def test_v2_class_conditional_training_can_learn_on_controlled_spectra():
+    """Numeric trainability smoke only, NOT real-speech or scientific performance.
+
+    The SAME mixture is repeated with two different requested target classes.
+    The learned masks must be able to respond differently without changing
+    acoustic inputs; no test-set recordings or labels are used here.
+    """
+    from m4_scientific.model import MaskCNN, ModelConfig, features
+    from m4_scientific.training import losses
+    from m4_scientific.v2_objective import spectral_attenuation_db
+
+    torch.manual_seed(20261028)
+    torch.set_num_threads(2)
+    b, frames, bins = 8, 12, 257
+    a = torch.zeros(b, frames, bins)
+    b_source = torch.zeros_like(a)
+    speech = torch.zeros_like(a)
+    a[..., 20:27] = .75
+    b_source[..., 140:147] = .75
+    speech[..., 65:74] = .25
+    labels = torch.tensor([0, 1] * 4)
+    is_a = (labels == 0)[:, None, None]
+    target = torch.where(is_a, a, b_source)
+    other = torch.where(is_a, b_source, a)
+    mixture = a + b_source + speech
+    batch = dict(ideal=target / (target + other + speech + 1e-8),
+                 mixture=mixture.to(torch.complex64),
+                 target=target.to(torch.complex64),
+                 nontarget=other.to(torch.complex64),
+                 protected=speech, alert_flag=torch.zeros(b))
+    x = features(batch["mixture"])
+    model = MaskCNN(ModelConfig(channels=12, embedding=12, dilations=(1, 2)))
+    optimizer = torch.optim.AdamW(model.parameters(), lr=.01, weight_decay=0.)
+    cfg = dict(loss="selective_v2", mask_weight=.1,
+               target_weight=1., speech_weight=1., other_weight=1.,
+               absent_weight=1., class_weight=1., temperature_db=.5)
+    history = []
+    for i in range(80):
+        pred = model(x, labels)
+        swapped = model(x, 1 - labels)
+        loss, metrics = losses(model, pred, batch, cfg, swapped_prediction=swapped)
+        if i == 0:
+            initial = float(loss.detach())
+        assert torch.isfinite(loss)
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        optimizer.step()
+        history.append(float(loss.detach()))
+    model.eval()
+    with torch.no_grad():
+        correct = model(x, labels)
+        swapped = model(x, 1 - labels)
+        final_loss, _ = losses(model, correct, batch, cfg,
+                               swapped_prediction=swapped)
+        correct_att = spectral_attenuation_db(model.gain(correct), batch["target"])
+        swapped_att = spectral_attenuation_db(model.gain(swapped), batch["target"])
+    assert float(final_loss) < .8 * initial, (initial, float(final_loss))
+    assert float((correct_att - swapped_att).mean()) > .5
+
+
+def test_v2_paired_comparator_refuses_test_and_mismatched_scenes(tmp_path):
+    """Comparison must use validation and identical actual mixtures."""
+    import csv
+    import json
+    sys.path.insert(0, str(Path(__file__).parent / "experiments"))
+    from compare_m4_validation_only import compare
+
+    folder = tmp_path / "validation"
+    folder.mkdir()
+    report = dict(split="validation_only", test_audio_read=False,
+                  summaries=[dict(run="old"), dict(run="new")])
+    (folder / "validation_report.json").write_text(json.dumps(report))
+    base = dict(scene_id="val-00001", mixture_pcm_sha256="same-mixture",
+                target_class="chainsaw", target_present="True",
+                speech_present="True", alert_present="False",
+                target_group="t1", speaker_group="v1")
+    rows = [{**base, "method":"old", "both_ok":"False",
+             "A_target_db":"2.", "A_protected_db":"1.2"},
+            {**base, "method":"new", "both_ok":"True",
+             "A_target_db":"7.", "A_protected_db":"0.8"}]
+    path = folder / "per_scene.csv"
+    with path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    result = compare(folder, "old", "new")
+    assert result["eligible_pairs"] == 1
+    assert result["target_delta_db"]["mean_equal_group"] == pytest.approx(5.)
+    assert result["protected_delta_db"]["mean_equal_group"] == pytest.approx(-.4)
+    assert result["candidate_joint_pass"] == 1
+    assert result["test_used"] is False
+    report["split"] = "test"
+    (folder / "validation_report.json").write_text(json.dumps(report))
+    with pytest.raises(ValueError, match="validation-only"):
+        compare(folder, "old", "new")
+    report["split"] = "validation_only"
+    (folder / "validation_report.json").write_text(json.dumps(report))
+    rows[1]["mixture_pcm_sha256"] = "different-mixture"
+    with path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    with pytest.raises(ValueError, match="Unpaired"):
+        compare(folder, "old", "new")
