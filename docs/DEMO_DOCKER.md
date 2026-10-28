@@ -10,7 +10,7 @@ El contenedor **no convierte módulos pendientes en implementados**. La consola 
 
 - Docker Desktop o Docker Engine con Compose v2.
 - Repositorio clonado.
-- UrbanSound8K solo es necesario para el benchmark M2 real. La baseline de atenuación funciona sin el dataset.
+- UrbanSound8K solo es necesario para el benchmark M2 real. La baseline de atenuación funciona sin el dataset. El target mecánico y la referencia tonal de voz son artificiales; la demo NO valida RNF-04 con voz real.
 
 ## Arranque mínimo
 
@@ -70,10 +70,10 @@ La UI comprobará `metadata/UrbanSound8K.csv`, `audio/fold1` y `audio/fold10` an
 1. `docker compose up --build` antes de la exposición.
 2. Abrir `http://localhost:8080`.
 3. Verificar el indicador **Servicio operativo**.
-4. Abrir **Atenuación** y ejecutar primero ALLOW.
+4. Abrir **Atenuación** y ejecutar primero **Perforación sintética → ALLOW**.
 5. Mostrar los tres valores medidos producidos por ese run, no valores escritos a mano.
-6. Cambiar el escenario a BLOCK y demostrar la precedencia de protección (`target_is_protected`).
-7. Reproducir `mixture.wav` y `output_selective.wav` desde la UI.
+6. Cambiar el target a **Sirena sintética → BLOCK obligatorio** y demostrar que no es posible habilitar su atenuación. Opcionalmente, aplicar bloqueo manual a perforación.
+7. Reproducir `mixture.wav` y `output_selective.wav` desde la UI. En BLOCK la señal digital debe ser idéntica; en ALLOW se usa IRM oracle con stems sintéticos.
 8. Mostrar waveform y espectrograma generados a partir del mismo run.
 9. Abrir **Evidencias** y pulsar **Verificar** para comprobar JSON/SQLite/manifiesto/SHA-256.
 10. Abrir **Edge readiness** y ejecutar **Medir procesamiento local** en la laptop objetivo. Reportar el resultado únicamente como `whole_clip_processing_only`; no llamarlo p95/hop ni E2E.
@@ -139,3 +139,7 @@ measurement_scope = whole_clip_processing_only
 ```
 
 Esta medición es útil como evidencia S8 ejecutada en el dispositivo objetivo, pero no sustituye RNF-05 final: p95 por hop, latencia E2E de captura/salida, streaming ni Android.
+
+## Actualización S10-A (25-10-2026)
+
+Para la configuración actualizada de imagen, rama, QA, smoke e instrucciones de Windows, consultar **[DOCKER_S10A_RUNBOOK.md](DOCKER_S10A_RUNBOOK.md)**. La imagen falla el build si el contrato de seguridad básico S10-A no supera las pruebas. La prueba posterior de servicio verifica ambos escenarios y la integridad real.

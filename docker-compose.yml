@@ -3,9 +3,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: hesychia:s10a
     container_name: hesychia-demo
+    init: true
     ports:
-      - "8080:8080"
+      - "${HESYCHIA_PORT:-8080}:8080"
     environment:
       HESYCHIA_OUTPUT_ROOT: /workspace/04_build/selective_audio_lab/outputs/web
       URBANSOUND8K_ROOT: /data/UrbanSound8K
@@ -19,3 +21,19 @@ services:
         target: /data/UrbanSound8K
         read_only: true
     restart: unless-stopped
+  # Optional: reuse the image already built by the main service, with no
+  # GitHub Actions, background service or external benchmark dataset.
+  hesychia-qa:
+    profiles: ["qa"]
+    image: hesychia:s10a
+    pull_policy: never
+    working_dir: /workspace/04_build/selective_audio_lab
+    command:
+      - python
+      - -m
+      - unittest
+      - -v
+      - test_s10a_safety
+      - test_contract_v12
+      - test_demo
+      - test_web_server

@@ -103,13 +103,14 @@ Ver: `docs/M2_URBANSOUND8K_PROTOCOL.md`.
 El incremento inicial permite:
 
 - generar una mezcla controlada con stems conocidos;
+- ejecutar la demo S10-A con perforación sintética permitida y sirena sintética obligatoriamente bloqueada;
 - aplicar una máscara tiempo–frecuencia de línea base;
 - reconstruir audio;
 - medir atenuación del target y preservación de señal protegida;
 - ejecutar benchmark local de latencia;
 - generar JSON, CSV, manifiestos y checksums reproducibles.
 
-La máscara de la demo PI8 es una **línea base controlada/oracle basada en stems**. No debe presentarse como el estimador CNN final; el entrenamiento del estimador condicionado corresponde al siguiente incremento.
+La máscara de la demo PI8/S10-A es una **línea base controlada/oracle basada en stems**. No debe presentarse como el estimador CNN final; el entrenamiento del estimador condicionado corresponde al siguiente incremento.
 
 ## Ejecución
 
