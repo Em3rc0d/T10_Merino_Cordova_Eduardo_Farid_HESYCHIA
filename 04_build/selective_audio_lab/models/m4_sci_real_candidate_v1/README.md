@@ -4,6 +4,11 @@ Estos pesos se entrenaron sobre grabaciones reales, mezcladas digitalmente con
 referencias conocidas. No sustituyen los checkpoints históricos PI9/PI10.
 La condición de candidato no equivale a aprobación científica de selectividad.
 
+**Resultado: REWORK.** El candidato seleccionado por validación (`seed61`)
+cumple ambos criterios en 1/48 escenas elegibles de test. Medianas: 2.529 dB
+de atenuación objetivo y 1.127 dB de pérdida de voz. Ver el informe
+`docs/M4_SCI_REAL_RESULTS_2026-10-27.md` en la raíz del repositorio.
+
 ## Candidatos de cobertura completa
 
 `seed61`, `seed62` y `seed63` repiten el entrenamiento con las 32 combinaciones

@@ -13,6 +13,12 @@ congelada. Sus pesos son candidatos de investigación: la revisión de pseudo-st
 los criterios acústicos y el GO científico se verifican con evidencia, no con el
 número de pruebas de software.
 
+**Resultado de test: REWORK.** El candidato elegido por validación cumple ambos
+criterios en 1/48 escenas: mediana de atenuación objetivo 2.529 dB (criterio ≥6)
+y pérdida de voz 1.127 dB (límite ≤1). P2 streaming sigue pendiente del GO científico.
+
+- [Resultados y límites de la evidencia](docs/M4_SCI_REAL_RESULTS_2026-10-27.md)
+
 - [Entrenamiento, validación e inferencia CLI](docs/M4_SCIENTIFIC_CANDIDATE_RUNBOOK.md)
 - [Pesos y manifiestos de candidatos](04_build/selective_audio_lab/models/m4_sci_real_candidate_v1)
 - [Corpus y evidencias de P1](05_evidence/m4_sci_real_2026-10-27)

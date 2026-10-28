@@ -1,0 +1,50 @@
+{
+  "schema": "m4-frozen-test-replication-v1",
+  "started_at_utc": "2026-10-28T04:59:07.165324+00:00",
+  "completed_at_utc": "2026-10-28T05:02:00.095661+00:00",
+  "original_freeze_commit": "0a47015426617cebbc2ce8ee24af0c77f9267745",
+  "freeze_sha256": "f4ae9b9e7a9fa9a56822f75051b2f73d018f53ccc13ec34373faab4af327f8b0",
+  "replica_freeze_sha256": "f4ae9b9e7a9fa9a56822f75051b2f73d018f53ccc13ec34373faab4af327f8b0",
+  "evaluator_sha256": "b0585b34d007e335966fc8e4817fff7ddbde50dc5613b084abe8659ec100d436",
+  "runtime_versions": {
+    "torch": "2.10.0+cpu",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "soundfile": "0.13.1",
+    "pystoi": "0.4.1"
+  },
+  "original_test_already_exposed": true,
+  "fresh_heldout_test": false,
+  "training_or_tuning_performed": false,
+  "model_selection_repeated": false,
+  "reason": "Temporary first-run result files unavailable after execution environment replacement",
+  "original_raw_results_recovered": false,
+  "corpus_restoration": {
+    "status": "PASS_BYTE_EXACT_RESTORATION",
+    "files": 352,
+    "reproduced_at_utc": "2026-10-28T04:59:41.598728+00:00",
+    "registry_sha256": "158420a9925c5a66c5c10a3a87c5fdb9ee6ac68f50283ca09d239b0c7ffc0d43",
+    "samples_changed": false,
+    "isolation_or_rights_approved": false,
+    "metadata_files_restored": [
+      "scene_contract.json",
+      "recipes_train.json",
+      "recipes_val.json",
+      "recipes_test.json",
+      "condition_coverage.json"
+    ],
+    "note": "Retains archived conversion metadata; filesystem and receipt use actual reproduction time"
+  },
+  "artifacts": {
+    "conditioning_effect.json": "e6c1fe9bdd23dc6be1f60095ac243b2aa324cbd5de5e2c59b8256b7d07933f7e",
+    "completed.json": "be400be12711319db4c5ab5102f5b24d3fc38b64df10f5be2858bc76187054b1",
+    "paired_differences.json": "3e38f97fcda0f8d0513837042ab4ed887eb7b95772257fc8be89d1fcebbbb685",
+    "per_scene.csv": "ab89b28690bc03f6aa1d0e6db10394dea3a0579be5930302590088f89b5f93d8",
+    "report.json": "66fcfca3950a60f544902d29675b9fb00c0bffae6f1da3e2b56776f0fc312e39",
+    "paired_summary.json": "7373fb5da809fc36df9943ffa141008c54e2e9f4a8a747381d9866da35a23c5f",
+    "class_conditioning.json": "8c8cc80b9279565d94be736496cc5f60512bcbf301bb04f65dc7fb2db926a723",
+    "M2_predictions.json": "60d290c35e8280d7bd98ab6197f8ea6c5d3e12fbb9305c041b1385b768e31674"
+  },
+  "scientific_GO": false,
+  "status": "REWORK"
+}
