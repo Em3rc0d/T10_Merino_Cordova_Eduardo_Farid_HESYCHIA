@@ -275,7 +275,8 @@ def _v2_fixture():
     batch = dict(ideal=target / (target + voice + other + 1e-8),
                  target=target.to(torch.complex64), protected=voice,
                  nontarget=other.to(torch.complex64),
-                 mixture=(target + voice + other).to(torch.complex64))
+                 mixture=(target + voice + other).to(torch.complex64),
+                 alert_flag=torch.zeros(2))
     return model, pred, swapped, batch
 
 
@@ -317,7 +318,7 @@ def test_v2_counterfactual_rejects_swapped_class_on_same_mixture():
     data = dict(target=target.to(torch.complex64),
                 nontarget=other.to(torch.complex64),
                 protected=torch.zeros(n), mixture=(target + other).to(torch.complex64),
-                ideal=torch.zeros(n))
+                ideal=torch.zeros(n), alert_flag=torch.zeros(1))
     correct, swapped = torch.zeros(n), torch.zeros(n)
     correct[..., :40] = 1.0
     swapped[..., 100:140] = 1.0
@@ -338,7 +339,7 @@ def test_v2_target_absent_requires_near_identity():
     source = torch.ones(n)
     data = dict(ideal=torch.zeros(n), target=torch.zeros(n, dtype=torch.complex64),
                 nontarget=source.to(torch.complex64), protected=source,
-                mixture=(2*source).to(torch.complex64))
+                mixture=(2*source).to(torch.complex64), alert_flag=torch.zeros(2))
     cfg = dict(mask_weight=0., target_weight=0., speech_weight=0.,
                other_weight=0., class_weight=0., absent_weight=1.)
     _, identity = constrained_selective_loss(model, torch.zeros(n), data, cfg)
@@ -351,3 +352,13 @@ def test_v2_requires_counterfactual_if_contrast_enabled():
     model, prediction, _, batch = _v2_fixture()
     with pytest.raises(ValueError, match="swapped-class"):
         constrained_selective_loss(model, prediction, batch, {"class_weight": 1.0})
+
+
+def test_v2_alerts_are_not_supervised_as_attenuable():
+    from m4_scientific.v2_objective import constrained_selective_loss
+    model, prediction, swapped, batch = _v2_fixture()
+    batch["alert_flag"] = torch.ones(2)
+    loss, parts = constrained_selective_loss(model, prediction, batch, {},
+                                             swapped_prediction=swapped)
+    assert float(loss) == pytest.approx(0., abs=1e-6)
+    assert float(parts["eligible_joint_proxy"]) == pytest.approx(0., abs=1e-6)
