@@ -41,6 +41,11 @@ def constrained_selective_loss(model, prediction, batch, cfg, *, swapped_predict
     if (prediction < 0).any() or (prediction > 1).any():
         raise ValueError("V2 mask outside [0,1]")
 
+    if "alert_flag" not in batch or batch["alert_flag"].shape != prediction.shape[:1]:
+        raise ValueError("V2 requires per-scene alert_flag")
+    if not torch.isfinite(batch["alert_flag"]).all():
+        raise ValueError("V2 nonfinite alert flag")
+    active = batch["alert_flag"] < 0.5  # M3b blocks alarms before M4; no mask loss on BLOCK.
     gain = model.gain(prediction)
     tdb = spectral_attenuation_db(gain, batch["target"])
     vdb = spectral_attenuation_db(gain, batch["protected"])
@@ -51,13 +56,13 @@ def constrained_selective_loss(model, prediction, batch, cfg, *, swapped_predict
     temp = float(cfg.get("temperature_db", 1.))
     if temp <= 0:
         raise ValueError("temperature_db must be positive")
-    target = _mean_when(F.softplus((float(cfg.get("target_db", 6.)) - tdb) / temp) * temp, has_target)
-    speech = _mean_when(F.softplus((vdb - float(cfg.get("voice_db", 1.))) / temp) * temp, has_voice)
-    other = _mean_when(F.softplus((ndb - float(cfg.get("other_db", 1.))) / temp) * temp, has_other)
+    target = _mean_when(F.softplus((float(cfg.get("target_db", 6.)) - tdb) / temp) * temp, has_target & active)
+    speech = _mean_when(F.softplus((vdb - float(cfg.get("voice_db", 1.))) / temp) * temp, has_voice & active)
+    other = _mean_when(F.softplus((ndb - float(cfg.get("other_db", 1.))) / temp) * temp, has_other & active)
     # Target absent: preserve all available sources without guesswork.
     absent = _mean_when(((1. - gain).square() * batch["mixture"].abs().square()).sum((-2, -1)) /
-                        batch["mixture"].abs().square().sum((-2, -1)).clamp_min(1e-7), ~has_target)
-    mask = (prediction - batch["ideal"]).square().mean()
+                        batch["mixture"].abs().square().sum((-2, -1)).clamp_min(1e-7), ~has_target & active)
+    mask = _mean_when((prediction - batch["ideal"]).square().mean((-2, -1)), active)
     class_term = prediction.sum() * 0.
     if float(cfg.get("class_weight", 1.)):
         if swapped_prediction is None or swapped_prediction.shape != prediction.shape:
@@ -65,7 +70,7 @@ def constrained_selective_loss(model, prediction, batch, cfg, *, swapped_predict
         swapped_gain = model.gain(swapped_prediction)
         swapped_target = spectral_attenuation_db(swapped_gain, batch["target"])
         swapped_other = spectral_attenuation_db(swapped_gain, batch["nontarget"])
-        both = has_target & has_other
+        both = has_target & has_other & active
         margin = float(cfg.get("class_margin_db", 1.))
         class_term = .5 * (_mean_when(F.softplus((margin - (tdb - swapped_target)) / temp) * temp, both) +
                            _mean_when(F.softplus((margin - (swapped_other - ndb)) / temp) * temp, both))
@@ -77,8 +82,8 @@ def constrained_selective_loss(model, prediction, batch, cfg, *, swapped_predict
              weights["speech"] * speech + weights["other"] * other +
              weights["absent"] * absent + weights["class"] * class_term)
     return total, dict(mask=mask, target=target, speech=speech, other=other, absent=absent,
-                       contrast=class_term, target_db_proxy=_mean_when(tdb, has_target),
-                       voice_db_proxy=_mean_when(vdb, has_voice),
-                       other_db_proxy=_mean_when(ndb, has_other),
+                       contrast=class_term, target_db_proxy=_mean_when(tdb, has_target & active),
+                       voice_db_proxy=_mean_when(vdb, has_voice & active),
+                       other_db_proxy=_mean_when(ndb, has_other & active),
                        eligible_joint_proxy=_mean_when(((tdb >= float(cfg.get("target_db", 6.))) &
-                           (vdb <= float(cfg.get("voice_db", 1.)))).to(tdb.dtype), has_target & has_voice))
+                           (vdb <= float(cfg.get("voice_db", 1.)))).to(tdb.dtype), has_target & has_voice & active))
