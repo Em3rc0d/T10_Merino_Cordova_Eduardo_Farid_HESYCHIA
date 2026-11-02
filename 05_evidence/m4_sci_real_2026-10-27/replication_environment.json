@@ -1,0 +1,15 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "logical_cpus": 9,
+  "runtime_versions": {
+    "torch": "2.10.0+cpu",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "soundfile": "0.13.1",
+    "pystoi": "0.4.1"
+  },
+  "evaluator_sha256": "b0585b34d007e335966fc8e4817fff7ddbde50dc5613b084abe8659ec100d436",
+  "is_target_Acer_benchmark": false
+}

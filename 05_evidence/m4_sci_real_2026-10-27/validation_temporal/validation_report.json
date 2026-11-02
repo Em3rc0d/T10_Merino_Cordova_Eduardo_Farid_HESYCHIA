@@ -1,0 +1,218 @@
+{
+  "split": "validation_only",
+  "test_audio_read": false,
+  "selection": "highest joint success fraction; ties prefer smaller violation of protected<=1 dB, then higher target attenuation",
+  "best_checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/outputs/m4_sci/seed43/candidate.pt",
+  "best_run": "seed43",
+  "summaries": [
+    {
+      "run": "seed41",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/outputs/m4_sci/seed41/candidate.pt",
+      "checkpoint_sha256": "ad4b82658a8027f7492e7c8f59c31a6c2f0c485f534b85c79a1bd55ebf1af319",
+      "seed": 41,
+      "configuration": {
+        "seed": 41,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 104,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 2.803088902975363,
+      "mean_A_protected_db": 2.5114362733489943,
+      "A_target_db": {
+        "group_mean": 2.866555138359135,
+        "ci95": [
+          2.432811960795118,
+          3.2421819019498392
+        ],
+        "groups": 11,
+        "scenes": 112
+      },
+      "A_protected_db": {
+        "group_mean": 2.340609508245512,
+        "ci95": [
+          1.3825502062862283,
+          3.324626782169179
+        ],
+        "groups": 4,
+        "scenes": 133
+      },
+      "STOI_delta": {
+        "group_mean": 0.0023434589982925962,
+        "ci95": [
+          0.0010420932393684149,
+          0.003121788515500154
+        ],
+        "groups": 4,
+        "scenes": 133
+      }
+    },
+    {
+      "run": "seed42",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/outputs/m4_sci/seed42/candidate.pt",
+      "checkpoint_sha256": "db70e5f055275c5e9422f1b2f18c1850b4ca23635fcb9483348f95da7c8b0c9f",
+      "seed": 42,
+      "configuration": {
+        "seed": 42,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 104,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 3.067655079915979,
+      "mean_A_protected_db": 1.4353607971023439,
+      "A_target_db": {
+        "group_mean": 3.097652127938586,
+        "ci95": [
+          2.723687331759942,
+          3.4731627238799065
+        ],
+        "groups": 11,
+        "scenes": 112
+      },
+      "A_protected_db": {
+        "group_mean": 1.411392167393544,
+        "ci95": [
+          1.0474227497004167,
+          1.7753615850866713
+        ],
+        "groups": 4,
+        "scenes": 133
+      },
+      "STOI_delta": {
+        "group_mean": 0.01677498008395064,
+        "ci95": [
+          0.013153126674202178,
+          0.019114441188303598
+        ],
+        "groups": 4,
+        "scenes": 133
+      }
+    },
+    {
+      "run": "seed43",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/outputs/m4_sci/seed43/candidate.pt",
+      "checkpoint_sha256": "e9ca81b5aa98a36ec9a8ec32716d5adf7f177ef9e998ca4aa7af660a9bf43ef9",
+      "seed": 43,
+      "configuration": {
+        "seed": 43,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "composite",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 1,
+      "joint_eligible": 104,
+      "joint_pass_rate": 0.009615384615384616,
+      "mean_A_target_db": 3.595833166496907,
+      "mean_A_protected_db": 1.4464928834024342,
+      "A_target_db": {
+        "group_mean": 3.4649124232570485,
+        "ci95": [
+          2.597937967325826,
+          4.37304885302932
+        ],
+        "groups": 11,
+        "scenes": 112
+      },
+      "A_protected_db": {
+        "group_mean": 1.478363677766956,
+        "ci95": [
+          1.191961334141078,
+          1.6989781922661917
+        ],
+        "groups": 4,
+        "scenes": 133
+      },
+      "STOI_delta": {
+        "group_mean": 0.011776614841545161,
+        "ci95": [
+          0.00815342314886297,
+          0.015399806534227355
+        ],
+        "groups": 4,
+        "scenes": 133
+      }
+    },
+    {
+      "run": "mask_mse",
+      "checkpoint": "/workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/outputs/m4_sci/mask_mse/candidate.pt",
+      "checkpoint_sha256": "8470573d787b4fbbe86e1085a3e0b25544f8034b1d90bfebb442f0353e9e744e",
+      "seed": 41,
+      "configuration": {
+        "seed": 41,
+        "epochs": 25,
+        "patience": 6,
+        "batch_size": 16,
+        "channels": 96,
+        "threads": 4,
+        "learning_rate": 0.0007,
+        "weight_decay": 0.0001,
+        "loss": "mask_mse",
+        "reconstruction_weight": 0.5,
+        "speech_weight": 0.2,
+        "conditioning": "class"
+      },
+      "joint_pass": 0,
+      "joint_eligible": 104,
+      "joint_pass_rate": 0.0,
+      "mean_A_target_db": 5.185676858753768,
+      "mean_A_protected_db": 5.108361423013736,
+      "A_target_db": {
+        "group_mean": 5.245264406975328,
+        "ci95": [
+          4.959942997170779,
+          5.4760334513837465
+        ],
+        "groups": 11,
+        "scenes": 112
+      },
+      "A_protected_db": {
+        "group_mean": 5.06935836132551,
+        "ci95": [
+          4.707496123639132,
+          5.431220599011889
+        ],
+        "groups": 4,
+        "scenes": 133
+      },
+      "STOI_delta": {
+        "group_mean": -0.0014797938805680487,
+        "ci95": [
+          -0.0029920382804440693,
+          -0.0003724783687459164
+        ],
+        "groups": 4,
+        "scenes": 133
+      }
+    }
+  ],
+  "scientific_GO": false
+}

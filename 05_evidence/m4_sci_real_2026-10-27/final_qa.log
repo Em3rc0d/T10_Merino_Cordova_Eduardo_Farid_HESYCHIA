@@ -1,0 +1,21 @@
+................ss...................................................... [ 52%]
+..................................................................       [100%]
+=============================== warnings summary ===============================
+experiments/test_m4_robustness_iteration.py::SyntheticTest::test_loss_finite_with_target_absent
+  /workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/.venv/lib/python3.12/site-packages/keras/src/backend/torch/core.py:253: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
+    return np.array(x)
+
+test_m2_semantic.py::SemanticBenchmarkTests::test_dataset_contract_and_benchmark_pipeline
+  /workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/.venv/lib/python3.12/site-packages/audioread/rawread.py:16: DeprecationWarning: 'aifc' is deprecated and slated for removal in Python 3.13
+    import aifc
+
+test_m2_semantic.py::SemanticBenchmarkTests::test_dataset_contract_and_benchmark_pipeline
+  /workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/.venv/lib/python3.12/site-packages/audioread/rawread.py:17: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+test_m2_semantic.py::SemanticBenchmarkTests::test_dataset_contract_and_benchmark_pipeline
+  /workspace/scratch/402390342091/hesychia/04_build/selective_audio_lab/.venv/lib/python3.12/site-packages/audioread/rawread.py:19: DeprecationWarning: 'sunau' is deprecated and slated for removal in Python 3.13
+    import sunau
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+136 passed, 2 skipped, 4 warnings in 46.45s

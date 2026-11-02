@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "counts": {
+    "train/target/vacuum_cleaner": 24,
+    "train/target/chainsaw": 24,
+    "train/alert/clock_alarm": 24,
+    "train/background/wind": 24,
+    "train/background/rain": 24,
+    "train/alert/siren": 24,
+    "val/alert/siren": 8,
+    "val/background/wind": 8,
+    "val/target/vacuum_cleaner": 8,
+    "val/target/chainsaw": 8,
+    "val/alert/clock_alarm": 8,
+    "val/background/rain": 8,
+    "test/alert/siren": 8,
+    "test/background/wind": 8,
+    "test/target/chainsaw": 8,
+    "test/background/rain": 8,
+    "test/target/vacuum_cleaner": 8,
+    "test/alert/clock_alarm": 8,
+    "train/speech/speech": 76,
+    "val/speech/speech": 16,
+    "test/speech/speech": 20
+  },
+  "source_groups": {
+    "train": 123,
+    "val": 42,
+    "test": 44
+  },
+  "scope": "Exact bytes, normalized exact PCM, declared source and speaker identity; not a perceptual near-duplicate or source-purity certification."
+}

@@ -1,0 +1,6 @@
+# Optional: reproduce the complete legacy + scientific regression suite.
+-r requirements-scientific.txt
+librosa==0.11.0
+scikit-learn==1.7.2
+pandas==2.3.3
+keras==3.12.0

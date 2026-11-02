@@ -1,0 +1,9 @@
+# Isolated scientific candidate environment, tested on Python 3.12 CPU.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.10.0+cpu
+numpy==2.3.5
+scipy==1.17.0
+soundfile==0.13.1
+pystoi==0.4.1
+pytest==8.4.2
+matplotlib==3.10.7

@@ -1,0 +1,209 @@
+{
+  "schema": "m4-sci-test-freeze-v1",
+  "corpus_sha256": "ca9f983a0bc3c024ba10273f7698e696526d38ecdd80c1ef4af1c667826f799e",
+  "scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+  "test_recipe_sha256": "04e693c47b75e080864ce0d42d494f76a9f89af34f7e829fc2ac8dbd1f5335d1",
+  "checkpoints": [
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed41/candidate.pt",
+      "sha256": "ad4b82658a8027f7492e7c8f59c31a6c2f0c485f534b85c79a1bd55ebf1af319",
+      "seed": 41,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 7,
+      "best_epoch": 1
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed42/candidate.pt",
+      "sha256": "db70e5f055275c5e9422f1b2f18c1850b4ca23635fcb9483348f95da7c8b0c9f",
+      "seed": 42,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 11,
+      "best_epoch": 5
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed43/candidate.pt",
+      "sha256": "e9ca81b5aa98a36ec9a8ec32716d5adf7f177ef9e998ca4aa7af660a9bf43ef9",
+      "seed": 43,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 17,
+      "best_epoch": 11
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse/candidate.pt",
+      "sha256": "8470573d787b4fbbe86e1085a3e0b25544f8034b1d90bfebb442f0353e9e744e",
+      "seed": 41,
+      "loss": "mask_mse",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 7,
+      "best_epoch": 1
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class/candidate.pt",
+      "sha256": "3b6f8351531ae22d449b73ca5793fa9d39172f4818eb744093ff4268ea367e8b",
+      "seed": 41,
+      "loss": "composite",
+      "conditioning": "none",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 25,
+      "best_epoch": 23
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/spectral51_development/candidate.pt",
+      "sha256": "1968e7238287bb1ac65cd75825bbf8d9d15621dbb6bed90849c86a235a0e425f",
+      "seed": 51,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "spectral",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "STOPPED_FOR_CORPUS_COVERAGE_REWORK",
+      "epochs_logged": 19,
+      "best_epoch": 13
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/spectral52_development/candidate.pt",
+      "sha256": "e666326be4be72dc107908d6e7e026eea7cb0be0253511545cacb6ede91c2f8b",
+      "seed": 52,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "spectral",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "STOPPED_FOR_CORPUS_COVERAGE_REWORK",
+      "epochs_logged": 16,
+      "best_epoch": 11
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/spectral53_development/candidate.pt",
+      "sha256": "297ccfcdb520b400a207935ec7a5c4727d473f4bf07f1144225f03f454e41f19",
+      "seed": 53,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "spectral",
+      "training_scene_contract_sha256": "e9f56050ed9b44f68f7635bf251e546e951fdbb58e7b8c9f12ed159a68177ac2",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 16,
+      "best_epoch": 9
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed61/candidate.pt",
+      "sha256": "c0b34027fe1d4165b062f4145ca7173b3d547cedc39846e17298295e99fb1966",
+      "seed": 61,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 20,
+      "best_epoch": 12
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed62/candidate.pt",
+      "sha256": "aef5d232bc4d076f9294ad6099078abd3054b78dfb88f3ffc12d545728cbf5a7",
+      "seed": 62,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 17,
+      "best_epoch": 9
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed63/candidate.pt",
+      "sha256": "aeebbed3672663332a72448184b914d7a1dc8dc03067d13e0bdd558a1125fde5",
+      "seed": 63,
+      "loss": "composite",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 21,
+      "best_epoch": 13
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse61/candidate.pt",
+      "sha256": "da738c17f2fa32d9ddb0dabeb8b4b30dfabc0df71fac2f1b7d455cfbe4c94fed",
+      "seed": 61,
+      "loss": "mask_mse",
+      "conditioning": "class",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 13,
+      "best_epoch": 5
+    },
+    {
+      "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class61/candidate.pt",
+      "sha256": "2779d4094675be7f67ebf1f9dfb91d92691bf53d62234bfc065af01b41b485ca",
+      "seed": 61,
+      "loss": "composite",
+      "conditioning": "none",
+      "architecture": "temporal",
+      "training_scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+      "training_status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+      "epochs_logged": 23,
+      "best_epoch": 15
+    }
+  ],
+  "evaluation_code_sha256": "b0585b34d007e335966fc8e4817fff7ddbde50dc5613b084abe8659ec100d436",
+  "thresholds": {
+    "A_target_min_db": 6.0,
+    "A_protected_max_db": 1.0
+  },
+  "runtime_versions": {
+    "torch": "2.10.0+cpu",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "soundfile": "0.13.1",
+    "pystoi": "0.4.1"
+  },
+  "protocol_sha256": {
+    "SOURCE_OF_TRUTH.md": "106fbd6b467ad4add745fa910d5df9f7d8805ad6997fb07c37bdb1c661adfe07",
+    "02_plan/PI11_M4_CNN_FIRST_STREAMING_SECOND.md": "3b9726b72a6a03dbfc803f88de6a59f756d04aa7236997bfb41c988658b975a6",
+    "03_architecture/M4_SCIENTIFIC_TRAINING_CONTRACT.md": "a80121ca3e4989ca01c8aaa249e83e8176f4611e068c58b29bcd223ea03d611a",
+    "docs/PROTOCOLO_POST_PARCIAL_S9_S13.md": "a97b7f4621c1a6f8fbb59172d6a42de29fcfdfc472f11a34fb88feb726909c59"
+  },
+  "thresholds_source": "docs/PROTOCOLO_POST_PARCIAL_S9_S13.md and docs/M4_METRICS_AUDIT.md",
+  "predictor_inputs": "mixture features and requested target class only",
+  "event_model": {
+    "checkpoint": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/events_v2/events.pt",
+    "calibration": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/events_v2/calibration.json",
+    "checkpoint_sha256": "df6b570e218ae5087cc5db58eafdcb8723dbd9ecda25afa505df0f5f2680487d",
+    "calibration_sha256": "ebec531b9e9256f4df2a0fe69bde8c663d1b7640a4a5717d3f0be0e878b06b97"
+  },
+  "validation_selection": {
+    "path": "../../04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/selection.json",
+    "sha256": "78f366450ec8ae026493123ad955286781bcae5afbe3012b5eea325ec6e144d0",
+    "checkpoint_sha256": "c0b34027fe1d4165b062f4145ca7173b3d547cedc39846e17298295e99fb1966"
+  },
+  "policy_version": "M4-SCI-CANDIDATE-1",
+  "mode": "ASSISTED_TARGET_WITH_ANNOTATED_ALERT_POLICY plus estimated M2 gate if frozen",
+  "policy": "BLOCK if protected alert annotation supplied; bypass before model inference",
+  "baselines": [
+    "unprocessed",
+    "causal_minimum_statistics",
+    "oracle_IRM_privileged"
+  ],
+  "historical_cnn": "not applicable: drilling_synthetic-only taxonomy; no fabricated class mapping",
+  "metrics": "A_target/A_protected from fixed mixture-predicted gain applied to stems; SI-SDRi and STOI of actual mixture output; no clean-stem model input",
+  "uncertainty": "95% source-group bootstrap, equal group means, 2000 resamples; speech metrics grouped by speaker; crossed target/speaker dependence remains",
+  "independent_field_recording": false,
+  "m2_integration_validated": false,
+  "acceptance": "Report per-scene target>=6 dB AND protected<=1 dB; no aggregate pass-rate threshold invented; scientific GO remains closed without source review, independent field evaluation and integrated M2 evaluation"
+}

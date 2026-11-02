@@ -1,0 +1,14 @@
+{
+  "seed": 61,
+  "epochs": 30,
+  "patience": 8,
+  "batch_size": 16,
+  "channels": 96,
+  "threads": 2,
+  "learning_rate": 0.0007,
+  "weight_decay": 0.001,
+  "loss": "composite",
+  "reconstruction_weight": 0.5,
+  "speech_weight": 0.5,
+  "conditioning": "class"
+}

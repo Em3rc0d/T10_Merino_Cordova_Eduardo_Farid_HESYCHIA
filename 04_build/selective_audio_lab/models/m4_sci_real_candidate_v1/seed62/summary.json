@@ -1,0 +1,13 @@
+{
+  "status": "TRAINED_CANDIDATE_NOT_SCIENTIFIC_GO",
+  "best_epoch": 9,
+  "best_validation_loss": 0.2462615728378296,
+  "epochs_run": 17,
+  "parameter_count": 217937,
+  "receptive_frames": 31,
+  "elapsed_seconds": 329.8297985550007,
+  "checkpoint_sha256": "aef5d232bc4d076f9294ad6099078abd3054b78dfb88f3ffc12d545728cbf5a7",
+  "seed": 62,
+  "test_audio_read": false,
+  "corpus_review": "PENDING_HUMAN_REVIEW"
+}

@@ -1,0 +1,124 @@
+{
+  "status": "DEVELOPMENT_CANDIDATES_PRESERVED",
+  "corpus_review": "PENDING",
+  "scientific_GO": false,
+  "test_opened": false,
+  "files": [
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed41/candidate.pt",
+      "bytes": 884683,
+      "sha256": "ad4b82658a8027f7492e7c8f59c31a6c2f0c485f534b85c79a1bd55ebf1af319"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed41/history.json",
+      "bytes": 1145,
+      "sha256": "e711172b1cac7ed2c505f15a915e05bc6cb4f8d51f0cb07f2c8cf25a58e180c3"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed41/summary.json",
+      "bytes": 410,
+      "sha256": "35129f694d9fd020bbbd5287583706004dddc590bfacedb8ecc037dfd936a256"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed41/training_manifest.json",
+      "bytes": 1344,
+      "sha256": "ac4ee466452589ffd4ea5df1be2ad4116e338fe845ccea685a14db21da5c8a47"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed42/candidate.pt",
+      "bytes": 884683,
+      "sha256": "db70e5f055275c5e9422f1b2f18c1850b4ca23635fcb9483348f95da7c8b0c9f"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed42/history.json",
+      "bytes": 1799,
+      "sha256": "2e1f15af866a3b36cb4a8a75cb4f5615d993b71b12cd1a58112da4a9c3cb8b0f"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed42/summary.json",
+      "bytes": 410,
+      "sha256": "047ebfff84212ce8707f6df838c92d862fae9f7c6fb312854ce5bc33f9b4e0c7"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed42/training_manifest.json",
+      "bytes": 1344,
+      "sha256": "fb24c868d19508b4e0793cd48447d1cb1f1eb2873a04b5b6b49bc346d902ac7a"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed43/candidate.pt",
+      "bytes": 884747,
+      "sha256": "e9ca81b5aa98a36ec9a8ec32716d5adf7f177ef9e998ca4aa7af660a9bf43ef9"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed43/history.json",
+      "bytes": 2790,
+      "sha256": "79c3b028ba4c2a3105279fda6f2cc20176699c3082dc9f9fd9b765dcd376eea9"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed43/summary.json",
+      "bytes": 412,
+      "sha256": "6ee86f10536ed050605ee752572d1f5b4587ebaadbe390e480b0f55316f2fa71"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/seed43/training_manifest.json",
+      "bytes": 1344,
+      "sha256": "0a77d6739fee17510c6c904f28c2fed5298cdd2ede192bd4d4f1a4c4fba7fbb8"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse/candidate.pt",
+      "bytes": 884683,
+      "sha256": "8470573d787b4fbbe86e1085a3e0b25544f8034b1d90bfebb442f0353e9e744e"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse/history.json",
+      "bytes": 1146,
+      "sha256": "7045ad057acf106852be132a8a43f99f6fbb1c2fa597407b1dad6a6d2d22a2d6"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse/summary.json",
+      "bytes": 409,
+      "sha256": "968dc9f73a981290e94956162bc30d83ac5a0bc7413cde9c4294f5e273404f0d"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/mask_mse/training_manifest.json",
+      "bytes": 1343,
+      "sha256": "457db10a9e643d70abaee7a02fc9925c29e7940ef0c1cc8ed12663bb41b5392f"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class/candidate.pt",
+      "bytes": 884747,
+      "sha256": "3b6f8351531ae22d449b73ca5793fa9d39172f4818eb744093ff4268ea367e8b"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class/history.json",
+      "bytes": 4097,
+      "sha256": "b687df903e7b1a810c0647327816989fe74eb97b3f95c7925ce2e8fa603c4b51"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class/summary.json",
+      "bytes": 412,
+      "sha256": "5ca440c036c3a2b6ce66fd5e34c54f1ee2b975779475215017002f5859c7300e"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/no_class/training_manifest.json",
+      "bytes": 1343,
+      "sha256": "cd19c72afa19f2817cfd6bf9e1c2ac02162da7881949a3c4699856a5a65f750e"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/events141/calibration.json",
+      "bytes": 1611,
+      "sha256": "e47651ed9a9ad130bd49933f0db86aad9e54ce74e612c64c48dd5f66b6a81abd"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/events141/events.pt",
+      "bytes": 304037,
+      "sha256": "7e3a4fc914da7d210cfcecb718cb0c0bbde7d55df5f28f18c78f028c082f02d0"
+    },
+    {
+      "path": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/events141/history.json",
+      "bytes": 1970,
+      "sha256": "08b4c03a7a64807d77fc71771d0715a06e23ed98b73ec4143b0b400d209be6ec"
+    }
+  ],
+  "note": "Spectral candidates are still training; final freeze and independent evaluation follow validation selection."
+}

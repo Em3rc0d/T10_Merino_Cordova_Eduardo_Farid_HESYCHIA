@@ -1,0 +1,13 @@
+{
+  "status": "STOPPED_FOR_CORPUS_COVERAGE_REWORK",
+  "reason": "Legacy scene design lacked speech-only and target-absent-alert controls; preserve as development, not a completed scientific repetition",
+  "interrupted_at_utc": "2026-10-28T01:57:10.215423+00:00",
+  "best_epoch": 11,
+  "epochs_logged": 16,
+  "parameter_count": 7117,
+  "logged_epoch_seconds": 2492.4426843630035,
+  "checkpoint_sha256": "e666326be4be72dc107908d6e7e026eea7cb0be0253511545cacb6ede91c2f8b",
+  "seed": 52,
+  "test_audio_read": false,
+  "scientific_GO": false
+}
