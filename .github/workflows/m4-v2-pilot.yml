@@ -1,0 +1,50 @@
+name: M4 V2 - real recordings TRAIN VAL ONLY (unreviewed pilot)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/m4-v2-pilot.yml'
+      - '04_build/selective_audio_lab/experiments/m4_v2_real_pilot.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v2-real-train-val-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    defaults:
+      run:
+        working-directory: 04_build/selective_audio_lab
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 04_build/selective_audio_lab/requirements-scientific.txt
+      - name: Install pinned scientific dependencies
+        run: python -m pip install -r requirements-scientific.txt
+      - name: Verify V2 deep-learning tests
+        run: python -m pytest -q test_m4_scientific.py
+      - name: Acquire corpus, restore archived hashes, train three seeds, validate on val only
+        run: python experiments/m4_v2_real_pilot.py --epochs 30
+      - name: Upload no-audio development evidence (never raw corpus)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m4-v2-train-val-development-only
+          path: |
+            04_build/selective_audio_lab/runs/m4-v2-pilot/intent.json
+            04_build/selective_audio_lab/runs/m4-v2-pilot/pilot_result.json
+            04_build/selective_audio_lab/runs/m4-v2-pilot/seed*/candidate.pt
+            04_build/selective_audio_lab/runs/m4-v2-pilot/seed*/history.json
+            04_build/selective_audio_lab/runs/m4-v2-pilot/seed*/summary.json
+            04_build/selective_audio_lab/runs/m4-v2-pilot/seed*/training_manifest.json
+            04_build/selective_audio_lab/runs/m4-v2-pilot/validation/validation_report.json
+            04_build/selective_audio_lab/runs/m4-v2-pilot/validation/per_scene.csv
+          if-no-files-found: warn
+          retention-days: 7

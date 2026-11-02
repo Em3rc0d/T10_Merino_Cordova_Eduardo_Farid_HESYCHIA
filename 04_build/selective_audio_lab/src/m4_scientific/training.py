@@ -27,7 +27,7 @@ def code_hash():
 def cache_scenes(root, registry, split):
     """Precompute selected split only. This function never requests test for training."""
     recipes = load_recipes(root, split)
-    cache_key = canonical_hash(dict(frontend=frontend_contract(),
+    cache_key = canonical_hash(dict(cache_schema="v2_stems_nontarget_alertgate", frontend=frontend_contract(),
                                     corpus=canonical_hash(registry), recipes=canonical_hash(recipes)))
     cached = Path(root) / "cache" / f"{split}-{cache_key}.pt"
     if cached.exists():
@@ -37,14 +37,16 @@ def cache_scenes(root, registry, split):
     arrays = None
     for i, recipe in enumerate(recipes):
         mix, stems = build_scene(root, registry, recipe)
-        waves = np.stack([mix, stems[TARGETS[recipe["target_id"]]], stems["speech"]])
+        waves = np.stack([mix, stems[TARGETS[recipe["target_id"]]], stems["speech"],
+                          stems[TARGETS[1 - recipe["target_id"]]]])
         with torch.no_grad():
             specs = spectrum(torch.from_numpy(waves))
-            x, target, speech = specs
+            x, target, speech, nontarget = specs
             rest = x - target
             ideal = target.abs() / (target.abs() + rest.abs() + 1e-8)
             values = dict(features=features(x), ideal=ideal, mixture=x,
-                          target=target, protected=speech.abs())
+                          target=target, protected=speech.abs(), nontarget=nontarget,
+                          alert_flag=torch.tensor(float(recipe["alert_present"]), dtype=torch.float32))
         if arrays is None:
             arrays = {k: np.empty((size,) + tuple(v.shape), dtype=v.numpy().dtype)
                       for k, v in values.items()}
@@ -62,7 +64,11 @@ def cache_scenes(root, registry, split):
     return torch.load(cached, map_location="cpu", weights_only=True, mmap=True), recipes
 
 
-def losses(model, prediction, batch, cfg):
+def losses(model, prediction, batch, cfg, *, swapped_prediction=None):
+    if cfg["loss"] == "selective_v2":
+        from .v2_objective import constrained_selective_loss
+        return constrained_selective_loss(model, prediction, batch, cfg,
+                                          swapped_prediction=swapped_prediction)
     gain = model.gain(prediction)
     floor = 10 ** (-model.config.cap_db / 20)
     mse = (prediction - batch["ideal"]).square().mean()
@@ -90,9 +96,11 @@ def batches(cache, recipes, batch_size, order):
 def fit(root, output, cfg, *, pilot_unreviewed=False):
     cfg = dict(cfg)
     seed = int(cfg["seed"])
-    if cfg["loss"] not in ("composite", "mask_mse") or cfg["epochs"] < 1 or cfg["batch_size"] < 1:
+    if cfg["loss"] not in ("composite", "mask_mse", "selective_v2") or cfg["epochs"] < 1 or cfg["batch_size"] < 1:
         raise ValueError("Invalid training configuration")
-    if any(cfg[k] < 0 for k in ("reconstruction_weight", "speech_weight")):
+    if cfg["loss"] == "selective_v2" and cfg.get("conditioning", "class") != "class":
+        raise ValueError("V2 class-contrast training requires class conditioning")
+    if any(float(cfg.get(k, 0.)) < 0 for k in ("reconstruction_weight", "speech_weight")):
         raise ValueError("Negative loss weight")
     output = Path(output)
     # Never reuse a run directory, even after interruption.
@@ -146,10 +154,14 @@ def fit(root, output, cfg, *, pilot_unreviewed=False):
             if cfg.get("conditioning", "class") == "none":
                 labels = torch.zeros_like(labels)
             prediction = model(batch["features"], labels)
+            swapped = (model(batch["features"], 1 - labels)
+                       if cfg["loss"] == "selective_v2" and cfg.get("class_weight", 1.) else None)
             if frames_limit:
                 prediction = prediction[:, warmup:]
+                if swapped is not None:
+                    swapped = swapped[:, warmup:]
                 batch = {k: v[:, warmup:] for k, v in batch.items()}
-            loss, _ = losses(model, prediction, batch, cfg)
+            loss, _ = losses(model, prediction, batch, cfg, swapped_prediction=swapped)
             if not torch.isfinite(loss):
                 raise ValueError("Nonfinite training loss")
             optimizer.zero_grad(set_to_none=True)
@@ -164,7 +176,9 @@ def fit(root, output, cfg, *, pilot_unreviewed=False):
                 if cfg.get("conditioning", "class") == "none":
                     labels = torch.zeros_like(labels)
                 prediction = model(batch["features"], labels)
-                loss, _ = losses(model, prediction, batch, cfg)
+                swapped = (model(batch["features"], 1 - labels)
+                           if cfg["loss"] == "selective_v2" and cfg.get("class_weight", 1.) else None)
+                loss, _ = losses(model, prediction, batch, cfg, swapped_prediction=swapped)
                 if not torch.isfinite(loss):
                     raise ValueError("Nonfinite validation loss")
                 val_losses.append((len(labels), float(loss)))

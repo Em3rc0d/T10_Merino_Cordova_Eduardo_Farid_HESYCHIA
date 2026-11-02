@@ -1,0 +1,130 @@
+{
+  "schema": "hesychia-m4-v2-val-aggregate-receipt-2026-10-28",
+  "evidence_type": "derived_verifiable_summary_from_workflow_artifact",
+  "source": "GitHub Actions run 40778794063 job 123134882247",
+  "workflow_url": "https://github.com/Em3rc0d/T10_Merino_Cordova_Eduardo_Farid_HESYCHIA/actions/runs/40778794063",
+  "artifact_url": "https://github.com/Em3rc0d/T10_Merino_Cordova_Eduardo_Farid_HESYCHIA/actions/runs/40778794063/artifacts/12857151259",
+  "artifact_sha256": "b3964adc1a06b846b262126488f08fceb56a0580e3aa32fc79192658703401cb",
+  "artifact_expires_at_utc": "2026-11-04T22:31:10Z",
+  "run_source_commit_sha": "69fff5feb8a0924e32a0df102e3aba271da476cb",
+  "completed_utc": "2026-10-28T22:31:10.258043+00:00",
+  "scientific_GO": false,
+  "streaming_GO": false,
+  "training_data_review": "PENDING_HUMAN_REVIEW",
+  "dataset": "ESC-50 six classes+Mini LibriSpeech; train/val reconstituted and test V1 exposed excluded from scoring",
+  "source_pcm_restored_count": 352,
+  "source_restoration_status": "PASS_BYTE_EXACT_RESTORATION",
+  "corpus_sha256": "ca9f983a0bc3c024ba10273f7698e696526d38ecdd80c1ef4af1c667826f799e",
+  "scene_contract_sha256": "f5c3603f8593bd75720e9c497a011bc000a25ae63e37fdf1e4128ae0fbf71d4a",
+  "test_used_for_training_or_selection": false,
+  "validation_scene_count": 160,
+  "eligible_joint_scenes": 48,
+  "thresholds": {
+    "target_min_db": 6,
+    "protected_max_db": 1
+  },
+  "validation": [
+    {
+      "model": "selected_v1",
+      "run": "selected",
+      "target_mean_allow_db": 2.0496,
+      "voice_mean_allow_db": 0.5801,
+      "target_median_eligible_db": 1.7284,
+      "voice_median_eligible_db": 0.6803,
+      "target_pass_count": 0,
+      "voice_pass_count": 33,
+      "joint_pass_count": 0,
+      "absent_target_voice_false_over_1_db_count": 5,
+      "absent_target_voice_n": 48
+    },
+    {
+      "model": "cnn_v2_seed71",
+      "run": "seed71",
+      "target_mean_allow_db": 2.9184,
+      "voice_mean_allow_db": 0.514,
+      "target_median_eligible_db": 2.842,
+      "voice_median_eligible_db": 0.5431,
+      "target_pass_count": 0,
+      "voice_pass_count": 36,
+      "joint_pass_count": 0,
+      "absent_target_voice_false_over_1_db_count": 3,
+      "absent_target_voice_n": 48,
+      "target_max_eligible_db": 5.3994,
+      "checkpoint_sha256": "5a5752efd6bb4ccb8b3e564692d8118e1dfaf3f0be2aedd3ac55dfdf0a61832f",
+      "best_epoch": 27
+    },
+    {
+      "model": "cnn_v2_seed72",
+      "run": "seed72",
+      "target_mean_allow_db": 2.5793,
+      "voice_mean_allow_db": 0.5332,
+      "target_median_eligible_db": 2.5625,
+      "voice_median_eligible_db": 0.5835,
+      "target_pass_count": 0,
+      "voice_pass_count": 37,
+      "joint_pass_count": 0,
+      "absent_target_voice_false_over_1_db_count": 3,
+      "absent_target_voice_n": 48,
+      "checkpoint_sha256": "a4de8b8ca60194ef84fdf00498ede652174e7773c82ee3aee6f914eb52c54e46",
+      "best_epoch": 24
+    },
+    {
+      "model": "cnn_v2_seed73",
+      "run": "seed73",
+      "target_mean_allow_db": 2.5633,
+      "voice_mean_allow_db": 0.5123,
+      "target_median_eligible_db": 2.4457,
+      "voice_median_eligible_db": 0.4697,
+      "target_pass_count": 0,
+      "voice_pass_count": 38,
+      "joint_pass_count": 0,
+      "absent_target_voice_false_over_1_db_count": 3,
+      "absent_target_voice_n": 48,
+      "checkpoint_sha256": "6c7f645773b1f44b790c8ec4c5ad3382ef9385f612917f26d6f2143681cd3788",
+      "best_epoch": 23
+    }
+  ],
+  "paired_group_equal_mean_differences_vs_v1": [
+    {
+      "run": "seed71",
+      "target_delta_db": 0.7900326896445287,
+      "protected_delta_db": -0.20650950823496594,
+      "target_source_groups": 10,
+      "speech_speaker_groups": 4,
+      "joint_pass_baseline": 0,
+      "joint_pass_candidate": 0
+    },
+    {
+      "run": "seed72",
+      "target_delta_db": 0.6647548465704922,
+      "protected_delta_db": -0.15855705775115042,
+      "target_source_groups": 10,
+      "speech_speaker_groups": 4,
+      "joint_pass_baseline": 0,
+      "joint_pass_candidate": 0
+    },
+    {
+      "run": "seed73",
+      "target_delta_db": 0.44217252245586713,
+      "protected_delta_db": -0.2639677071553705,
+      "target_source_groups": 10,
+      "speech_speaker_groups": 4,
+      "joint_pass_baseline": 0,
+      "joint_pass_candidate": 0
+    }
+  ],
+  "candidate_selected_by_validation": "seed71",
+  "qa": {
+    "scientific_tests_passed": 37,
+    "warning_count": 1,
+    "workflow_conclusion": "success"
+  },
+  "caveats": [
+    "Derived summary rounded from precise pilot_result.json/per_scene.csv in ZIP; full precision is in original artifact.",
+    "Selection on validation biases apparent improvement; these numbers are NOT independent confirmatory estimates.",
+    "Not a V2 final test. Prior V1 test is exposed; do not reuse it for V2 final acceptance.",
+    "Pseudo-stems unreviewed; need real new independent original audio and human listening.",
+    "Class-conditioned generalization on real audio has not been independently proven.",
+    "Safety M2 false positives remain unresolved; P2 streaming blocked."
+  ]
+}
