@@ -1,0 +1,168 @@
+{
+  "schema": "hesychia.pi13-double-review-sampling.v1",
+  "status": "PROPOSED_NOT_APPROVED",
+  "source_manifest_blob_git_sha": "8395d8d3991f1b4633e21caa6356bec5e4179f58",
+  "source_manifest_sha256": "b67670f52e76f04239b3ecb91354dbd611540e84bccfdbd6004bf4cd286eec29",
+  "selection_manifest_sha256": "f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb",
+  "seed": 20261108,
+  "rate": 0.2,
+  "minimum_per_stratum": 2,
+  "algorithm": "SHA256(seed|class|split|source_group), group selection within stratum",
+  "total_items": 352,
+  "selected_items": 93,
+  "strata": [
+    {
+      "acoustic_class": "chainsaw",
+      "split": "test",
+      "available_groups": 5,
+      "selected_groups": 2,
+      "selected_items": 3
+    },
+    {
+      "acoustic_class": "chainsaw",
+      "split": "train",
+      "available_groups": 13,
+      "selected_groups": 3,
+      "selected_items": 5
+    },
+    {
+      "acoustic_class": "chainsaw",
+      "split": "val",
+      "available_groups": 4,
+      "selected_groups": 2,
+      "selected_items": 4
+    },
+    {
+      "acoustic_class": "clock_alarm",
+      "split": "test",
+      "available_groups": 7,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "clock_alarm",
+      "split": "train",
+      "available_groups": 21,
+      "selected_groups": 5,
+      "selected_items": 5
+    },
+    {
+      "acoustic_class": "clock_alarm",
+      "split": "val",
+      "available_groups": 8,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "rain",
+      "split": "test",
+      "available_groups": 8,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "rain",
+      "split": "train",
+      "available_groups": 24,
+      "selected_groups": 5,
+      "selected_items": 5
+    },
+    {
+      "acoustic_class": "rain",
+      "split": "val",
+      "available_groups": 8,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "siren",
+      "split": "test",
+      "available_groups": 7,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "siren",
+      "split": "train",
+      "available_groups": 15,
+      "selected_groups": 3,
+      "selected_items": 6
+    },
+    {
+      "acoustic_class": "siren",
+      "split": "val",
+      "available_groups": 6,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "speech",
+      "split": "test",
+      "available_groups": 5,
+      "selected_groups": 2,
+      "selected_items": 8
+    },
+    {
+      "acoustic_class": "speech",
+      "split": "train",
+      "available_groups": 19,
+      "selected_groups": 4,
+      "selected_items": 16
+    },
+    {
+      "acoustic_class": "speech",
+      "split": "val",
+      "available_groups": 4,
+      "selected_groups": 2,
+      "selected_items": 8
+    },
+    {
+      "acoustic_class": "vacuum_cleaner",
+      "split": "test",
+      "available_groups": 8,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "vacuum_cleaner",
+      "split": "train",
+      "available_groups": 15,
+      "selected_groups": 3,
+      "selected_items": 4
+    },
+    {
+      "acoustic_class": "vacuum_cleaner",
+      "split": "val",
+      "available_groups": 7,
+      "selected_groups": 2,
+      "selected_items": 2
+    },
+    {
+      "acoustic_class": "wind",
+      "split": "test",
+      "available_groups": 4,
+      "selected_groups": 2,
+      "selected_items": 3
+    },
+    {
+      "acoustic_class": "wind",
+      "split": "train",
+      "available_groups": 16,
+      "selected_groups": 4,
+      "selected_items": 7
+    },
+    {
+      "acoustic_class": "wind",
+      "split": "val",
+      "available_groups": 5,
+      "selected_groups": 2,
+      "selected_items": 3
+    }
+  ],
+  "limitations": [
+    "Proposal for blind second listening review only, not independent test",
+    "No audio heard; nobody assigned as reviewer",
+    "Must be accepted and frozen BEFORE reviewing disagreements",
+    "This does not certify source purity or academic approval"
+  ]
+}
