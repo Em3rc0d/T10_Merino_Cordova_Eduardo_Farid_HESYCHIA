@@ -1,0 +1,22 @@
+{
+  "protocol_id": "PI13-2026-11-08-PROPUESTA-NO-APROBADA",
+  "dataset_status": "pending",
+  "test_not_inspected_attestation": false,
+  "advisor_decisions": {
+    "objectives": {"approved": false, "date": null, "evidence_ref": null},
+    "metric_rule": {"approved": false, "date": null, "evidence_ref": null},
+    "sample_design": {"approved": false, "date": null, "evidence_ref": null}
+  },
+  "artifacts": {
+    "test_scenes": null,
+    "corpus_review_report": null,
+    "checkpoint": null,
+    "evaluation_code": null,
+    "metric_protocol": null
+  },
+  "min_test_scenes": 30,
+  "min_source_groups": 12,
+  "min_speaker_groups": 12,
+  "source_speaker_leakage_report_pass": false,
+  "inter_rater_review_report_ref": null
+}
