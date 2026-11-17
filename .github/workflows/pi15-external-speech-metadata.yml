@@ -1,0 +1,50 @@
+name: PI15 external speech metadata candidate
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  speech-metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: 04_build/selective_audio_lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile selector
+        run: python -m py_compile experiments/pi13_pi14/scripts/pi15_external_speech_candidate.py
+
+      - name: Select external test-clean speakers without opening audio
+        run: |
+          mkdir -p experiments/pi13_pi14/ci_external_speech
+          python experiments/pi13_pi14/scripts/pi15_external_speech_candidate.py             --v1-manifest ../../05_evidence/m4_sci_v3_source_review_2026-10-28/source_review_352_template.csv             --out-csv experiments/pi13_pi14/ci_external_speech/librispeech_test_clean_candidates.csv             --out-json experiments/pi13_pi14/ci_external_speech/librispeech_test_clean_candidate_report.json             --count 6 --seed 20261117
+
+      - name: Structural gate
+        run: |
+          python - <<'PY'
+          import csv,json
+          rows=list(csv.DictReader(open('experiments/pi13_pi14/ci_external_speech/librispeech_test_clean_candidates.csv',encoding='utf-8')))
+          r=json.load(open('experiments/pi13_pi14/ci_external_speech/librispeech_test_clean_candidate_report.json',encoding='utf-8'))
+          assert len(rows)==6
+          assert all(x['subset']=='test-clean' for x in rows)
+          assert len({x['speaker_id'] for x in rows})==6
+          assert r['selected_speakers']==6
+          assert r['selected_female']==3 and r['selected_male']==3
+          assert r['overlap_with_v1_speakers']==0
+          assert all(x['audio_acquired']=='NO' and not x['pcm_sha256'] for x in rows)
+          print({'speakers':[x['speaker_id'] for x in rows],'identity':r['canonical_candidate_identity_sha256'],'metadata_sha256':r['speaker_metadata_sha256']})
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pi15-external-speech-metadata-candidate
+          path: 04_build/selective_audio_lab/experiments/pi13_pi14/ci_external_speech/
+          if-no-files-found: error
