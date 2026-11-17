@@ -1,0 +1,36 @@
+{
+  "schema": "hesychia.pi15-external-target-candidate.v2",
+  "status": "CANDIDATE_METADATA_ONLY_NOT_FROZEN",
+  "selection_seed": 20261117,
+  "source_dataset": "FSD50K collection annotations cross-referenced with released dev/eval sets",
+  "target_counts": {"Chainsaw": 10, "Vacuum_cleaner": 10},
+  "partition_counts": {"FSD50K_eval": 18, "FSD50K_dev": 2},
+  "candidate_rows": 20,
+  "distinct_source_groups": 20,
+  "v1_freesound_ids_denied": 181,
+  "overlap_with_v1_freesound_ids": 0,
+  "source_group_definition": "distinct Freesound uploader across the selected external cohort",
+  "canonical_candidate_identity_sha256": "1d4e957969a8945db1c38dfca1d62a480b1b2975261a0a99e0c96d5442b36dcd",
+  "workflow_run_id": 44173830758,
+  "workflow_artifact_id": 14369146090,
+  "workflow_artifact_digest": "sha256:c5b13c07ab3082ff7b12699737a6e119ecf49871ef04bcfdce07a6f7f374c323",
+  "upstream_sha256": {
+    "eval_ground_truth": "ef861a4619691783bfceb7f43e1a395dcf969150ba4ad34dcb36b93abd26b3d6",
+    "eval_collection": "47e4a64a0f9a2bf659744d18091002093fd6b6d640623efe1e766bbf9c494e63",
+    "eval_metadata": "ced921d00c4f7ace86b92c259689a1a40a8452808e93235021165ad2d8b77e6c",
+    "dev_ground_truth": "ce4ab5f01baa5a52b0ec892edaf137a7560743fce3a70155f8bf975c197ded1b",
+    "dev_collection": "0a210e172dedf8ed4117cb43912c6ec08046c61000ba348d11d216dbe62bd3f9",
+    "dev_metadata": "b31a2eb130aea6d545d4b48511b24dfd0120420567a8d1066c52d54968bb3735"
+  },
+  "label_interpretation": "FSD50K collection annotations preserve raw human labels for small classes. Chainsaw is therefore used here only for candidate discovery and requires human target-purity confirmation before freeze.",
+  "gates_before_use": [
+    "close OE1 human audit and apply exclusions",
+    "acquire only selected audio clips without changing candidate IDs",
+    "verify clip-level license and attribution",
+    "convert/resample deterministically and record PCM SHA-256",
+    "human-listen every selected external target clip for target purity",
+    "add >=4 new speech speakers independent of V1",
+    "freeze final scene manifest before any CNN/DSP/Oracle inference"
+  ],
+  "scientific_boundary": "Metadata selection is not a test result and does not unseal the confirmatory audio test."
+}
