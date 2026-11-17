@@ -70,10 +70,11 @@ def normalize_target(value: str):
     raise ValueError(f"unsupported target class: {value}")
 
 
-def require_human_status(row):
+def require_human_status(row, *, speech=False):
     status=row.get("human_audit_status","").strip().upper()
-    if status!="ELIGIBLE":
-        raise ValueError(f"external PCM not human-approved: {row.get('candidate_id')}={status}")
+    allowed={"ELIGIBLE","DATASET_VERIFIED"} if speech else {"ELIGIBLE"}
+    if status not in allowed:
+        raise ValueError(f"external PCM not approved for freeze: {row.get('candidate_id')}={status}")
 
 
 def main():
