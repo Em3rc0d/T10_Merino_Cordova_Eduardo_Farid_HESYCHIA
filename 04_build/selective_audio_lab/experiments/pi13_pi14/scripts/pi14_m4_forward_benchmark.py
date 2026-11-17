@@ -74,7 +74,7 @@ def benchmark(
     threads=4,
     min_samples=1000,
 ):
-    if runs < 5 or warmup < 1 or hops < 1 or seconds <= 0.05 or min_samples < 1000:
+    if runs < 5 or warmup < 1 or hops < 1 or seconds <= 0.05 or min_samples < 1:
         raise ValueError("Invalid benchmark configuration")
     if device not in ("cpu", "cuda"):
         raise ValueError("Only cpu/cuda are supported")
