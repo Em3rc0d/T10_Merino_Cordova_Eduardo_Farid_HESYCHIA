@@ -93,9 +93,14 @@ def choose(gt_rows, collection_rows, metadata, deny_ids, per_class=12, seed=SEED
             if target not in labels:
                 continue
             stats["collection_label"] += 1
-            if fid not in gt or target not in gt[fid]:
+            if fid not in gt:
                 continue
-            stats["ground_truth_crosscheck"] += 1
+            stats["present_in_eval_ground_truth"] += 1
+            target_in_gt = target in gt[fid]
+            if target_in_gt:
+                stats["target_exact_in_ground_truth"] += 1
+            else:
+                stats["target_only_collection_raw"] += 1
             if fid in deny_ids:
                 stats["denied_v1_id"] += 1
                 continue
@@ -134,6 +139,8 @@ def choose(gt_rows, collection_rows, metadata, deny_ids, per_class=12, seed=SEED
                 "title": title,
                 "ground_truth_labels": ",".join(labels_gt),
                 "collection_labels": ",".join(labels_collection),
+                "target_exact_in_ground_truth": "YES" if target in set(labels_gt) else "NO",
+                "label_basis": "collection_raw_annotation+ground_truth" if target in set(labels_gt) else "collection_raw_annotation_requires_human_confirmation",
                 "source_partition": "FSD50K_eval",
                 "audio_acquired": "NO",
                 "pcm_sha256": "",
