@@ -1,116 +1,147 @@
-# HESYCHIA — PI13/PI14, instrumentación reproducible v4 (08/11/2026)
+# HESYCHIA — PI15, ejecución reproducible de cierre
 
-**Estado científico: BLOQUEADO.** No se abrieron los tests nuevos, no se escucharon audios reales en este entorno y no se ejecutó el checkpoint real M4 en la laptop Acer. Estas herramientas permiten realizar y registrar esas actividades **localmente**, sin APIs de pago. Las 18 pruebas automatizadas realizadas con datos/PCMs de control NO son resultados académicos de la CNN.
+**Estado científico actual:** la instrumentación está implementada; la campaña confirmatoria y el benchmark oficial de Acer sólo se consideran cerrados cuando existen sus artefactos reales.
 
-## 1. Contenido
+## 1. Herramientas
 
-| Archivo | Función | Alcance |
-|---|---|---|
-| `scripts/pi13_review_workbench.py` | Servidor local para escuchar y revisar los 352 audios con SHA-256 obligatorio; registra una revisión por asset y por persona | Humano; no automatiza elegibilidad ni pureza |
-| `scripts/pi13_double_sample.py` | Submuestra reproducible para doble revisión, estratificada por clase/split y agrupada por origen | Selección propuesta, no modifica train/val/test |
-| `scripts/pi13_agreement.py` | Concordancia Cohen κ entre dos revisores fijos | No certifica independencia de personas |
-| `scripts/pi13_corpus_gate.py` | Validación de CSV de revisión y particiones | PASS estructural no sustituye escuchar |
-| `scripts/pi13_freeze_preflight.py` | Preflight fail-closed antes de sellar test | READY no autoriza unseal sin asesor |
-| `scripts/pi14_analysis.py` | Comparación pareada CNN/DSP/Oracle usando `mix_sha256` idéntico | Requiere resultados verdaderos, nunca extrapola sobre ejemplos sintéticos |
-| `scripts/pi14_benchmark_summary.py` | Resume trazas por bloque aportadas | Requiere trazas verdaderas, no simula E2E |
-| `scripts/pi14_m4_forward_benchmark.py` | **Nuevo:** p50/p95/p99 y RTF de forward/gain de M4 con un checkpoint real explícito | No mide STFT, iSTFT, captura ni streaming físico |
+| Archivo | Función |
+|---|---|
+| `scripts/pi13_review_workbench.py` | Revisión perceptual local con SHA-256 de cada audio |
+| `scripts/pi13_double_sample.py` | Reproduce la muestra estratificada de 93 registros |
+| `scripts/pi13_agreement.py` | Cohen κ entre los dos evaluadores |
+| `scripts/pi13_corpus_gate.py` | Gate estructural de la revisión |
+| `scripts/pi13_freeze_preflight.py` | Preflight fail-closed previo al test |
+| `scripts/pi14_analysis_v2.py` | CNN−DSP pareado, bootstrap por grupo, percentil + BCa y decisión conjunta |
+| `scripts/pi14_m4_forward_benchmark.py` | Benchmark M4 real con >=1000 bloques |
+| `src/dsp_class_template.py` | Baseline DSP condicionada por clase |
 
-## 2. Instalar y verificar
-
-Extraer el ZIP, abrir una consola dentro de `hesychia_pi13_pi14/`:
-
-```bash
-python -m pip install numpy scipy soundfile torch pytest
-python -m pytest -q tests/
-# Validado en este entorno: 18 passed (fixtures, software, HTTP local, checkpoint sintético)
-```
-
-Para los siguientes pasos se requiere un clon local de [HESYCHIA](https://github.com/Em3rc0d/T10_Merino_Cordova_Eduardo_Farid_HESYCHIA), su checkpoint real `04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/selected/candidate.pt` y el corpus PCM restaurado. Ningún audio comercial/ajeno se distribuye en este paquete.
-
-Variables de ejemplo (ajustar rutas):
+## 2. Preparación local
 
 ```bash
 REPO="$HOME/T10_Merino_Cordova_Eduardo_Farid_HESYCHIA"
 LAB="$REPO/04_build/selective_audio_lab"
 MANIFEST="$REPO/05_evidence/m4_sci_v3_source_review_2026-10-28/source_review_352_template.csv"
-AUDIO_ROOT="$LAB/data/m4_sci_v2_pilot/pcm"  # confirmar que existe y sus WAV coinciden con SHA
-mkdir -p outputs/reviews
+AUDIO_ROOT="$LAB/data/m4_sci_v2_pilot/pcm"
+OUT="$LAB/experiments/pi13_pi14/outputs"
+mkdir -p "$OUT/reviews"
+python -m pip install -r "$LAB/requirements-scientific.txt"
+python -m pytest -q "$LAB/experiments/pi13_pi14/tests"
 ```
 
-Si faltan los PCM, restaurarlos con el procedimiento de corpus **ya existente** en `m4_scientific.corpus.prepare` y `m4_scientific.reproduction.restore` dentro del repo (se requiere Internet y verificar licencias, hash y versión antes de hacer evaluaciones). **No se deben fabricar WAVs de relleno ni cambiar el CSV para pasar el gate.**
+Si los PCM no están restaurados, usar únicamente el procedimiento de reproducción del corpus ya versionado. No crear audios de relleno.
 
-## 3. Auditar realmente los 352 PCM
+## 3. Auditoría OE1: 93 registros, dos evaluadores
 
-Servidor HTTP local para el evaluador A (abrir `http://127.0.0.1:8765`):
-
-```bash
-python scripts/pi13_review_workbench.py serve \
-  --manifest "$MANIFEST" --audio-root "$AUDIO_ROOT" \
-  --out-dir outputs/reviews --reviewer reviewer_A --port 8765
-```
-
-El servidor sólo se enlaza a `127.0.0.1`. Cada audio se sirve y cada decisión se guarda **sólo si coincide el SHA-256 original**. Las decisiones permitidas son `eligible`, `restricted`, `reject`. `eligible` requiere `isolated` y evento principal audible. Revisiones de evaluadores distintos se guardan en archivos separados y no son visibles entre sí en la UI.
-
-Submuestra doble ciega preseleccionada; registrar SHA/semilla y congelarla **antes** de revisar diferencias:
+Recrear la selección congelada:
 
 ```bash
-python scripts/pi13_double_sample.py --manifest "$MANIFEST" \
-  --out outputs/reviews/second_review_sample.csv \
-  --report outputs/reviews/second_review_selection.json \
-  --rate 0.20 --min-groups-per-stratum 2 --seed 20261108
-
-python scripts/pi13_review_workbench.py serve \
+cd "$LAB/experiments/pi13_pi14"
+python scripts/pi13_double_sample.py \
   --manifest "$MANIFEST" \
-  --sample-manifest outputs/reviews/second_review_sample.csv \
-  --audio-root "$AUDIO_ROOT" --out-dir outputs/reviews \
+  --out "$OUT/reviews/audit_93.csv" \
+  --report "$OUT/reviews/audit_93_selection.json" \
+  --rate 0.20 --min-groups-per-stratum 2 --seed 20261108
+sha256sum "$OUT/reviews/audit_93.csv"
+```
+
+El SHA esperado para la selección preespecificada es:
+`f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb`.
+
+Evaluador A:
+
+```bash
+python scripts/pi13_review_workbench.py serve \
+  --manifest "$MANIFEST" --sample-manifest "$OUT/reviews/audit_93.csv" \
+  --audio-root "$AUDIO_ROOT" --out-dir "$OUT/reviews" \
+  --reviewer reviewer_A --port 8765
+```
+
+Evaluador B independiente:
+
+```bash
+python scripts/pi13_review_workbench.py serve \
+  --manifest "$MANIFEST" --sample-manifest "$OUT/reviews/audit_93.csv" \
+  --audio-root "$AUDIO_ROOT" --out-dir "$OUT/reviews" \
   --reviewer reviewer_B --port 8766
 ```
 
-Al acabar la revisión A, crear **un nuevo CSV**, sin sobrescribir el manifiesto del repositorio:
+Exportar y calcular concordancia:
 
 ```bash
-python scripts/pi13_review_workbench.py export-primary \
-  --manifest "$MANIFEST" \
-  --review-csv outputs/reviews/reviewer_A.csv \
-  --reviewer reviewer_A --out outputs/reviews/manifest_reviewed.csv
-
-python scripts/pi13_corpus_gate.py \
-  --manifest outputs/reviews/manifest_reviewed.csv \
-  --out outputs/reviews/corpus_gate.json
-
 python scripts/pi13_review_workbench.py export-double \
-  --first outputs/reviews/reviewer_A.csv \
-  --second outputs/reviews/reviewer_B.csv \
-  --out outputs/reviews/double_review.csv
+  --first "$OUT/reviews/reviewer_A.csv" \
+  --second "$OUT/reviews/reviewer_B.csv" \
+  --out "$OUT/reviews/double_review_93.csv"
 
 python scripts/pi13_agreement.py \
-  --reviews outputs/reviews/double_review.csv \
-  --out outputs/reviews/kappa.json
+  --reviews "$OUT/reviews/double_review_93.csv" \
+  --out "$OUT/reviews/kappa_93.json"
 ```
 
-Si hay decisiones discrepantes, documentar adjudicación **en un registro separado**. No cambiar silenciosamente la opinión inicial de los revisores ni inferir κ cuando faltan pares.
+Registrar además proporción de contaminación e IC95 %. Si κ < 0,60 o existe contaminación relevante, documentar adjudicación/exclusiones antes del freeze.
 
-## 4. Benchmark real de la inferencia CNN M4 (solo forward)
+## 4. Baseline DSP
+
+La definición está congelada en:
+
+- `src/dsp_class_template.py`
+- `configs/dsp_class_template_v1.json`
+- `docs/DSP_BASELINE_CONTRACT_2026-11-17.md`
+
+Las plantillas finales sólo se generan después de aplicar exclusiones del corpus. Registrar SHA-256 del artefacto resultante antes del test.
+
+## 5. Benchmark OE3 en Acer Nitro 5
 
 ```bash
-python scripts/pi14_m4_forward_benchmark.py \
-  --checkpoint "$LAB/models/m4_sci_real_candidate_v1/selected/candidate.pt" \
-  --model-src "$LAB/src" \
-  --out outputs/m4_forward_laptop \
-  --runs 40 --warmup 5 --hops 16 --seconds 2 --device cpu --threads 4
+cd "$LAB"
+python experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py \
+  --checkpoint models/m4_sci_real_candidate_v1/selected/candidate.pt \
+  --model-src src \
+  --out experiments/pi13_pi14/outputs/m4_forward_acer \
+  --runs 100 --warmup 8 --hops 16 --seconds 2 \
+  --device cpu --threads 4 --min-samples 1000
 ```
 
-**Interpretar correctamente:** la señal es un fixture reproducible de tonos+ruido, y las features STFT son precomputadas **fuera** del cronómetro. Se mide exclusivamente inferencia CNN de M4 + política de ganancia sobre bloques offline con contexto histórico. Se guarda el hash del **checkpoint real**. El resultado no equivale a latencia E2E, al streaming continuo ni al p95 por hop del sistema completo. Repetir en Acer Nitro 5 y guardar hardware/OS para evidencias oficiales. No reportar las métricas de checkpoint simulado en los tests como rendimiento científico.
+El JSON debe contener >=1000 muestras y reportar p50/p95/p99, RTF y recursos. Esta medición es M4-forward offline; no es streaming físico E2E.
 
-## 5. Test independiente/PI14
+## 6. Freeze del test
 
-El procedimiento de congelación sigue **bloqueado** mientras falten OG/OE, criterio primario, revisión humana, grupos independientes, test nuevo y aprobación académica. La herramienta `pi14_analysis.py` exige un CSV verdadero por escena/metodología en la **misma mezcla `mix_sha256`**, y sólo genera estadísticas después de verificar el pareamiento.
+Completar una copia de `fixtures/PI13_FREEZE_CONFIG_TEMPLATE.json` con rutas reales a:
+
+- test_scenes;
+- reporte de auditoría;
+- checkpoint;
+- código de evaluación;
+- protocolo;
+- reporte de fuga fuente/hablante;
+- concordancia interevaluador.
 
 ```bash
 python scripts/pi13_freeze_preflight.py \
-  --config fixtures/PI13_FREEZE_CONFIG_TEMPLATE.json \
+  --config outputs/PI15_FREEZE_CONFIG.json \
   --out outputs/freeze_preflight.json
-# esperado hoy: BLOCKED, código 2
 ```
 
-**No reutilizar el test V1 expuesto** para optimizar o declarar confirmación del V2/V3. El histórico V2 publicado es sólo *validación de desarrollo* y el benchmark S8 de 80 mediciones es de *procesamiento completo del clip con pipeline controlado*, NO de M4 per-hop.
+No ejecutar el test hasta que el preflight no tenga bloqueadores y se hayan registrado los SHA-256.
+
+## 7. OE2 y análisis final
+
+CNN, DSP y Oracle deben producir una fila por método sobre la misma escena y el mismo `mix_sha256`.
+
+```bash
+python scripts/pi14_analysis_v2.py \
+  --by-scene outputs/confirmatory_by_scene.csv \
+  --out outputs/confirmatory_analysis.json \
+  --boot 10000 --voice-margin-db 1.0
+```
+
+La decisión final usa los límites unilaterales BCa y la regla conjunta de cuatro casos. CP02 y CP10 se ejecutan antes de redactar la conclusión de OE2.
+
+## 8. Cierre de versión
+
+Sólo después de completar y auditar la evidencia:
+
+1. fusionar PR #7 a `main`;
+2. citar el SHA de `main` evaluado;
+3. crear tag `v1.0-tesis`;
+4. actualizar tesis, PI15 y video con exactamente esa versión.
