@@ -1,0 +1,19 @@
+{
+  "schema": "hesychia.pi15-external-target-candidate.v2",
+  "status": "RESERVE_POOL_METADATA_ONLY_NOT_FROZEN",
+  "selection_seed": 20261117,
+  "source_dataset": "FSD50K collection annotations cross-referenced with released dev/eval sets",
+  "target_counts": {"Chainsaw": 14, "Vacuum_cleaner": 14},
+  "partition_counts": {"FSD50K_eval": 21, "FSD50K_dev": 7},
+  "candidate_rows": 28,
+  "distinct_source_groups": 28,
+  "v1_freesound_ids_denied": 181,
+  "overlap_with_v1_freesound_ids": 0,
+  "source_group_definition": "distinct Freesound uploader across the selected external cohort",
+  "canonical_candidate_identity_sha256": "5734d96d99958d66399de099765224387ea50b6e301472b0481c8a4871ddf225",
+  "workflow_run_id": 44175742822,
+  "workflow_artifact_id": 14370131505,
+  "workflow_artifact_digest": "sha256:a59985e81a4954e5b66a61e835d43a201e96435dd5618991349fb39f88bd36ac",
+  "selection_rule_after_human_audit": "Use all preselected candidates that receive human_audit_status=ELIGIBLE. Freeze is allowed only if >=20 unique source groups remain and both target classes are represented. Model outputs are never consulted when deciding eligibility.",
+  "scientific_boundary": "Reserve-pool metadata is pre-test planning only. No external target audio has been opened or evaluated."
+}
