@@ -152,8 +152,12 @@ def main():
     else:
         cp02 = load_json(args.cp02_report)
         checks["cp02"] = cp02
-        if cp02.get("pass") is not True:
-            blockers.append("CP02 no está marcado PASS")
+        if cp02.get("status") != "COMPLETE":
+            blockers.append("CP02 no está marcado COMPLETE")
+        if int(cp02.get("source_group_count", 0)) < 20:
+            blockers.append("CP02 tiene <20 source_group")
+        if "correct_minus_permuted_target_db" not in cp02:
+            blockers.append("CP02 no contiene el estimando correcta-vs-permutada")
 
     if not args.acer_benchmark or not args.acer_benchmark.is_file():
         blockers.append("benchmark oficial Acer Nitro 5 no disponible")
