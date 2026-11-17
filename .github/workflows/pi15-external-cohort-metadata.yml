@@ -1,0 +1,45 @@
+name: PI15 external cohort metadata candidate
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  target-metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: 04_build/selective_audio_lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile selector
+        run: python -m py_compile experiments/pi13_pi14/scripts/pi15_external_target_candidate.py
+      - name: Select external metadata candidate without opening audio
+        run: |
+          mkdir -p experiments/pi13_pi14/ci_external_candidate
+          python experiments/pi13_pi14/scripts/pi15_external_target_candidate.py             --v1-manifest ../../05_evidence/m4_sci_v3_source_review_2026-10-28/source_review_352_template.csv             --out-csv experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidates.csv             --out-json experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidate_report.json             --per-class 12 --seed 20261117
+      - name: Structural gate
+        run: |
+          python - <<'PY'
+          import csv,json
+          p='experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidates.csv'
+          rows=list(csv.DictReader(open(p,encoding='utf-8')))
+          r=json.load(open('experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidate_report.json',encoding='utf-8'))
+          assert len(rows)==24
+          assert r['distinct_source_groups']==24
+          assert r['target_counts']=={'Chainsaw':12,'Vacuum_cleaner':12}
+          assert r['overlap_with_v1_freesound_ids']==0
+          assert all(x['audio_acquired']=='NO' and not x['pcm_sha256'] for x in rows)
+          print({'rows':len(rows),'identity':r['canonical_candidate_identity_sha256'],'upstream':r['upstream_files']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pi15-external-target-metadata-candidate
+          path: 04_build/selective_audio_lab/experiments/pi13_pi14/ci_external_candidate/
+          if-no-files-found: error
