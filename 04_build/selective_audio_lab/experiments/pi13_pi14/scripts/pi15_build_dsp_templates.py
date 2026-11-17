@@ -10,8 +10,13 @@ import argparse
 import csv
 import hashlib
 import json
+import sys
 from collections import Counter
 from pathlib import Path
+
+LAB_ROOT = Path(__file__).resolve().parents[3]
+if str(LAB_ROOT) not in sys.path:
+    sys.path.insert(0, str(LAB_ROOT))
 
 import numpy as np
 import soundfile as sf
