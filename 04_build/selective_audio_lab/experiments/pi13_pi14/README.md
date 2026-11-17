@@ -85,7 +85,7 @@ Registrar además proporción de contaminación e IC95 %. Si κ < 0,60 o existe 
 La definición está congelada en:
 
 - `src/dsp_class_template.py`
-- `configs/dsp_class_template_v1.json`
+- `configs/dsp_class_template_v2.json`
 - `docs/DSP_BASELINE_CONTRACT_2026-11-17.md`
 
 Las plantillas finales sólo se generan después de aplicar exclusiones del corpus. Registrar SHA-256 del artefacto resultante antes del test.
