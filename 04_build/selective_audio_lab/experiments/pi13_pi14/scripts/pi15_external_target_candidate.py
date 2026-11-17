@@ -52,6 +52,13 @@ def split_labels(value: str):
     return tuple(x.strip() for x in (value or "").split(",") if x.strip())
 
 
+def normalize_fid(value) -> str:
+    raw = str(value or "").strip()
+    if raw.lower().endswith(".wav"):
+        raw = raw[:-4]
+    return raw
+
+
 def v1_freesound_ids(path: Path) -> set[str]:
     with path.open(newline="", encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
@@ -74,8 +81,8 @@ def metadata_fields(meta: dict):
 
 
 def choose(gt_rows, collection_rows, metadata, deny_ids, per_class=12, seed=SEED):
-    gt = {str(r["fname"]).strip(): set(split_labels(r.get("labels", ""))) for r in gt_rows}
-    collection = {str(r["fname"]).strip(): set(split_labels(r.get("labels", ""))) for r in collection_rows}
+    gt = {normalize_fid(r["fname"]): set(split_labels(r.get("labels", ""))) for r in gt_rows}
+    collection = {normalize_fid(r["fname"]): set(split_labels(r.get("labels", ""))) for r in collection_rows}
     selected = []
     used_uploaders = set()
 
@@ -136,13 +143,17 @@ def choose(gt_rows, collection_rows, metadata, deny_ids, per_class=12, seed=SEED
             if picked == per_class:
                 break
         if picked < per_class:
+            sample_collection = [
+                {"fid": fid, "in_gt": fid in gt, "gt_labels": sorted(gt.get(fid, set()))}
+                for fid, labels in collection.items() if target in labels
+            ][:5]
             sample_meta = []
             for key, value in list(metadata.items())[:3]:
                 sample_meta.append({"key": str(key), "type": type(value).__name__, "fields": sorted(value.keys()) if isinstance(value, dict) else []})
             raise ValueError(
                 f"Only {picked} independent uploader candidates for {target}; need {per_class}; "
                 f"diagnostics={dict(stats)}; collection_fields={sorted(collection_rows[0]) if collection_rows else []}; "
-                f"gt_fields={sorted(gt_rows[0]) if gt_rows else []}; metadata_samples={sample_meta}"
+                f"gt_fields={sorted(gt_rows[0]) if gt_rows else []}; target_collection_samples={sample_collection}; metadata_samples={sample_meta}"
             )
 
     return selected
