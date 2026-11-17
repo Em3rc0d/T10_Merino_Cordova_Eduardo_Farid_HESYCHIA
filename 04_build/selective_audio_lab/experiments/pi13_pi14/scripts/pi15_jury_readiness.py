@@ -72,7 +72,7 @@ def main():
 
     for rel, label in [
         ("src/dsp_class_template.py", "baseline DSP code"),
-        ("configs/dsp_class_template_v1.json", "baseline DSP config"),
+        ("configs/dsp_class_template_v2.json", "baseline DSP config"),
         ("experiments/pi13_pi14/scripts/pi14_analysis_v2.py", "analysis v2"),
         ("experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py", "OE3 benchmark"),
     ]:
