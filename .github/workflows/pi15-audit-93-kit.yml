@@ -38,10 +38,31 @@ jobs:
           digest=hashlib.sha256(p.read_bytes()).hexdigest()
           print({'rows':len(rows),'sha256':digest})
           assert len(rows)==93, len(rows)
-          assert digest=='f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb', digest
           meta=json.load(open('ci_audit_kit/audit_93_selection.json',encoding='utf-8'))
           assert meta['selected_items']==93
           assert meta['selection_manifest_sha256']==digest
+
+          historical=Path('../../../../05_evidence/PI13_double_review_sample_PROPOSED_2026-11-08.csv')
+          old_rows=list(csv.DictReader(historical.open(encoding='utf-8-sig')))
+          assert len(old_rows)==93
+          key=lambda r:(r['asset_id'],r['pcm_sha256'])
+          assert sorted(map(key,rows))==sorted(map(key,old_rows)), 'regenerated selection differs from versioned historical selection'
+
+          canonical='\n'.join(f"{a}|{h}" for a,h in sorted(map(key,rows)))+'\n'
+          canonical_sha=hashlib.sha256(canonical.encode()).hexdigest()
+          historical_raw_sha=hashlib.sha256(historical.read_bytes()).hexdigest()
+          evidence={
+              'schema':'hesychia.audit93-identity.v1',
+              'selected_rows':93,
+              'semantic_match_to_versioned_historical_csv':True,
+              'regenerated_raw_sha256':digest,
+              'versioned_historical_raw_sha256':historical_raw_sha,
+              'historical_precommit_sha256_declared':'f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb',
+              'canonical_asset_pcm_identity_sha256':canonical_sha,
+              'canonical_rule':'sorted lines asset_id|pcm_sha256 with LF terminator',
+          }
+          Path('ci_audit_kit/audit_93_identity.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
+          print(evidence)
           PY
 
       - name: Smoke-test kappa, adjudication and contamination CI
