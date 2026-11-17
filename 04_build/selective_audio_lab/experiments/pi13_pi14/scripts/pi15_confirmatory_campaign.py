@@ -16,8 +16,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 LAB_ROOT = Path(__file__).resolve().parents[3]
-if str(LAB_ROOT) not in sys.path:
-    sys.path.insert(0, str(LAB_ROOT))
+SRC_ROOT = LAB_ROOT / "src"
+for _path in (LAB_ROOT, SRC_ROOT):
+    if str(_path) not in sys.path:
+        sys.path.insert(0, str(_path))
 
 import numpy as np
 import soundfile as sf
