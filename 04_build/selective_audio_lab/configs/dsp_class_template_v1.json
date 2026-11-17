@@ -20,7 +20,7 @@
     "cap_db": 12.0,
     "block_behavior": "bit_exact_bypass"
   },
-  "freeze_rule": "code_config_templates_sha256_before_confirmatory_inference",
-  "tuning_rule": "no_test_tuning; any optional parameter selection uses validation only",
-  "purpose": "non_learned_target_conditioned_baseline_for_CNN_comparison"
+  "freeze_rule": "historical_definition_only_not_for_PI15_confirmatory_use",
+  "tuning_rule": "no_test_tuning",
+  "purpose": "historical_superseded_non_learned_baseline"
 }

@@ -33,7 +33,7 @@
   "inter_rater_review_report_ref": null,
   "dsp_baseline": {
     "code": "04_build/selective_audio_lab/src/dsp_class_template.py",
-    "config": "04_build/selective_audio_lab/configs/dsp_class_template_v1.json",
+    "config": "04_build/selective_audio_lab/configs/dsp_class_template_v2.json",
     "templates": null,
     "training_only": true
   }

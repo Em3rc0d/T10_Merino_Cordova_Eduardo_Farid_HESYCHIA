@@ -90,7 +90,7 @@ def build_partition(name: str, gt_rows, collection_rows, metadata):
     return {"name": name, "gt": gt, "collection": collection, "metadata": metadata}
 
 
-def choose(partitions, deny_ids, per_class=10, seed=SEED):
+def choose(partitions, deny_ids, per_class=14, seed=SEED):
     selected = []
     used_uploaders = set()
     diagnostics = {}
@@ -195,7 +195,7 @@ def main():
     p.add_argument("--v1-manifest", type=Path, required=True)
     p.add_argument("--out-csv", type=Path, required=True)
     p.add_argument("--out-json", type=Path, required=True)
-    p.add_argument("--per-class", type=int, default=10)
+    p.add_argument("--per-class", type=int, default=14)
     p.add_argument("--seed", type=int, default=SEED)
     a = p.parse_args()
     if a.per_class < 10:

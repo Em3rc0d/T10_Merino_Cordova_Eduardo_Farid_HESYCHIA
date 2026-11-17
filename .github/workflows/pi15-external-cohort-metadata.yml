@@ -23,7 +23,7 @@ jobs:
       - name: Select external metadata candidate without opening audio
         run: |
           mkdir -p experiments/pi13_pi14/ci_external_candidate
-          python experiments/pi13_pi14/scripts/pi15_external_target_candidate.py             --v1-manifest ../../05_evidence/m4_sci_v3_source_review_2026-10-28/source_review_352_template.csv             --out-csv experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidates.csv             --out-json experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidate_report.json             --per-class 10 --seed 20261117
+          python experiments/pi13_pi14/scripts/pi15_external_target_candidate.py             --v1-manifest ../../05_evidence/m4_sci_v3_source_review_2026-10-28/source_review_352_template.csv             --out-csv experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidates.csv             --out-json experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidate_report.json             --per-class 14 --seed 20261117
       - name: Structural gate
         run: |
           python - <<'PY'
@@ -31,9 +31,9 @@ jobs:
           p='experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidates.csv'
           rows=list(csv.DictReader(open(p,encoding='utf-8')))
           r=json.load(open('experiments/pi13_pi14/ci_external_candidate/fsd50k_target_candidate_report.json',encoding='utf-8'))
-          assert len(rows)==20
-          assert r['distinct_source_groups']==20
-          assert r['target_counts']=={'Chainsaw':10,'Vacuum_cleaner':10}
+          assert len(rows)==28
+          assert r['distinct_source_groups']==28
+          assert r['target_counts']=={'Chainsaw':14,'Vacuum_cleaner':14}
           assert r['overlap_with_v1_freesound_ids']==0
           assert all(x['audio_acquired']=='NO' and not x['pcm_sha256'] for x in rows)
           print({'rows':len(rows),'identity':r['canonical_candidate_identity_sha256'],'upstream':r['upstream_files']})

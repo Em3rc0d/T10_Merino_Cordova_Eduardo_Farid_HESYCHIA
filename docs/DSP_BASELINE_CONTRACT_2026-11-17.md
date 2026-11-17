@@ -1,43 +1,78 @@
-# HESYCHIA — DSP baseline contract v1
+# HESYCHIA — DSP baseline contract v2
 
-Date: 2026-11-17
-Status: **frozen definition before confirmatory test**. This document defines the non-learned reference arm for OE2; it does not report experimental performance.
+Date: 2026-11-17  
+Status: **definition frozen before confirmatory test; no final templates generated yet.**
 
-## 1. Purpose and fairness
-The confirmatory comparison is CNN vs DSP on the **same mixtures**. The DSP arm receives the same semantic clue available to the learned arm at inference: `target_id`. Neither arm may receive clean test stems. Oracle IRM remains a separate privileged reference and is not the DSP baseline.
+## 1. Fair comparison
 
-## 2. Inputs and frontend
-- Input waveform: mono mixture, 16 kHz.
-- Semantic clue: integer `target_id`.
-- STFT: Hann window, `n_fft=512`, `hop=160` samples.
-- M3b policy is evaluated before either CNN or DSP. `BLOCK` is bit-exact bypass; `ALLOW` invokes the selected method.
+The confirmatory contrast is CNN vs DSP on the same mixture bytes. Both inference arms receive exactly:
 
-## 3. Training-only class templates
-For each admissible training clip, compute the mean power spectrum and L1-normalize it across frequency. For target class c:
-- `T_c(f)`: median normalized spectrum of training clips from class c.
-- `R_c(f)`: median normalized spectrum of all admissible non-c training clips.
-- `M_DSP,c(f) = T_c(f) / (T_c(f) + R_c(f) + eps)`.
+1. mono mixture waveform;
+2. requested `target_id`.
 
-The mask is clipped to [0,1] and broadcast over time. It is deterministic, class-conditioned and test-stem-free.
+Neither arm receives clean test stems. Oracle IRM is a third, explicitly privileged reference and is not the DSP baseline.
+
+## 2. Exact frontend parity
+
+DSP v2 uses the **same scientific spectral grid as M4 CNN**, imported from `m4_scientific.model`:
+
+- sample rate: 16 kHz;
+- `n_fft=512`;
+- `hop=160`;
+- periodic Hann square-root analysis window;
+- left padding: `512-160 = 352` samples;
+- declared tail: 3 hops;
+- 257 one-sided bins;
+- normalized WOLA scientific synthesis for evaluation.
+
+The earlier generic SciPy/Hann frontend is not used by the confirmatory DSP baseline.
+
+## 3. Training-only target templates
+
+For every admissible **training** source after OE1 exclusions:
+
+1. compute the exact M4 scientific STFT;
+2. mean power over frames;
+3. L1-normalize over frequency.
+
+For target class `c`:
+
+- `T_c(f)`: median normalized spectrum among training sources of class `c`;
+- `R_c(f)`: median normalized spectrum among the other target class;
+- `M_DSP,c(f)=T_c(f)/(T_c(f)+R_c(f)+eps)`.
+
+The resulting 257-bin mask is clipped to [0,1] and broadcast over the same frames produced by the scientific frontend.
 
 ## 4. Shared attenuation policy
-Both CNN and DSP masks use:
-`g(t,f) = max(1 - alpha * M(t,f), 10^(-cap_db/20))`
-with `alpha=1.0` and `cap_db=12.0 dB`. Any post-unsealing change invalidates the freeze.
+
+For both learned and deterministic masks:
+
+`g(t,f)=max(1-M(t,f),10^(-12/20))`.
+
+M3b is evaluated before the method. `BLOCK` remains exact bypass and must not call CNN or DSP processing.
 
 ## 5. Leakage controls
-- Templates use only the admissible training pool after corpus exclusions.
-- No confirmatory-test stems or Oracle masks enter CNN or DSP inference.
-- The same source/speaker leakage exclusions apply to the new test.
 
-## 6. Evidence to freeze
-Record SHA-256 for DSP code, DSP config, generated template artifact, training manifest, CNN checkpoint/frontend, evaluation code/metric protocol and confirmatory test manifest before first confirmatory inference.
+- DSP templates are generated only after OE1 exclusions.
+- Confirmatory target/speech sources never enter DSP template estimation.
+- CNN and DSP use identical mixture SHA-256 values for CP10.
+- Test clean stems are available only to the evaluation/Oracle layer, never to either inference arm.
+
+## 6. Freeze evidence
+
+Before first confirmatory inference record SHA-256 for:
+
+- DSP v2 source;
+- DSP v2 config;
+- generated template NPZ;
+- admissible training manifest;
+- CNN checkpoint;
+- M4 frontend/evaluation code;
+- external target + speech manifests;
+- scene manifest and metric protocol.
+
+Any post-freeze change invalidates the run and requires a new test version.
 
 ## 7. Interpretation
-This is a deliberately simple non-learned baseline. It tests whether the learned class-conditioned CNN adds value over a target-aware deterministic spectral prior under matched information and matched attenuation policy.
 
-## 8. Source hashes at definition time
-- `dsp_class_template.py`: `cc73a934a09dc6305200dbd20daac44330edff5f92b4e7afac412f9adff7d38d`
-- `dsp_class_template_v1.json`: `21152fac74d5d16a71db5ca37217bfe654a427fca6bd9394c16812243467e835`
-
-The template-artifact hash is produced only after the final admissible training pool has been established.
+DSP v2 is intentionally non-learned but target-conditioned. The hypothesis therefore asks whether learned class-conditioned masking adds value over a deterministic target-aware spectral prior **without confounding the comparison through a different STFT frontend**.

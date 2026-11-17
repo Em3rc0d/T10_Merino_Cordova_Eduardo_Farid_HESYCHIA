@@ -72,7 +72,7 @@ def main():
 
     for rel, label in [
         ("src/dsp_class_template.py", "baseline DSP code"),
-        ("configs/dsp_class_template_v1.json", "baseline DSP config"),
+        ("configs/dsp_class_template_v2.json", "baseline DSP config"),
         ("experiments/pi13_pi14/scripts/pi14_analysis_v2.py", "analysis v2"),
         ("experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py", "OE3 benchmark"),
     ]:
@@ -152,8 +152,12 @@ def main():
     else:
         cp02 = load_json(args.cp02_report)
         checks["cp02"] = cp02
-        if cp02.get("pass") is not True:
-            blockers.append("CP02 no está marcado PASS")
+        if cp02.get("status") != "COMPLETE":
+            blockers.append("CP02 no está marcado COMPLETE")
+        if int(cp02.get("source_group_count", 0)) < 20:
+            blockers.append("CP02 tiene <20 source_group")
+        if "correct_minus_permuted_target_db" not in cp02:
+            blockers.append("CP02 no contiene el estimando correcta-vs-permutada")
 
     if not args.acer_benchmark or not args.acer_benchmark.is_file():
         blockers.append("benchmark oficial Acer Nitro 5 no disponible")
@@ -167,11 +171,14 @@ def main():
             "platform": bench.get("platform"),
             "cpu_model": bench.get("cpu_model"),
             "physical_memory_bytes": bench.get("physical_memory_bytes"),
+            "device_label": bench.get("device_label"),
         }
         if int(bench.get("samples", 0)) < 1000:
             blockers.append("benchmark Acer tiene <1000 bloques")
         if bench.get("checkpoint_sha256") != EXPECTED_CHECKPOINT_SHA256:
             blockers.append("benchmark Acer no usa el checkpoint congelado")
+        if bench.get("device_label") != "Acer Nitro 5":
+            blockers.append("benchmark oficial debe declarar device_label='Acer Nitro 5'")
         for key in ("p50", "p95", "p99"):
             if key not in (bench.get("block_ms") or {}):
                 blockers.append(f"benchmark Acer no reporta {key}")

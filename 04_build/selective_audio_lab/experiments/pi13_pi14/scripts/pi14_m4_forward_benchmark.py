@@ -73,6 +73,7 @@ def benchmark(
     device="cpu",
     threads=4,
     min_samples=1,
+    device_label="unlabeled_host",
 ):
     if runs < 5 or warmup < 1 or hops < 1 or seconds <= 0.05 or min_samples < 1:
         raise ValueError("Invalid benchmark configuration")
@@ -175,6 +176,7 @@ def benchmark(
         "physical_memory_bytes": physical_memory_bytes(),
         "peak_process_rss_bytes": peak_rss_bytes(),
         "device": device,
+        "device_label": device_label,
         "threads": threads,
         "seed": seed,
         "runs": runs,
@@ -226,6 +228,7 @@ def main():
     parser.add_argument("--device", choices=["cpu", "cuda"], default="cpu")
     parser.add_argument("--threads", type=int, default=4)
     parser.add_argument("--min-samples", type=int, default=1000)
+    parser.add_argument("--device-label", default="unlabeled_host")
     args = parser.parse_args()
 
     report = benchmark(
@@ -240,6 +243,7 @@ def main():
         device=args.device,
         threads=args.threads,
         min_samples=args.min_samples,
+        device_label=args.device_label,
     )
     print(
         json.dumps(

@@ -30,6 +30,12 @@ jobs:
           python -m py_compile experiments/pi13_pi14/scripts/pi14_analysis_v2.py
           python -m py_compile experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py
           python -m py_compile experiments/pi13_pi14/scripts/pi15_jury_readiness.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_build_dsp_templates.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_freeze_external.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_confirmatory_campaign.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_local_closure.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_prepare_external_targets.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_prepare_external_speech.py
 
       - name: Existing PI13/PI14 instrumentation tests
         run: python -m pytest -q experiments/pi13_pi14/tests
@@ -47,7 +53,7 @@ jobs:
           from pathlib import Path
           import numpy as np
           from src.dsp_class_template import fit_class_templates, save_templates, ClassTemplateDSP
-          from src.audio_core import SR
+          from src.m4_scientific.model import SR, frontend_contract
 
           t=np.arange(SR,dtype=np.float32)/SR
           clips={
@@ -65,9 +71,12 @@ jobs:
           dsp=ClassTemplateDSP.from_npz(out)
           mix=(clips[0][0]+clips[1][0]).astype(np.float32)
           m=dsp.predict(mix,0)
-          assert m.shape[0]==257 and m.ndim==2
-          assert np.allclose(m,m[:,[0]])
-          print({'dsp_sha256':sha,'mask_shape':m.shape})
+          assert m.ndim==2 and m.shape[1]==257
+          assert np.allclose(m,m[[0],:])
+          assert dsp.metadata['frontend']==frontend_contract()
+          g=dsp.gain(m)
+          assert g.shape==m.shape and np.isfinite(g).all()
+          print({'dsp_sha256':sha,'mask_shape':m.shape,'frontend':dsp.metadata['frontend']})
           PY
 
       - name: BCa and four-case H1 smoke
@@ -98,6 +107,78 @@ jobs:
           assert r['estimands']['cnn_minus_dsp_target_db']['bca_one_sided95']['lower']>0
           assert r['estimands']['cnn_minus_dsp_protected_loss_db']['bca_one_sided95']['upper']<=1
           print(r['joint_decision'])
+          PY
+
+      - name: Synthetic end-to-end freeze and confirmatory campaign smoke
+        run: |
+          python - <<'PY'
+          import csv,hashlib,json
+          from pathlib import Path
+          import numpy as np
+          import soundfile as sf
+          from src.dsp_class_template import fit_class_templates,save_templates
+          from src.m4_scientific.corpus import SR
+
+          root=Path('experiments/pi13_pi14/ci_evidence/e2e_smoke')
+          pcm=root/'pcm'; pcm.mkdir(parents=True,exist_ok=True)
+          t=np.arange(SR*4,dtype=np.float32)/SR
+
+          # Synthetic training material only for DSP code-path validation.
+          train={
+            0:[(.1*np.sin(2*np.pi*(280+i*8)*t)).astype(np.float32) for i in range(12)],
+            1:[(.1*np.sin(2*np.pi*(1100+i*12)*t)).astype(np.float32) for i in range(12)],
+          }
+          templates=fit_class_templates(train)
+          dsp_path=root/'dsp_templates_smoke.npz'
+          save_templates(dsp_path,templates,{'training_pool':'synthetic_ci_only'})
+
+          target_fields=['candidate_id','target_class','source_group','pcm_path','pcm_sha256','human_audit_status']
+          target_rows=[]
+          for i in range(20):
+              cls='vacuum_cleaner' if i<10 else 'chainsaw'
+              freq=300+i*7 if i<10 else 1200+(i-10)*11
+              x=(.12*np.sin(2*np.pi*freq*t)).astype(np.float32)
+              p=pcm/f'target_{i:02d}.wav';sf.write(p,x,SR,subtype='FLOAT')
+              h=hashlib.sha256(p.read_bytes()).hexdigest()
+              target_rows.append(dict(candidate_id=f't{i:02d}',target_class=cls,source_group=f'g{i:02d}',
+                    pcm_path=str(p.resolve()),pcm_sha256=h,human_audit_status='ELIGIBLE'))
+          tm=root/'targets.csv'
+          with tm.open('w',newline='',encoding='utf-8') as fh:
+              w=csv.DictWriter(fh,fieldnames=target_fields);w.writeheader();w.writerows(target_rows)
+
+          speech_fields=['candidate_id','speaker_id','source_group','pcm_path','pcm_sha256','human_audit_status']
+          speech_rows=[]
+          for i in range(4):
+              x=(.08*np.sin(2*np.pi*(170+i*25)*t)+.04*np.sin(2*np.pi*(340+i*50)*t)).astype(np.float32)
+              p=pcm/f'speech_{i:02d}.wav';sf.write(p,x,SR,subtype='FLOAT')
+              h=hashlib.sha256(p.read_bytes()).hexdigest()
+              speech_rows.append(dict(candidate_id=f's{i}',speaker_id=f'spk{i}',source_group=f'spk{i}',
+                    pcm_path=str(p.resolve()),pcm_sha256=h,human_audit_status='ELIGIBLE'))
+          sm=root/'speech.csv'
+          with sm.open('w',newline='',encoding='utf-8') as fh:
+              w=csv.DictWriter(fh,fieldnames=speech_fields);w.writeheader();w.writerows(speech_rows)
+
+          (root/'kappa.json').write_text(json.dumps({'pairs':93,'cohen_kappa':0.8})+'\n')
+          (root/'contamination.json').write_text(json.dumps({'n':93,'ci95':[0.01,0.15]})+'\n')
+          PY
+
+          python experiments/pi13_pi14/scripts/pi15_freeze_external.py             --target-manifest experiments/pi13_pi14/ci_evidence/e2e_smoke/targets.csv             --speech-manifest experiments/pi13_pi14/ci_evidence/e2e_smoke/speech.csv             --dsp-templates experiments/pi13_pi14/ci_evidence/e2e_smoke/dsp_templates_smoke.npz             --checkpoint models/m4_sci_real_candidate_v1/selected/candidate.pt             --kappa-report experiments/pi13_pi14/ci_evidence/e2e_smoke/kappa.json             --contamination-report experiments/pi13_pi14/ci_evidence/e2e_smoke/contamination.json             --campaign-script experiments/pi13_pi14/scripts/pi15_confirmatory_campaign.py             --analysis-script experiments/pi13_pi14/scripts/pi14_analysis_v2.py             --dsp-code src/dsp_class_template.py             --dsp-config configs/dsp_class_template_v2.json             --metric-protocol ../../02_plan/PI13_PI14_PREESPECIFICACION_2026-11-08.md             --out experiments/pi13_pi14/ci_evidence/e2e_smoke/freeze.json
+
+          python experiments/pi13_pi14/scripts/pi15_confirmatory_campaign.py             --freeze experiments/pi13_pi14/ci_evidence/e2e_smoke/freeze.json             --out experiments/pi13_pi14/ci_evidence/e2e_smoke/campaign
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('experiments/pi13_pi14/ci_evidence/e2e_smoke/campaign')
+          a=json.loads((root/'confirmatory_analysis.json').read_text())
+          c=json.loads((root/'cp02_report.json').read_text())
+          p=json.loads((root/'cp10_report.json').read_text())
+          m=json.loads((root/'run_manifest.json').read_text())
+          assert a['scene_count']==40 and a['source_group_count']==20 and a['speaker_group_count']==4
+          assert c['status']=='COMPLETE' and c['source_group_count']==20
+          assert p['status']=='COMPLETE' and p['identical_mix_sha256_for_all_methods'] is True
+          assert m['status']=='COMPLETE_DO_NOT_TUNE'
+          print({'joint_decision':a['joint_decision'],'cp02_met':c['criterion_met'],'scenes':a['scene_count']})
           PY
 
       - name: Jury readiness gate is fail-closed before real evidence

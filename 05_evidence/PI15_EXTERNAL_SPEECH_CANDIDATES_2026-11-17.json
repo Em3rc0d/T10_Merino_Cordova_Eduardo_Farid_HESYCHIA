@@ -1,0 +1,27 @@
+{
+  "schema": "hesychia.pi15-external-speech-candidate.v1",
+  "status": "CANDIDATE_METADATA_ONLY_NOT_FROZEN",
+  "selection_seed": 20261117,
+  "source_dataset": "LibriSpeech test-clean (SLR12)",
+  "speaker_metadata_source": "https://raw.githubusercontent.com/oscarknagg/voicemap/master/data/LibriSpeech/SPEAKERS.TXT",
+  "speaker_metadata_sha256": "1d8a65b12f8eaf80811c765d6063440f5c03528e4275357f7994128357461e10",
+  "source_license": "CC BY 4.0",
+  "test_clean_speakers_in_metadata": 40,
+  "v1_speaker_ids_denied": 28,
+  "selected_speakers": 6,
+  "selected_female": 3,
+  "selected_male": 3,
+  "overlap_with_v1_speakers": 0,
+  "canonical_candidate_identity_sha256": "f148e16c07d461fbcc949d481d9f999b6292f565745f2d889f91a6292404b259",
+  "workflow_run_id": 44174713522,
+  "workflow_artifact_id": 14369271573,
+  "workflow_artifact_digest": "sha256:5df8008d725dfe4b209db50dcf1590e3619c288d128ffe83874c035da082cb06",
+  "gates_before_use": [
+    "close OE1 human audit",
+    "acquire selected test-clean audio from OpenSLR SLR12 without changing speaker IDs",
+    "verify archive/checksum/license",
+    "select and hash actual utterance PCM per speaker",
+    "freeze >=4 speakers with the external target cohort before inference"
+  ],
+  "scientific_boundary": "Metadata selection is not a confirmatory result and does not open test audio."
+}
