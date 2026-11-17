@@ -34,6 +34,8 @@ jobs:
           python -m py_compile experiments/pi13_pi14/scripts/pi15_freeze_external.py
           python -m py_compile experiments/pi13_pi14/scripts/pi15_confirmatory_campaign.py
           python -m py_compile experiments/pi13_pi14/scripts/pi15_local_closure.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_prepare_external_targets.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_prepare_external_speech.py
 
       - name: Existing PI13/PI14 instrumentation tests
         run: python -m pytest -q experiments/pi13_pi14/tests
