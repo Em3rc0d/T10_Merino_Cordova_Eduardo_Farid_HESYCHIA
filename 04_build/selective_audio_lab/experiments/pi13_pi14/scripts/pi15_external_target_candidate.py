@@ -81,19 +81,31 @@ def choose(gt_rows, collection_rows, metadata, deny_ids, per_class=12, seed=SEED
 
     for target in TARGETS:
         candidates = []
+        stats = Counter()
         for fid, labels in collection.items():
             if target not in labels:
                 continue
+            stats["collection_label"] += 1
             if fid not in gt or target not in gt[fid]:
                 continue
+            stats["ground_truth_crosscheck"] += 1
             if fid in deny_ids:
+                stats["denied_v1_id"] += 1
                 continue
+            stats["not_denied"] += 1
             meta = metadata.get(fid) or metadata.get(int(fid) if fid.isdigit() else fid)
             if not isinstance(meta, dict):
+                stats["metadata_missing"] += 1
                 continue
+            stats["metadata_found"] += 1
             uploader, license_value, title = metadata_fields(meta)
-            if not uploader or not license_value:
+            if not uploader:
+                stats["uploader_missing"] += 1
                 continue
+            if not license_value:
+                stats["license_missing"] += 1
+                continue
+            stats["usable_metadata"] += 1
             # Deterministic order independent of upstream row order.
             rank = hashlib.sha256(f"{seed}|{target}|{fid}|{uploader}".encode()).hexdigest()
             candidates.append((rank, fid, uploader, license_value, title, sorted(gt[fid]), sorted(labels)))
@@ -124,7 +136,14 @@ def choose(gt_rows, collection_rows, metadata, deny_ids, per_class=12, seed=SEED
             if picked == per_class:
                 break
         if picked < per_class:
-            raise ValueError(f"Only {picked} independent uploader candidates for {target}; need {per_class}")
+            sample_meta = []
+            for key, value in list(metadata.items())[:3]:
+                sample_meta.append({"key": str(key), "type": type(value).__name__, "fields": sorted(value.keys()) if isinstance(value, dict) else []})
+            raise ValueError(
+                f"Only {picked} independent uploader candidates for {target}; need {per_class}; "
+                f"diagnostics={dict(stats)}; collection_fields={sorted(collection_rows[0]) if collection_rows else []}; "
+                f"gt_fields={sorted(gt_rows[0]) if gt_rows else []}; metadata_samples={sample_meta}"
+            )
 
     return selected
 
