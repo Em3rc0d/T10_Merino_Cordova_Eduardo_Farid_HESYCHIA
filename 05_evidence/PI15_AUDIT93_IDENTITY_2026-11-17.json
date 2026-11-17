@@ -1,0 +1,23 @@
+{
+  "schema": "hesychia.pi15-audit93-identity.v1",
+  "date": "2026-11-17",
+  "selected_rows": 93,
+  "selection_seed": 20261108,
+  "rate": 0.2,
+  "minimum_groups_per_stratum": 2,
+  "semantic_match_to_versioned_historical_csv": true,
+  "versioned_historical_csv": "05_evidence/PI13_double_review_sample_PROPOSED_2026-11-08.csv",
+  "versioned_historical_raw_sha256": "f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb",
+  "regenerated_raw_sha256_ci": "d92599d376f6a9171526fd97c64b8a0403f1d61349645086609253ac9e368cf6",
+  "canonical_asset_pcm_identity_sha256": "e35b8cdd91c015e335dbb6ee6fd652476efefa277f5df164f972910fd93898da",
+  "canonical_rule": "sorted LF-terminated lines: asset_id|pcm_sha256",
+  "workflow_run_id": 44171224233,
+  "workflow_conclusion": "success",
+  "workflow_artifact": {
+    "name": "hesychia-audit-93-kit",
+    "artifact_id": 14368321160,
+    "digest": "sha256:8f983747f1267f7da47f76519ac9124c21a3bb0f7c7802af2a532dab1078585c"
+  },
+  "interpretation": "The historical and regenerated CSVs contain the same 93 asset_id + pcm_sha256 pairs. Raw-byte hashes differ because CSV serialization is not the identity contract. The canonical hash is used by the jury-readiness gate.",
+  "scientific_boundary": "This evidence validates reproducible sample identity only. It does not claim that human listening, inter-rater agreement or contamination assessment has been completed."
+}

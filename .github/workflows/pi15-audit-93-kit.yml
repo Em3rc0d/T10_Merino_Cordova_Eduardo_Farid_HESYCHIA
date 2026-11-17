@@ -1,0 +1,114 @@
+name: PI15 audit-93 reproducibility kit
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-kit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: 04_build/selective_audio_lab/experiments/pi13_pi14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile audit scripts
+        run: |
+          python -m py_compile scripts/pi13_double_sample.py
+          python -m py_compile scripts/pi13_agreement.py
+          python -m py_compile scripts/pi13_contamination_ci.py
+          python -m py_compile scripts/pi13_adjudication_template.py
+
+      - name: Regenerate frozen 93-record sample
+        run: |
+          mkdir -p ci_audit_kit
+          python scripts/pi13_double_sample.py             --manifest ../../../../05_evidence/m4_sci_v3_source_review_2026-10-28/source_review_352_template.csv             --out ci_audit_kit/audit_93.csv             --report ci_audit_kit/audit_93_selection.json             --rate 0.20 --min-groups-per-stratum 2 --seed 20261108
+          python - <<'PY'
+          import csv,hashlib,json
+          from pathlib import Path
+          p=Path('ci_audit_kit/audit_93.csv')
+          rows=list(csv.DictReader(p.open(encoding='utf-8')))
+          digest=hashlib.sha256(p.read_bytes()).hexdigest()
+          print({'rows':len(rows),'sha256':digest})
+          assert len(rows)==93, len(rows)
+          meta=json.load(open('ci_audit_kit/audit_93_selection.json',encoding='utf-8'))
+          assert meta['selected_items']==93
+          assert meta['selection_manifest_sha256']==digest
+
+          historical=Path('../../../../05_evidence/PI13_double_review_sample_PROPOSED_2026-11-08.csv')
+          old_rows=list(csv.DictReader(historical.open(encoding='utf-8-sig')))
+          assert len(old_rows)==93
+          key=lambda r:(r['asset_id'],r['pcm_sha256'])
+          assert sorted(map(key,rows))==sorted(map(key,old_rows)), 'regenerated selection differs from versioned historical selection'
+
+          canonical='\n'.join(f"{a}|{h}" for a,h in sorted(map(key,rows)))+'\n'
+          canonical_sha=hashlib.sha256(canonical.encode()).hexdigest()
+          historical_raw_sha=hashlib.sha256(historical.read_bytes()).hexdigest()
+          evidence={
+              'schema':'hesychia.audit93-identity.v1',
+              'selected_rows':93,
+              'semantic_match_to_versioned_historical_csv':True,
+              'regenerated_raw_sha256':digest,
+              'versioned_historical_raw_sha256':historical_raw_sha,
+              'historical_precommit_sha256_declared':'f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb',
+              'canonical_asset_pcm_identity_sha256':canonical_sha,
+              'canonical_rule':'sorted lines asset_id|pcm_sha256 with LF terminator',
+          }
+          Path('ci_audit_kit/audit_93_identity.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
+          print(evidence)
+          PY
+
+      - name: Smoke-test kappa, adjudication and contamination CI
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          out=Path('ci_audit_kit')
+          fields=['asset_id','reviewer_id','review_date_utc','pcm_sha256','main_event_audible','secondary_events','speech_present','alarm_present','purity_judgement','review_decision','review_notes']
+          sha='a'*64
+          for rid,flip in [('reviewer_A',False),('reviewer_B',True)]:
+              p=out/f'{rid}.csv'
+              with p.open('w',newline='',encoding='utf-8') as f:
+                  w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
+                  for i in range(93):
+                      bad=(i<10)
+                      if flip and i in (0,1,2): bad=not bad
+                      w.writerow(dict(asset_id=f'a{i:03d}',reviewer_id=rid,review_date_utc='2026-11-17T00:00:00Z',
+                        pcm_sha256=sha,main_event_audible='yes',secondary_events='',speech_present='no',alarm_present='no',
+                        purity_judgement='mixed' if bad else 'isolated',review_decision='reject' if bad else 'eligible',review_notes=''))
+          PY
+          python scripts/pi13_review_workbench.py export-double             --first ci_audit_kit/reviewer_A.csv --second ci_audit_kit/reviewer_B.csv             --out ci_audit_kit/double_review_93.csv
+          python scripts/pi13_agreement.py             --reviews ci_audit_kit/double_review_93.csv             --out ci_audit_kit/kappa_smoke.json
+          python scripts/pi13_adjudication_template.py             --first ci_audit_kit/reviewer_A.csv --second ci_audit_kit/reviewer_B.csv             --out ci_audit_kit/adjudication_smoke.csv
+          python scripts/pi13_contamination_ci.py             --reviewed-csv ci_audit_kit/reviewer_A.csv --expected-n 93             --out ci_audit_kit/contamination_smoke.json
+          python - <<'PY'
+          import json,csv
+          k=json.load(open('ci_audit_kit/kappa_smoke.json'))
+          c=json.load(open('ci_audit_kit/contamination_smoke.json'))
+          d=list(csv.DictReader(open('ci_audit_kit/adjudication_smoke.csv')))
+          assert k['pairs']==93
+          assert c['n']==93 and c['non_isolated']==10
+          assert len(d)==3
+          print({'kappa':k['cohen_kappa'],'non_isolated':c['non_isolated'],'disagreements':len(d)})
+          PY
+
+      - name: Add reviewer instructions to kit
+        run: |
+          cp ../../../../docs/PI15_AUDIT_REVIEWER_INSTRUCTIONS.md ci_audit_kit/REVIEWER_INSTRUCTIONS.md
+          cp scripts/pi13_review_workbench.py ci_audit_kit/
+          cp scripts/pi13_agreement.py ci_audit_kit/
+          cp scripts/pi13_contamination_ci.py ci_audit_kit/
+          cp scripts/pi13_adjudication_template.py ci_audit_kit/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hesychia-audit-93-kit
+          path: 04_build/selective_audio_lab/experiments/pi13_pi14/ci_audit_kit/
+          if-no-files-found: error
