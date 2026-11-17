@@ -33,6 +33,7 @@ jobs:
           pip install -r requirements-lock.txt
           pip install pytest==8.4.2
           pip install --extra-index-url https://download.pytorch.org/whl/cpu torch==2.10.0+cpu
+          pip install pystoi==0.4.1
 
       - name: Contract and web tests
         working-directory: 04_build/selective_audio_lab
