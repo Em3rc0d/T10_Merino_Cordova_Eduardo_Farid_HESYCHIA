@@ -29,6 +29,7 @@ jobs:
           python -m py_compile src/dsp_class_template.py
           python -m py_compile experiments/pi13_pi14/scripts/pi14_analysis_v2.py
           python -m py_compile experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_jury_readiness.py
 
       - name: Existing PI13/PI14 instrumentation tests
         run: python -m pytest -q experiments/pi13_pi14/tests
@@ -98,6 +99,15 @@ jobs:
           assert r['estimands']['cnn_minus_dsp_protected_loss_db']['bca_one_sided95']['upper']<=1
           print(r['joint_decision'])
           PY
+
+      - name: Jury readiness gate is fail-closed before real evidence
+        run: |
+          set +e
+          python experiments/pi13_pi14/scripts/pi15_jury_readiness.py --lab . > experiments/pi13_pi14/ci_evidence/readiness_blocked.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          grep -q '"status": "BLOCKED"' experiments/pi13_pi14/ci_evidence/readiness_blocked.json
 
       - name: M4 real checkpoint benchmark smoke (>=1000 timed blocks)
         run: |
