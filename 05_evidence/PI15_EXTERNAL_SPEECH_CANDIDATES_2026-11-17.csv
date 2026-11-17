@@ -1,0 +1,7 @@
+candidate_id,speaker_id,reader_id,sex,subset,declared_minutes,reader_name,source_group,license,audio_acquired,pcm_sha256,human_audit_status
+librispeech_test_clean_1221,librispeech:1221,1221,F,test-clean,8.07,Dianne,librispeech:1221,CC BY 4.0,NO,,NOT_REVIEWED
+librispeech_test_clean_4970,librispeech:4970,4970,F,test-clean,8.15,airandwaters,librispeech:4970,CC BY 4.0,NO,,NOT_REVIEWED
+librispeech_test_clean_4446,librispeech:4446,4446,F,test-clean,8.00,Jen Maxwell,librispeech:4446,CC BY 4.0,NO,,NOT_REVIEWED
+librispeech_test_clean_1089,librispeech:1089,1089,M,test-clean,8.05,Peter Bobbe,librispeech:1089,CC BY 4.0,NO,,NOT_REVIEWED
+librispeech_test_clean_2300,librispeech:2300,2300,M,test-clean,8.19,Mitchell L Leopard,librispeech:2300,CC BY 4.0,NO,,NOT_REVIEWED
+librispeech_test_clean_6930,librispeech:6930,6930,M,test-clean,8.00,Nolan Fout,librispeech:6930,CC BY 4.0,NO,,NOT_REVIEWED
