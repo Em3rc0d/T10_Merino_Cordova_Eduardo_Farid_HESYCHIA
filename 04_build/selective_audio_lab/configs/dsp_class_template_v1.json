@@ -1,0 +1,26 @@
+{
+  "schema": "hesychia.dsp-class-template-config.v1",
+  "baseline_id": "DSP_CLASS_TEMPLATE_V1",
+  "conditioning": "target_id",
+  "inference_inputs": ["mixture_waveform", "target_id"],
+  "forbidden_test_inputs": ["target_stem", "protected_stem", "background_stem", "oracle_mask"],
+  "template_fit_partition": "training_only_after_corpus_exclusions",
+  "sample_rate_hz": 16000,
+  "n_fft": 512,
+  "hop_samples": 160,
+  "window": "hann",
+  "per_clip_feature": "l1_normalized_mean_power_spectrum",
+  "class_aggregation": "median",
+  "rest_aggregation": "median_over_non_target_training_clips",
+  "mask_formula": "T_c(f)/(T_c(f)+R_c(f)+eps)",
+  "temporal_behavior": "static_frequency_mask_broadcast_over_time",
+  "policy": {
+    "m3b_applies_before_method": true,
+    "alpha": 1.0,
+    "cap_db": 12.0,
+    "block_behavior": "bit_exact_bypass"
+  },
+  "freeze_rule": "code_config_templates_sha256_before_confirmatory_inference",
+  "tuning_rule": "no_test_tuning; any optional parameter selection uses validation only",
+  "purpose": "non_learned_target_conditioned_baseline_for_CNN_comparison"
+}

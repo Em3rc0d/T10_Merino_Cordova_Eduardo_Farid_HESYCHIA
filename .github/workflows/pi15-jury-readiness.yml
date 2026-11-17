@@ -1,0 +1,134 @@
+name: PI15 jury-readiness validation
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: 04_build/selective_audio_lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 04_build/selective_audio_lab/requirements-scientific.txt
+
+      - name: Install pinned scientific environment
+        run: python -m pip install -r requirements-scientific.txt
+
+      - name: Compile new PI15 scripts
+        run: |
+          python -m py_compile src/dsp_class_template.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi14_analysis_v2.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py
+          python -m py_compile experiments/pi13_pi14/scripts/pi15_jury_readiness.py
+
+      - name: Existing PI13/PI14 instrumentation tests
+        run: python -m pytest -q experiments/pi13_pi14/tests
+
+      - name: Existing M4 scientific engineering tests
+        run: python -m pytest -q test_m4_scientific.py
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '2'
+
+      - name: DSP class-template smoke and determinism
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          import numpy as np
+          from src.dsp_class_template import fit_class_templates, save_templates, ClassTemplateDSP
+          from src.audio_core import SR
+
+          t=np.arange(SR,dtype=np.float32)/SR
+          clips={
+              0:[np.sin(2*np.pi*300*t).astype(np.float32), np.sin(2*np.pi*340*t).astype(np.float32)],
+              1:[np.sin(2*np.pi*1200*t).astype(np.float32), np.sin(2*np.pi*1300*t).astype(np.float32)],
+          }
+          a=fit_class_templates(clips)
+          b=fit_class_templates(clips)
+          for k in a:
+              assert np.array_equal(a[k],b[k])
+              assert np.isfinite(a[k]).all() and a[k].min()>=0 and a[k].max()<=1
+          out=Path('experiments/pi13_pi14/ci_evidence/dsp_templates_smoke.npz')
+          sha=save_templates(out,a,{'training_pool':'synthetic_ci_only'})
+          assert sha==hashlib.sha256(out.read_bytes()).hexdigest()
+          dsp=ClassTemplateDSP.from_npz(out)
+          mix=(clips[0][0]+clips[1][0]).astype(np.float32)
+          m=dsp.predict(mix,0)
+          assert m.shape[0]==257 and m.ndim==2
+          assert np.allclose(m,m[:,[0]])
+          print({'dsp_sha256':sha,'mask_shape':m.shape})
+          PY
+
+      - name: BCa and four-case H1 smoke
+        run: |
+          mkdir -p experiments/pi13_pi14/ci_evidence
+          python - <<'PY'
+          import csv,hashlib
+          from pathlib import Path
+          p=Path('experiments/pi13_pi14/ci_evidence/paired_smoke.csv')
+          rows=[]
+          for g in range(24):
+              sid=f's{g:02d}'; h=hashlib.sha256(sid.encode()).hexdigest(); sp=f'spk{g%4}'
+              vals={'CNN':(5.0+g*0.01,0.8),'DSP':(3.0+g*0.01,0.4),'ORACLE':(7.0+g*0.01,0.6)}
+              for method,(at,ap) in vals.items():
+                  rows.append(dict(scene_id=sid,source_group=f'g{g:02d}',speaker_group=sp,
+                      mix_sha256=h,method=method,a_target_db=at,a_protected_db=ap))
+          with p.open('w',newline='',encoding='utf-8') as f:
+              w=csv.DictWriter(f,fieldnames=rows[0].keys()); w.writeheader(); w.writerows(rows)
+          PY
+          python experiments/pi13_pi14/scripts/pi14_analysis_v2.py             --by-scene experiments/pi13_pi14/ci_evidence/paired_smoke.csv             --out experiments/pi13_pi14/ci_evidence/analysis_smoke.json             --boot 2000
+          python - <<'PY'
+          import json
+          p='experiments/pi13_pi14/ci_evidence/analysis_smoke.json'
+          r=json.load(open(p,encoding='utf-8'))
+          assert r['source_group_count']==24
+          assert r['speaker_group_count']==4
+          assert r['joint_decision']['decision_code']=='REJECT_H0_SELECTIVE_ADVANTAGE'
+          assert r['estimands']['cnn_minus_dsp_target_db']['bca_one_sided95']['lower']>0
+          assert r['estimands']['cnn_minus_dsp_protected_loss_db']['bca_one_sided95']['upper']<=1
+          print(r['joint_decision'])
+          PY
+
+      - name: Jury readiness gate is fail-closed before real evidence
+        run: |
+          set +e
+          python experiments/pi13_pi14/scripts/pi15_jury_readiness.py --lab . > experiments/pi13_pi14/ci_evidence/readiness_blocked.json
+          code=$?
+          set -e
+          test "$code" -eq 2
+          grep -q '"status": "BLOCKED"' experiments/pi13_pi14/ci_evidence/readiness_blocked.json
+
+      - name: M4 real checkpoint benchmark smoke (>=1000 timed blocks)
+        run: |
+          python experiments/pi13_pi14/scripts/pi14_m4_forward_benchmark.py             --checkpoint models/m4_sci_real_candidate_v1/selected/candidate.pt             --model-src src             --out experiments/pi13_pi14/ci_evidence/m4_runner_benchmark             --runs 100 --warmup 8 --hops 16 --seconds 2             --device cpu --threads 2 --min-samples 1000
+
+      - name: Validate benchmark evidence
+        run: |
+          python - <<'PY'
+          import json
+          p='experiments/pi13_pi14/ci_evidence/m4_runner_benchmark/m4_forward_report.json'
+          r=json.load(open(p,encoding='utf-8'))
+          assert r['samples']>=1000
+          assert r['block_ms']['p50']<=r['block_ms']['p95']<=r['block_ms']['p99']
+          assert r['model_only_rtf']>0
+          assert r['checkpoint_sha256']=='c0b34027fe1d4165b062f4145ca7173b3d547cedc39846e17298295e99fb1966'
+          print({'samples':r['samples'],'block_ms':r['block_ms'],'rtf':r['model_only_rtf']})
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pi15-jury-readiness-evidence
+          path: 04_build/selective_audio_lab/experiments/pi13_pi14/ci_evidence/
+          if-no-files-found: warn
