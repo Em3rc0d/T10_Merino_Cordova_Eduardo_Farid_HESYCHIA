@@ -1,22 +1,40 @@
 {
-  "protocol_id": "PI13-2026-11-08-PROPUESTA-NO-APROBADA",
-  "dataset_status": "pending",
+  "protocol_id": "HESYCHIA-PI15-CONFIRMATORY-V1",
+  "dataset_status": "new_independent_test",
   "test_not_inspected_attestation": false,
   "advisor_decisions": {
-    "objectives": {"approved": false, "date": null, "evidence_ref": null},
-    "metric_rule": {"approved": false, "date": null, "evidence_ref": null},
-    "sample_design": {"approved": false, "date": null, "evidence_ref": null}
+    "objectives": {
+      "approved": true,
+      "date": "2026-11-10",
+      "evidence_ref": "Revision_PI13_PI14_T10_Merino_Cordova.docx"
+    },
+    "metric_rule": {
+      "approved": true,
+      "date": "2026-11-10",
+      "evidence_ref": "Revision_PI13_PI14_T10_Merino_Cordova.docx"
+    },
+    "sample_design": {
+      "approved": true,
+      "date": "2026-11-17",
+      "evidence_ref": "T10_Revision_PI15_Merino_Cordova.docx"
+    }
   },
   "artifacts": {
     "test_scenes": null,
     "corpus_review_report": null,
-    "checkpoint": null,
-    "evaluation_code": null,
-    "metric_protocol": null
+    "checkpoint": "04_build/selective_audio_lab/models/m4_sci_real_candidate_v1/selected/candidate.pt",
+    "evaluation_code": "04_build/selective_audio_lab/experiments/pi13_pi14/scripts/pi14_analysis_v2.py",
+    "metric_protocol": "02_plan/PI13_PI14_PREESPECIFICACION_2026-11-08.md"
   },
   "min_test_scenes": 30,
-  "min_source_groups": 12,
-  "min_speaker_groups": 12,
+  "min_source_groups": 20,
+  "min_speaker_groups": 4,
   "source_speaker_leakage_report_pass": false,
-  "inter_rater_review_report_ref": null
+  "inter_rater_review_report_ref": null,
+  "dsp_baseline": {
+    "code": "04_build/selective_audio_lab/src/dsp_class_template.py",
+    "config": "04_build/selective_audio_lab/configs/dsp_class_template_v1.json",
+    "templates": null,
+    "training_only": true
+  }
 }
