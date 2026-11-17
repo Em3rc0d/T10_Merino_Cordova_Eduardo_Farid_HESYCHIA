@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 EXPECTED_CHECKPOINT_SHA256 = "c0b34027fe1d4165b062f4145ca7173b3d547cedc39846e17298295e99fb1966"
-EXPECTED_AUDIT93_SHA256 = "f0266f300f1c3eb12ef6d3a20b49ed61f6b7ea79f739b8d1febc03a1cfa11abb"
+EXPECTED_AUDIT93_CANONICAL_SHA256 = "e35b8cdd91c015e335dbb6ee6fd652476efefa277f5df164f972910fd93898da"
 
 
 def sha256(path: Path) -> str:
@@ -27,6 +27,21 @@ def sha256(path: Path) -> str:
 
 def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def canonical_audit93_sha256(path: Path) -> tuple[str, int]:
+    import csv
+    with path.open(newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        required = {"asset_id", "pcm_sha256"}
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError("audit sample missing asset_id/pcm_sha256")
+        rows = list(reader)
+    pairs = sorted((r["asset_id"].strip(), r["pcm_sha256"].strip().lower()) for r in rows)
+    if any(not a or len(h) != 64 for a, h in pairs):
+        raise ValueError("invalid audit sample identity")
+    canonical = "\n".join(f"{a}|{h}" for a, h in pairs) + "\n"
+    return hashlib.sha256(canonical.encode()).hexdigest(), len(rows)
 
 
 def main():
@@ -70,10 +85,19 @@ def main():
         if not args.audit_sample.is_file():
             blockers.append("muestra audit_93 no encontrada")
         else:
-            d = sha256(args.audit_sample)
-            checks["audit_93_sha256"] = d
-            if d != EXPECTED_AUDIT93_SHA256:
-                blockers.append("SHA-256 de audit_93 no coincide con la selección preespecificada")
+            raw = sha256(args.audit_sample)
+            try:
+                canonical, n_audit = canonical_audit93_sha256(args.audit_sample)
+            except ValueError as exc:
+                blockers.append(f"muestra audit_93 inválida: {exc}")
+                canonical, n_audit = None, None
+            checks["audit_93_raw_sha256"] = raw
+            checks["audit_93_canonical_sha256"] = canonical
+            checks["audit_93_rows"] = n_audit
+            if n_audit != 93:
+                blockers.append(f"audit_93 debe contener 93 registros; contiene {n_audit}")
+            if canonical != EXPECTED_AUDIT93_CANONICAL_SHA256:
+                blockers.append("identidad canónica de audit_93 no coincide con la selección preespecificada")
     else:
         blockers.append("no se indicó --audit-sample")
 
