@@ -167,11 +167,14 @@ def main():
             "platform": bench.get("platform"),
             "cpu_model": bench.get("cpu_model"),
             "physical_memory_bytes": bench.get("physical_memory_bytes"),
+            "device_label": bench.get("device_label"),
         }
         if int(bench.get("samples", 0)) < 1000:
             blockers.append("benchmark Acer tiene <1000 bloques")
         if bench.get("checkpoint_sha256") != EXPECTED_CHECKPOINT_SHA256:
             blockers.append("benchmark Acer no usa el checkpoint congelado")
+        if bench.get("device_label") != "Acer Nitro 5":
+            blockers.append("benchmark oficial debe declarar device_label='Acer Nitro 5'")
         for key in ("p50", "p95", "p99"):
             if key not in (bench.get("block_ms") or {}):
                 blockers.append(f"benchmark Acer no reporta {key}")
