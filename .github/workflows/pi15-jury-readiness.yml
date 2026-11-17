@@ -47,7 +47,7 @@ jobs:
           from pathlib import Path
           import numpy as np
           from src.dsp_class_template import fit_class_templates, save_templates, ClassTemplateDSP
-          from src.audio_core import SR
+          from src.m4_scientific.model import SR, frontend_contract
 
           t=np.arange(SR,dtype=np.float32)/SR
           clips={
@@ -65,9 +65,12 @@ jobs:
           dsp=ClassTemplateDSP.from_npz(out)
           mix=(clips[0][0]+clips[1][0]).astype(np.float32)
           m=dsp.predict(mix,0)
-          assert m.shape[0]==257 and m.ndim==2
-          assert np.allclose(m,m[:,[0]])
-          print({'dsp_sha256':sha,'mask_shape':m.shape})
+          assert m.ndim==2 and m.shape[1]==257
+          assert np.allclose(m,m[[0],:])
+          assert dsp.metadata['frontend']==frontend_contract()
+          g=dsp.gain(m)
+          assert g.shape==m.shape and np.isfinite(g).all()
+          print({'dsp_sha256':sha,'mask_shape':m.shape,'frontend':dsp.metadata['frontend']})
           PY
 
       - name: BCa and four-case H1 smoke
