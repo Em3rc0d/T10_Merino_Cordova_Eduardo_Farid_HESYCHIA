@@ -15,7 +15,10 @@ from typing import Dict, Iterable, Mapping, Sequence
 
 import numpy as np
 
-from audio_core import EPS, SR, N_FFT, HOP, stft_complex
+try:
+    from .audio_core import EPS, SR, N_FFT, HOP, stft_complex
+except ImportError:  # direct script/module use from lab root
+    from audio_core import EPS, SR, N_FFT, HOP, stft_complex
 
 CONTRACT = "hesychia.dsp-class-template.v1"
 
