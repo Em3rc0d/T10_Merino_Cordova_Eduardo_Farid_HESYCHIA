@@ -72,7 +72,7 @@ def benchmark(
     seconds=2.0,
     device="cpu",
     threads=4,
-    min_samples=1000,
+    min_samples=1,
 ):
     if runs < 5 or warmup < 1 or hops < 1 or seconds <= 0.05 or min_samples < 1:
         raise ValueError("Invalid benchmark configuration")
