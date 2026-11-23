@@ -25,6 +25,8 @@ jobs:
           python -m py_compile scripts/pi13_agreement.py
           python -m py_compile scripts/pi13_contamination_ci.py
           python -m py_compile scripts/pi13_adjudication_template.py
+          python -m py_compile scripts/pi13_finalize_review93.py
+          python -m py_compile scripts/pi15_finalize_external_targets.py
 
       - name: Regenerate frozen 93-record sample
         run: |
@@ -87,16 +89,67 @@ jobs:
           python scripts/pi13_review_workbench.py export-double             --first ci_audit_kit/reviewer_A.csv --second ci_audit_kit/reviewer_B.csv             --out ci_audit_kit/double_review_93.csv
           python scripts/pi13_agreement.py             --reviews ci_audit_kit/double_review_93.csv             --out ci_audit_kit/kappa_smoke.json
           python scripts/pi13_adjudication_template.py             --first ci_audit_kit/reviewer_A.csv --second ci_audit_kit/reviewer_B.csv             --out ci_audit_kit/adjudication_smoke.csv
-          python scripts/pi13_contamination_ci.py             --reviewed-csv ci_audit_kit/reviewer_A.csv --expected-n 93             --out ci_audit_kit/contamination_smoke.json
+          python - <<'PY'
+          import csv
+          p='ci_audit_kit/adjudication_smoke.csv'
+          rows=list(csv.DictReader(open(p,encoding='utf-8')))
+          assert len(rows)==3
+          for r in rows:
+              r['adjudicated_decision']=r['reviewer_a_decision']
+              r['adjudicated_purity']=r['reviewer_a_purity']
+              r['adjudicated_main_event_audible']=r['reviewer_a_main_event']
+              r['adjudicator_id']='ci_adjudicator'
+              r['adjudication_date_utc']='2026-11-17T00:00:01Z'
+              r['adjudication_notes']='synthetic CI adjudication'
+          with open(p,'w',newline='',encoding='utf-8') as f:
+              w=csv.DictWriter(f,fieldnames=rows[0].keys());w.writeheader();w.writerows(rows)
+          PY
+          python scripts/pi13_finalize_review93.py             --first ci_audit_kit/reviewer_A.csv --second ci_audit_kit/reviewer_B.csv             --adjudication ci_audit_kit/adjudication_smoke.csv             --out ci_audit_kit/final_review_93_smoke.csv             --report ci_audit_kit/final_review_93_smoke.json
+          python scripts/pi13_contamination_ci.py             --reviewed-csv ci_audit_kit/final_review_93_smoke.csv --expected-n 93             --out ci_audit_kit/contamination_smoke.json
           python - <<'PY'
           import json,csv
           k=json.load(open('ci_audit_kit/kappa_smoke.json'))
           c=json.load(open('ci_audit_kit/contamination_smoke.json'))
           d=list(csv.DictReader(open('ci_audit_kit/adjudication_smoke.csv')))
+          f=list(csv.DictReader(open('ci_audit_kit/final_review_93_smoke.csv')))
           assert k['pairs']==93
           assert c['n']==93 and c['non_isolated']==10
-          assert len(d)==3
-          print({'kappa':k['cohen_kappa'],'non_isolated':c['non_isolated'],'disagreements':len(d)})
+          assert len(d)==3 and len(f)==93
+          print({'kappa':k['cohen_kappa'],'non_isolated':c['non_isolated'],'disagreements':len(d),'final_rows':len(f)})
+          PY
+
+      - name: Smoke-test external target finalization
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          out=Path('ci_audit_kit')
+          prepared=[]
+          reviews=[]
+          for i in range(28):
+              cls='Chainsaw' if i<14 else 'Vacuum_cleaner'
+              h=(f'{i+1:064x}')[-64:]
+              prepared.append(dict(candidate_id=f't{i:02d}',target_class=cls,source_group=f'g{i:02d}',
+                prep_status='READY_FOR_HUMAN_REVIEW',pcm_sha256=h,pcm_path=f'/tmp/t{i:02d}.wav',
+                human_audit_status='NOT_REVIEWED'))
+              ok=i not in (0,1,14,15)
+              reviews.append(dict(asset_id=f't{i:02d}',reviewer_id='external_reviewer',review_date_utc='2026-11-17T00:00:00Z',
+                pcm_sha256=h,main_event_audible='yes' if ok else 'no',secondary_events='',
+                speech_present='no',alarm_present='no',purity_judgement='isolated' if ok else 'mixed',
+                review_decision='eligible' if ok else 'reject',review_notes=''))
+          for name,rows in [('prepared_targets.csv',prepared),('target_human_review.csv',reviews)]:
+              with (out/name).open('w',newline='',encoding='utf-8') as f:
+                  w=csv.DictWriter(f,fieldnames=rows[0].keys());w.writeheader();w.writerows(rows)
+          PY
+          python scripts/pi15_finalize_external_targets.py             --prepared ci_audit_kit/prepared_targets.csv             --human-review ci_audit_kit/target_human_review.csv             --out ci_audit_kit/final_targets_smoke.csv             --report ci_audit_kit/final_targets_smoke.json
+          python - <<'PY'
+          import json,csv
+          r=json.load(open('ci_audit_kit/final_targets_smoke.json'))
+          rows=list(csv.DictReader(open('ci_audit_kit/final_targets_smoke.csv')))
+          assert r['eligible']==24 and r['source_groups']==24
+          assert r['class_counts']=={'Chainsaw':12,'Vacuum_cleaner':12}
+          assert len(rows)==24 and all(x['human_audit_status']=='ELIGIBLE' for x in rows)
+          print(r)
           PY
 
       - name: Add reviewer instructions to kit
@@ -106,6 +159,8 @@ jobs:
           cp scripts/pi13_agreement.py ci_audit_kit/
           cp scripts/pi13_contamination_ci.py ci_audit_kit/
           cp scripts/pi13_adjudication_template.py ci_audit_kit/
+          cp scripts/pi13_finalize_review93.py ci_audit_kit/
+          cp scripts/pi15_finalize_external_targets.py ci_audit_kit/
 
       - uses: actions/upload-artifact@v4
         with:
