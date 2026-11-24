@@ -24,6 +24,14 @@ jobs:
       - name: Install pinned scientific environment
         run: python -m pip install -r requirements-scientific.txt
 
+      - name: M2 CNN engineering smoke (no real dataset or test access)
+        run: |
+          python -m pip install librosa==0.11.0 pandas==2.2.3 scikit-learn==1.8.0
+          python -m pytest -q test_m2_cnn_candidate.py
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '2'
+
       - name: Compile new PI15 scripts
         run: |
           python -m py_compile src/dsp_class_template.py
@@ -132,7 +140,7 @@ jobs:
           dsp_path=root/'dsp_templates_smoke.npz'
           save_templates(dsp_path,templates,{'training_pool':'synthetic_ci_only'})
 
-          target_fields=['candidate_id','target_class','source_group','pcm_path','pcm_sha256','human_audit_status']
+          target_fields=['candidate_id','target_class','freesound_id','source_group','pcm_path','pcm_sha256','human_audit_status']
           target_rows=[]
           for i in range(20):
               cls='vacuum_cleaner' if i<10 else 'chainsaw'
@@ -140,7 +148,7 @@ jobs:
               x=(.12*np.sin(2*np.pi*freq*t)).astype(np.float32)
               p=pcm/f'target_{i:02d}.wav';sf.write(p,x,SR,subtype='FLOAT')
               h=hashlib.sha256(p.read_bytes()).hexdigest()
-              target_rows.append(dict(candidate_id=f't{i:02d}',target_class=cls,source_group=f'g{i:02d}',
+              target_rows.append(dict(candidate_id=f't{i:02d}',target_class=cls,freesound_id=str(900000+i),source_group=f'g{i:02d}',
                     pcm_path=str(p.resolve()),pcm_sha256=h,human_audit_status='ELIGIBLE'))
           tm=root/'targets.csv'
           with tm.open('w',newline='',encoding='utf-8') as fh:
