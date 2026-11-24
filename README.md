@@ -5,6 +5,12 @@
 **Grupo:** B — aporte práctico / software  
 **Asesor:** Daniel Alfonso Quinto Pazce
 
+## Consola de sustentación · noviembre 2026
+
+La web incluye **inferencia WAV del candidato entrenado con grabaciones reales**, objetivo aspiradora/motosierra, ALLOW/BLOCK y evidencia por ejecución. La comparación sintética CNN/Oracle se conserva en una sección identificada de ingeniería. La pantalla inicial informa el commit instalado. No implica GO científico ni ejecuta el test reservado.
+
+[Inicio local y recorrido de grabación](docs/DEMO_SUSTENTACION_2026-11.md).
+
 ## P1: entrenamiento CNN con grabaciones reales
 
 La ruta científica separada incorpora corpus con hashes y particiones por fuente,
