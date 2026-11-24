@@ -23,12 +23,17 @@ def main():
     p.add_argument("--out",type=Path,required=True);p.add_argument("--report",type=Path,required=True)
     a=p.parse_args()
     if a.out.exists() or a.report.exists():raise ValueError("refusing overwrite")
-    prepared={r["candidate_id"].strip():r for r in read(a.prepared)}
+    prepared={}
+    for r in read(a.prepared):
+        cid=r["candidate_id"].strip()
+        if not cid or cid in prepared:raise ValueError(f"invalid/duplicate prepared candidate {cid}")
+        prepared[cid]=r
     reviews=read(a.human_review);by={}
     for r in reviews:
         aid=r.get("asset_id","").strip()
         if not aid or aid in by:raise ValueError(f"invalid/duplicate human review {aid}")
         by[aid]=r
+    if set(by)-set(prepared):raise ValueError("review refers to an unknown prepared candidate")
     eligible=[];rejected=[]
     for cid,r in sorted(prepared.items()):
         if r.get("prep_status","").strip()!="READY_FOR_HUMAN_REVIEW":continue
@@ -39,6 +44,9 @@ def main():
         ok=(h.get("review_decision","").strip().lower()=="eligible" and
             h.get("purity_judgement","").strip().lower()=="isolated" and
             h.get("main_event_audible","").strip().lower()=="yes")
+        if ok and (h.get("speech_present","").strip().lower()!="no" or
+                   h.get("alarm_present","").strip().lower()!="no"):
+            raise ValueError(f"contradictory or incomplete isolated-source review for {cid}")
         if ok:
             x=dict(r);x["human_audit_status"]="ELIGIBLE";eligible.append(x)
         else:rejected.append(cid)

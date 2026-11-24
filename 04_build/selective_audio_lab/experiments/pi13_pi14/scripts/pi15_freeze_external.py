@@ -11,6 +11,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -106,7 +107,7 @@ def main():
     kval=kappa.get("cohen_kappa",kappa.get("kappa"))
     if kappa.get("pairs")!=93 or kval is None:
         raise ValueError("kappa report must contain 93 paired human reviews")
-    if float(kval)<0.60:
+    if not math.isfinite(float(kval)) or not 0.60 <= float(kval) <= 1.0:
         raise ValueError("kappa <0.60; adjudication/review must be resolved before freeze")
     contamination=json.loads(a.contamination_report.read_text(encoding="utf-8"))
     if contamination.get("n")!=93 or "ci95" not in contamination:
@@ -125,6 +126,10 @@ def main():
     targets=load_rows(a.target_manifest)
     speeches=load_rows(a.speech_manifest)
     tgroups=set()
+    seen_ids=set()
+    seen_pcm=set()
+    seen_freesound=set()
+    seen_speakers=set()
     classes=set()
     target_entries=[]
     for row in targets:
@@ -134,7 +139,12 @@ def main():
         cid=row.get("candidate_id","").strip()
         if not group or not cid or group in tgroups:
             raise ValueError("target source_group/candidate_id missing or duplicate group")
+        fsid=row.get("freesound_id","").strip()
+        digest=row.get("pcm_sha256","").strip().lower()
+        if not fsid.isdigit() or fsid in seen_freesound or cid in seen_ids or digest in seen_pcm:
+            raise ValueError("duplicate/missing target original ID, candidate ID or PCM hash")
         validate_pcm(a.target_manifest,row)
+        seen_freesound.add(fsid); seen_ids.add(cid); seen_pcm.add(digest)
         tgroups.add(group); classes.add(cls)
         target_entries.append({**row,"target_class":cls})
     if len(tgroups)<20 or classes!=set(TARGETS):
@@ -148,7 +158,12 @@ def main():
         cid=row.get("candidate_id","").strip()
         if not group or not cid or group in sgroups:
             raise ValueError("speech source_group/candidate_id missing or duplicate group")
+        speaker=(row.get("speaker_id") or row.get("reader_id") or "").strip()
+        digest=row.get("pcm_sha256","").strip().lower()
+        if not speaker or speaker in seen_speakers or cid in seen_ids or digest in seen_pcm:
+            raise ValueError("duplicate/missing speaker ID, candidate ID or PCM hash")
         validate_pcm(a.speech_manifest,row)
+        seen_speakers.add(speaker); seen_ids.add(cid); seen_pcm.add(digest)
         sgroups.add(group)
         speech_entries.append(row)
     if len(sgroups)<4:
