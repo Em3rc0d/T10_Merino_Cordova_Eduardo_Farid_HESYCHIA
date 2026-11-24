@@ -25,6 +25,7 @@ from validate_artifacts import validate_run
 from policy import DEMO_TARGETS
 from m4_experimental import MODEL_ROOT, inspect_model
 from compare_demo import run_comparison, validate_comparison
+from scientific_web import candidate_status, decode_upload, run_candidate, list_candidate_runs
 
 LAB_ROOT = Path(__file__).resolve().parents[1]
 WEB_ROOT = LAB_ROOT / "web"
@@ -447,9 +448,9 @@ class AppHandler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         print(f"[web] {self.address_string()} - {fmt % args}")
 
-    def _json_body(self) -> dict:
+    def _json_body(self, max_length=65536) -> dict:
         length = int(self.headers.get("Content-Length", "0") or 0)
-        if length < 0 or length > 65536:
+        if length < 0 or length > max_length:
             raise ValueError("request body too large")
         if length == 0:
             return {}
@@ -490,6 +491,12 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if path == "/api/status":
             self._send_json(system_status(self.dataset_root, self.evidence_root, self.server.model_root))
+            return
+        if path == "/api/scientific/runs":
+            self._send_json({"runs": list_candidate_runs(self.output_root)})
+            return
+        if path == "/api/scientific/status":
+            self._send_json(candidate_status())
             return
         if path == "/api/m4":
             self._send_json(inspect_model(self.server.model_root))
@@ -566,12 +573,27 @@ class AppHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
         try:
-            payload = self._json_body()
+            payload = self._json_body(6 * 1024 * 1024 if path == "/api/jobs/scientific" else 65536)
         except Exception as exc:
             self._send_json(
                 {"error": "invalid_json", "message": str(exc)},
                 HTTPStatus.BAD_REQUEST,
             )
+            return
+
+        if path == "/api/jobs/scientific":
+            try:
+                decoded = decode_upload(payload)
+            except (ValueError, RuntimeError) as exc:
+                self._send_json({"error": "invalid_audio", "message": str(exc)}, HTTPStatus.BAD_REQUEST)
+                return
+
+            def scientific_worker(job_id):
+                result = run_candidate(self.output_root, job_id, payload, decoded)
+                return result, f"/artifacts/{job_id}/scientific_run.json"
+
+            job = self.jobs.start("science", scientific_worker)
+            self._send_json(job, HTTPStatus.ACCEPTED)
             return
 
         if path in ("/api/jobs/attenuate", "/api/jobs/compare"):
