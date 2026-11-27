@@ -24,6 +24,12 @@ for _path in (LAB_ROOT, SRC_ROOT):
 import numpy as np
 import soundfile as sf
 import torch
+from pystoi import stoi as stoi_metric
+
+try:
+    from pesq import pesq as pesq_metric
+except ImportError:  # PESQ is supplemental; the confirmatory primary analysis must still run.
+    pesq_metric = None
 
 from src.dsp_class_template import ClassTemplateDSP
 from src.m4_scientific.corpus import SR, TARGETS
@@ -92,18 +98,51 @@ def process_gain(mix,target,speech,gain):
     return out[0],out[1],out[2]
 
 
+def power_snr_db(signal, noise):
+    signal_power=float(np.mean(np.asarray(signal,dtype=np.float64)**2))
+    noise_power=float(np.mean(np.asarray(noise,dtype=np.float64)**2))
+    if signal_power <= EPS or noise_power <= EPS:
+        return None
+    return float(10.0*np.log10(signal_power/noise_power))
+
+
+def speech_quality_metrics(reference, degraded):
+    ref=np.asarray(reference,dtype=np.float64)
+    deg=np.asarray(degraded,dtype=np.float64)
+    value={
+        "stoi_protected":float(stoi_metric(ref,deg,SR,extended=False)),
+        "pesq_wb_protected":None,
+        "pesq_available":pesq_metric is not None,
+    }
+    if pesq_metric is not None:
+        # P.862/PESQ is reported only as a supplemental jury metric. It is not
+        # used for the pre-specified H1/H0 decision.
+        value["pesq_wb_protected"]=float(
+            pesq_metric(SR,np.clip(ref,-1.0,1.0),np.clip(deg,-1.0,1.0),"wb")
+        )
+    return value
+
+
 def metrics(mix,target,speech,gain):
     out,target_out,speech_out=process_gain(mix,target,speech,gain)
     at=attenuation(target,target_out)
     ap=attenuation(speech,speech_out)
     before=si_sdr(mix,speech)
     after=si_sdr(out,speech)
+    snr_before=power_snr_db(speech,target)
+    snr_after=power_snr_db(speech_out,target_out)
+    quality=speech_quality_metrics(speech,speech_out)
     return {
         "a_target_db":at,
         "a_protected_db":ap,
         "si_sdri_protected_db":(
             after-before if before is not None and after is not None else None
         ),
+        "snr_protected_vs_target_db":snr_after,
+        "snr_improvement_db":(
+            snr_after-snr_before if snr_before is not None and snr_after is not None else None
+        ),
+        **quality,
         "max_abs_output":float(np.max(np.abs(out))),
         "gain_mean":float(gain.mean().item()),
     }
@@ -281,6 +320,13 @@ def main():
         "outputs":{p.name:sha256(p) for p in sorted(a.out.iterdir()) if p.is_file()},
         "joint_decision":analysis["joint_decision"],
         "cp02_criterion_met":cp02_report["criterion_met"],
+        "supplemental_signal_metrics":{
+            "snr":True,
+            "si_sdri":True,
+            "stoi":True,
+            "pesq_wb":pesq_metric is not None,
+            "decision_role":"descriptive_only_not_used_for_H1_H0",
+        },
         "note":"Negative H1/CP02 outcomes remain valid final results; no rerun for tuning is permitted.",
     }
     (a.out/"run_manifest.json").write_text(
