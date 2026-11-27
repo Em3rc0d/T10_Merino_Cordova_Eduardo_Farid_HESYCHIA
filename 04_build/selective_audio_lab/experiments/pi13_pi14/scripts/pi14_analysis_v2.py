@@ -23,6 +23,13 @@ REQUIRED = (
     "scene_id", "source_group", "speaker_group", "mix_sha256", "method",
     "a_target_db", "a_protected_db",
 )
+OPTIONAL_METRICS = (
+    "si_sdri_protected_db",
+    "snr_protected_vs_target_db",
+    "snr_improvement_db",
+    "stoi_protected",
+    "pesq_wb_protected",
+)
 
 
 def read_pairs(path: Path):
@@ -62,6 +69,31 @@ def read_pairs(path: Path):
     ids = sorted(scenes)
     data = np.array([[scenes[sid][m] for m in METHODS] for sid in ids], dtype=float)
     return ids, source_group, speaker_group, data
+
+
+def optional_metric_means(path: Path):
+    with path.open("r", newline="", encoding="utf-8-sig") as f:
+        reader=csv.DictReader(f)
+        rows=list(reader)
+    result={m:{} for m in METHODS}
+    for metric in OPTIONAL_METRICS:
+        if not reader.fieldnames or metric not in reader.fieldnames:
+            continue
+        for method in METHODS:
+            values=[]
+            for row in rows:
+                if row.get("method","").strip().upper()!=method:
+                    continue
+                raw=row.get(metric,"").strip()
+                if not raw:
+                    continue
+                value=float(raw)
+                if math.isfinite(value):
+                    values.append(value)
+            if values:
+                result[method][metric+"_mean"]=float(np.mean(values))
+                result[method][metric+"_n"]=len(values)
+    return result
 
 
 def _cluster_indices(groups):
@@ -161,6 +193,7 @@ def analyze(path: Path, *, seed=20261117, n_boot=10000, voice_margin_db=1.0):
         "target_by_speaker": cluster_intervals(delta_target, speaker_groups, seed=seed + 2, n_boot=n_boot),
         "protected_by_speaker": cluster_intervals(delta_protected, speaker_groups, seed=seed + 3, n_boot=n_boot),
     }
+    supplemental=optional_metric_means(path)
     method_means = {}
     for j, m in enumerate(METHODS):
         method_means[m] = {
@@ -168,6 +201,7 @@ def analyze(path: Path, *, seed=20261117, n_boot=10000, voice_margin_db=1.0):
             "a_protected_db_mean": float(np.mean(data[:, j, 1])),
             "both_ok_6_1": int(np.sum((data[:, j, 0] >= 6.0) & (data[:, j, 1] <= 1.0))),
             "n": len(ids),
+            **supplemental.get(m,{}),
         }
     return {
         "schema": "hesychia.pi14-confirmatory-analysis.v2",
@@ -187,6 +221,7 @@ def analyze(path: Path, *, seed=20261117, n_boot=10000, voice_margin_db=1.0):
             "BCa and percentile intervals are both reported; the pre-specified decision uses one-sided 95% BCa bounds.",
             "Oracle is a privileged reference and is not part of the CNN-vs-DSP hypothesis test.",
             "Historical both_ok 6/1 dB is descriptive only.",
+            "SNR, SI-SDRi, STOI and optional PESQ are supplemental/descriptive and do not alter the pre-specified H1/H0 decision.",
         ],
     }
 

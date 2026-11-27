@@ -1,0 +1,8 @@
+# Optional jury-facing perceptual metric environment.
+# Core confirmatory analysis remains valid without PESQ.
+-r requirements-scientific.txt
+
+# Legacy ITU-T P.862/PESQ wrapper. P.862 was withdrawn by ITU-T in 2024;
+# this dependency is therefore used only for supplemental reporting requested
+# for the final defense, never as a primary H1/H0 endpoint.
+pesq==0.0.4
