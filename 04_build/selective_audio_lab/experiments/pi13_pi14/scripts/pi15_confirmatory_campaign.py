@@ -113,13 +113,19 @@ def speech_quality_metrics(reference, degraded):
         "stoi_protected":float(stoi_metric(ref,deg,SR,extended=False)),
         "pesq_wb_protected":None,
         "pesq_available":pesq_metric is not None,
+        "pesq_status":"NOT_INSTALLED" if pesq_metric is None else "PENDING",
     }
     if pesq_metric is not None:
         # P.862/PESQ is reported only as a supplemental jury metric. It is not
-        # used for the pre-specified H1/H0 decision.
-        value["pesq_wb_protected"]=float(
-            pesq_metric(SR,np.clip(ref,-1.0,1.0),np.clip(deg,-1.0,1.0),"wb")
-        )
+        # used for the pre-specified H1/H0 decision. A PESQ-specific failure
+        # must not invalidate or force a rerun of the one-shot primary test.
+        try:
+            value["pesq_wb_protected"]=float(
+                pesq_metric(SR,np.clip(ref,-1.0,1.0),np.clip(deg,-1.0,1.0),"wb")
+            )
+            value["pesq_status"]="OK"
+        except Exception as exc:
+            value["pesq_status"]="ERROR_"+type(exc).__name__
     return value
 
 
